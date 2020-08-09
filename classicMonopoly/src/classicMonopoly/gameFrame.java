@@ -44,30 +44,28 @@ public class gameFrame {
 	private JLabel hexagonLabel;
 	private JLabel starLabel;
 	private JLabel playerTurnArrow;
+	private JLabel houseLabel;
 	private JLabel xLabel;
 	private JLabel yLabel;
 	private ArrayList<JLabel> player1CardsLabel;
 	private ArrayList<JLabel> player2CardsLabel;
 	private ArrayList<JLabel> player3CardsLabel;
 	private JButton player1Buy;
-	private JButton player1BuyHouse;
+	private JButton player1Housing;
 	private JButton player1NotBuy;
 	private JButton player1Pay;
-	private JButton player1SellHouse;
 	private JButton player1Mortgage;
 	private JButton player1Deal;
 	private JButton player2Buy;
-	private JButton player2BuyHouse;
+	private JButton player2Housing;
 	private JButton player2NotBuy;
 	private JButton player2Pay;
-	private JButton player2SellHouse;
 	private JButton player2Mortgage;
 	private JButton player2Deal;
 	private JButton player3Buy;
-	private JButton player3BuyHouse;
+	private JButton player3Housing;
 	private JButton player3NotBuy;
 	private JButton player3Pay;
-	private JButton player3SellHouse;
 	private JButton player3Mortgage;
 	private JButton player3Deal;
 	private JScrollPane monopolyBoardSp;
@@ -263,9 +261,6 @@ public class gameFrame {
 			communityChests.remove(randChestNum);
 			communityChests.add(0, randChest);
 		}
-		
-		//communityChests.add(0, "Collect $50 From Every Player");
-		//chances.add(0, "Collect $50 From Every Player");
 
 		player1Cards = new ArrayList<String>();
 		player2Cards = new ArrayList<String>();
@@ -378,6 +373,11 @@ public class gameFrame {
 		starLabel = new JLabel(starImage);
 		monopolyBoardPanel.add(starLabel);
 		starLabel.setBounds(player3x, player3y, 24, 22);
+		
+		ImageIcon houseImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\monopoly_house.png");
+		houseLabel = new JLabel(houseImage);
+		monopolyBoardPanel.add(houseLabel);
+		houseLabel.setBounds(120, 5, 100, 50);
 
 		ImageIcon monopolyBoardImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\Monopoly_GameBoard.png");
 		monopolyBoard = new JLabel(monopolyBoardImage);
@@ -497,11 +497,11 @@ public class gameFrame {
 		player1Buy.setFocusable(false);
 		disableButton(player1Buy);
 		
-		player1BuyHouse = new JButton("Buy House");
+		player1Housing = new JButton("Housing");
 		//monopolyDataPanel.add(player1BuyHouse);
-		player1BuyHouse.setBounds(143, 160, 65, 30);
-		player1BuyHouse.setFocusable(false);
-		disableButton(player1BuyHouse);
+		player1Housing.setBounds(143, 160, 65, 30);
+		player1Housing.setFocusable(false);
+		disableButton(player1Housing);
 
 		player1NotBuy = new JButton("Not Buy");
 		monopolyDataPanel.add(player1NotBuy);
@@ -521,11 +521,6 @@ public class gameFrame {
 		player1Deal.setFocusable(false);
 		disableButton(player1Deal);
 
-		player1SellHouse = new JButton("Sell House");
-		player1SellHouse.setBounds(213, 160, 65, 30);
-		player1SellHouse.setFocusable(false);
-		disableButton(player1SellHouse);
-
 		player1Mortgage = new JButton("Mortgage");
 		monopolyDataPanel.add(player1Mortgage);
 		player1Mortgage.setBounds(215, 200, 60, 30);
@@ -538,10 +533,10 @@ public class gameFrame {
 		player2Buy.setFocusable(false);
 		disableButton(player2Buy);
 		
-		player2BuyHouse = new JButton("Buy House");
-		player2BuyHouse.setBounds(143, 360, 60, 30);
-		player2BuyHouse.setFocusable(false);
-		disableButton(player2BuyHouse);
+		player2Housing = new JButton("Housing");
+		player2Housing.setBounds(143, 360, 60, 30);
+		player2Housing.setFocusable(false);
+		disableButton(player2Housing);
 
 		player2NotBuy = new JButton("Not Buy");
 		monopolyDataPanel.add(player2NotBuy);
@@ -561,11 +556,6 @@ public class gameFrame {
 		player2Deal.setFocusable(false);
 		disableButton(player2Deal);
 
-		player2SellHouse = new JButton("Sell House");
-		player2SellHouse.setBounds(215, 360, 60, 30);
-		player2SellHouse.setFocusable(false);
-		disableButton(player2SellHouse);
-
 		player2Mortgage = new JButton("Mortgage");
 		monopolyDataPanel.add(player2Mortgage);
 		player2Mortgage.setBounds(215, 400, 60, 30);
@@ -578,10 +568,10 @@ public class gameFrame {
 		player3Buy.setFocusable(false);
 		disableButton(player3Buy);
 		
-		player3BuyHouse = new JButton("Buy House");
-		player3BuyHouse.setBounds(143, 560, 60, 30);
-		player3BuyHouse.setFocusable(false);
-		disableButton(player3BuyHouse);
+		player3Housing = new JButton("Housing");
+		player3Housing.setBounds(143, 560, 60, 30);
+		player3Housing.setFocusable(false);
+		disableButton(player3Housing);
 
 		player3NotBuy = new JButton("Not Buy");
 		monopolyDataPanel.add(player3NotBuy);
@@ -594,11 +584,6 @@ public class gameFrame {
 		player3Pay.setBounds(145, 600, 60, 30);
 		player3Pay.setFocusable(false);
 		disableButton(player3Pay);
-
-		player3SellHouse = new JButton("Sell House");
-		player3SellHouse.setBounds(215, 560, 60, 30);
-		player3SellHouse.setFocusable(false);
-		disableButton(player3SellHouse);
 
 		player3Deal = new JButton("Set Deal");
 		monopolyDataPanel.add(player3Deal);
@@ -2083,12 +2068,9 @@ public class gameFrame {
 						player3NotBuy.hide();
 						monopolyDataPanel.remove(player3NotBuy);
 						
-						monopolyDataPanel.add(player1BuyHouse);
-						monopolyDataPanel.add(player2BuyHouse);
-						monopolyDataPanel.add(player3BuyHouse);
-						monopolyDataPanel.add(player1SellHouse);
-						monopolyDataPanel.add(player2SellHouse);
-						monopolyDataPanel.add(player3SellHouse);
+						monopolyDataPanel.add(player1Housing);
+						monopolyDataPanel.add(player2Housing);
+						monopolyDataPanel.add(player3Housing);
 					}*/				
 				}
 			}
@@ -2229,30 +2211,32 @@ public class gameFrame {
 				if (player1Location == 9) {
 					player1Buy.hide();
 					monopolyDataPanel.remove(player1Buy);
-					monopolyDataPanel.add(player1BuyHouse);
-					enableButton(player1BuyHouse);
+					monopolyDataPanel.add(player1Housing);
+					enableButton(player1Housing);
 				}
 			}
 		});
 
-		player1BuyHouse.addActionListener(new ActionListener() {
+		player1Housing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				isPlayer1Turn = false;
 				isPlayer2Turn = true;
 				
-				JFrame buyHouseFrame = new JFrame("Buy Houses");
-				JPanel buyHousePanel = new JPanel();
-				buyHousePanel.setLayout(null);
-				buyHouseFrame.add(buyHousePanel);
-				buyHouseFrame.setSize(180, 400);
-				buyHouseFrame.setVisible(true);
+				JFrame housingFrame = new JFrame("Housing");
+				JPanel housingPanel = new JPanel();
+				housingPanel.setLayout(null);
+				housingFrame.add(housingPanel);
+				housingFrame.setSize(180, 400);
+				housingFrame.setVisible(true);
 				
 				JButton[] colorPairCards = new JButton[player1ColorPairCardsList.size()];
 				int y = 15;
 				for (int i = 0; i < player1ColorPairCardsList.size(); i++) {
 					colorPairCards[i] = new JButton(player1ColorPairCardsList.get(i));
-					buyHousePanel.add(colorPairCards[i]);
+					housingPanel.add(colorPairCards[i]);
 					enableButton(colorPairCards[i]);
+					colorPairCards[i].setForeground(Color.BLACK);
+					coloredCardButtons(colorPairCards[i], player1CardColors.get(i));
 					colorPairCards[i].setBounds(15, y, 120, 25);
 					y += 30;
 				}
@@ -2264,29 +2248,35 @@ public class gameFrame {
 						public void actionPerformed(ActionEvent e) {
 							for (int i = 0; i < colorPairCards.length; i++) {
 								colorPairCards[i].hide();
-								buyHousePanel.remove(colorPairCards[i]);
+								housingPanel.remove(colorPairCards[i]);
 							}
-							buyHouseFrame.setSize(300, 170);
+							housingFrame.setSize(300, 170);
 							
 							JLabel coinsLabel = new JLabel("$" + player1Coins);
-							buyHousePanel.add(coinsLabel);
+							housingPanel.add(coinsLabel);
 							coinsLabel.show();
 							coinsLabel.setBounds(125, 2, 100, 30);
 							coinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
 							JLabel houseCountLabel = new JLabel("Houses: " + player1ColorPairCardsHousesList.get(j));
-							buyHousePanel.add(houseCountLabel);
+							housingPanel.add(houseCountLabel);
 							houseCountLabel.show();
 							houseCountLabel.setBounds(112, 15, 100, 30);
 							houseCountLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
-							JButton buyMoreHouse = new JButton("House +1");
-							buyHousePanel.add(buyMoreHouse);
-							buyMoreHouse.show();
-							buyMoreHouse.setBounds(100, 60, 80, 25);
+							JButton buyHouse = new JButton("Buy House");
+							housingPanel.add(buyHouse);
+							buyHouse.show();
+							buyHouse.setBounds(60, 60, 80, 25);
+							
+							JButton sellHouse = new JButton("Sell House");
+							housingPanel.add(sellHouse);
+							enableButton(sellHouse);
+							sellHouse.show();
+							sellHouse.setBounds(145, 60, 80, 25);
 							
 							JButton back = new JButton("Back");
-							buyHousePanel.add(back);
+							housingPanel.add(back);
 							enableButton(back);
 							back.show();
 							back.setBounds(105, 90, 70, 25);
@@ -2298,13 +2288,14 @@ public class gameFrame {
 							}
 							
 							JLabel cardPaymentPriceLabel = new JLabel("Payment Price: $" + places_PaymentPrices[cardLocation]);
-							buyHousePanel.add(cardPaymentPriceLabel);
+							housingPanel.add(cardPaymentPriceLabel);
 							cardPaymentPriceLabel.show();
 							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
 							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
 							String cardColor = "";
 							boolean canBuyHouse = true;
+							boolean canSellHouse = false;
 							
 							for (int i = 0; i < arr_places.length; i++) {
 								if(arr_places[i].equals(player1ColorPairCardsList.get(j))) {
@@ -2323,6 +2314,9 @@ public class gameFrame {
 								if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i)) {
 									canBuyHouse = false;
 								}
+								if (player1ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+									canSellHouse = true;
+								}
 							}
 							
 							if (cardColors[cardLocation].equals("purple") || cardColors[cardLocation].equals("lightblue")) {
@@ -2336,21 +2330,36 @@ public class gameFrame {
 							}
 							
 							if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
-								enableButton(buyMoreHouse);
+								enableButton(buyHouse);
 							} else {
-								disableButton(buyMoreHouse);
+								disableButton(buyHouse);
 							}
 							
-							buyMoreHouse.addMouseListener(new MouseAdapter() {
+							if (player1ColorPairCardsHousesList.get(j) > 0 && canSellHouse == true) {
+								enableButton(sellHouse);
+							} else {
+								disableButton(sellHouse);
+							}
+							
+							buyHouse.addMouseListener(new MouseAdapter() {
 								public void mouseEntered(MouseEvent e) {
-									buyMoreHouse.setText("-$" + houseCost);
+									buyHouse.setText("-$" + houseCost);
 								}
 								public void mouseExited(MouseEvent e) {
-									buyMoreHouse.setText("House +1");
+									buyHouse.setText("Buy House");
 								}
 							});
 							
-							buyMoreHouse.addActionListener(new ActionListener() {
+							sellHouse.addMouseListener(new MouseAdapter() {
+								public void mouseEntered(MouseEvent e) {
+									sellHouse.setText("+$" + houseCost);
+								}
+								public void mouseExited(MouseEvent e) {
+									sellHouse.setText("Sell House");
+								}
+							});
+							
+							buyHouse.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									moneyChangingAnimation(houseCost, 0, 1);
 									coinsLabel.setText("$" + (player1Coins - houseCost));
@@ -2379,9 +2388,59 @@ public class gameFrame {
 									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
 									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
 										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5) {
-											disableButton(buyMoreHouse);
-										} else if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) < 5 && player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
-											enableButton(buyMoreHouse);
+											disableButton(buyHouse);
+										} else if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
+											enableButton(buyHouse);
+										}
+										if (player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 0) {
+											disableButton(sellHouse);
+										} else if (player1ColorPairCardsHousesList.get(j) > 0 && player1ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+											enableButton(sellHouse);
+										}
+									}
+								}
+							});
+							
+							sellHouse.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									moneyChangingAnimation(houseCost, 1, 0);
+									coinsLabel.setText("$" + (player1Coins + houseCost));
+									int previousHouses = player1ColorPairCardsHousesList.get(j);
+									player1ColorPairCardsHousesList.remove(j);
+									player1ColorPairCardsHousesList.add(j, previousHouses - 1);
+									houseCountLabel.setText("Houses: " + player1ColorPairCardsHousesList.get(j));
+									
+									switch (player1ColorPairCardsHousesList.get(j)) {
+										case 0:
+											places_PaymentPrices[cardLocation] = places_PaymentPrices2[cardLocation] * 2;
+											break;
+										case 1:
+											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
+											break;
+										case 2:
+											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
+											break;
+										case 3:
+											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
+											break;
+										case 4:
+											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
+											break;
+										case 5:
+											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
+											break;
+									}
+									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
+									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
+										if (player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 0) {
+											disableButton(sellHouse);
+										} else if (player1ColorPairCardsHousesList.get(j) > 0 && player1ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+											enableButton(sellHouse);
+										}
+										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5) {
+											disableButton(buyHouse);
+										} else if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
+											enableButton(buyHouse);
 										}
 									}
 								}
@@ -2389,21 +2448,23 @@ public class gameFrame {
 							
 							back.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									buyHousePanel.remove(buyMoreHouse);
-									buyHousePanel.remove(coinsLabel);
-									buyHousePanel.remove(houseCountLabel);
-									buyHousePanel.remove(cardPaymentPriceLabel);
-									buyHousePanel.remove(back);
-									buyMoreHouse.hide();
+									housingPanel.remove(buyHouse);
+									housingPanel.remove(sellHouse);
+									housingPanel.remove(coinsLabel);
+									housingPanel.remove(houseCountLabel);
+									housingPanel.remove(cardPaymentPriceLabel);
+									housingPanel.remove(back);
+									buyHouse.hide();
+									sellHouse.hide();
 									coinsLabel.hide();
 									houseCountLabel.hide();
 									cardPaymentPriceLabel.hide();
 									back.hide();
 									
-									buyHouseFrame.setSize(165, 400);
+									housingFrame.setSize(165, 400);
 									int y = 15;
 									for (int i = 0; i < player1ColorPairCardsList.size(); i++) {
-										buyHousePanel.add(colorPairCards[i]);
+										housingPanel.add(colorPairCards[i]);
 										colorPairCards[i].show();
 										enableButton(colorPairCards[i]);
 										colorPairCards[i].setBounds(15, y, 120, 25);
@@ -2414,37 +2475,6 @@ public class gameFrame {
 						}
 					});
 					i++;
-				}
-			}
-		});
-
-		player1SellHouse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFrame sellHouseFrame = new JFrame("Sell Houses");
-				JPanel sellHousePanel = new JPanel();
-				sellHousePanel.setLayout(null);
-				sellHouseFrame.add(sellHousePanel);
-				sellHouseFrame.setSize(180, 400);
-				sellHouseFrame.setVisible(true);
-				
-				JButton[] colorPairCards = new JButton[player1ColorPairCardsList.size()];
-				int y = 15;
-				for (int i = 0; i < player1ColorPairCardsList.size(); i++) {
-					colorPairCards[i] = new JButton(player1ColorPairCardsList.get(i));
-					sellHousePanel.add(colorPairCards[i]);
-					enableButton(colorPairCards[i]);
-					colorPairCards[i].setBounds(15, y, 120, 25);
-					y += 30;
-				}
-				
-				int i = 0;
-				while (i < colorPairCards.length) {
-					int j = i;
-					colorPairCards[i].addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							
-						}
-					});
 				}
 			}
 		});
@@ -3086,7 +3116,7 @@ public class gameFrame {
 								disableButton(player1Mortgage);
 							}
 							if (player1ColorPairCardsList.size() == 0) {
-								disableButton(player1BuyHouse);
+								disableButton(player1Housing);
 							}
 						}
 					});
@@ -3221,21 +3251,23 @@ public class gameFrame {
 			}
 		});
 
-		player2BuyHouse.addActionListener(new ActionListener() {
+		player2Housing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame buyHouseFrame = new JFrame("Buy Houses");
-				JPanel buyHousePanel = new JPanel();
-				buyHousePanel.setLayout(null);
-				buyHouseFrame.add(buyHousePanel);
-				buyHouseFrame.setSize(180, 400);
-				buyHouseFrame.setVisible(true);
+				JFrame housingFrame = new JFrame("Housing");
+				JPanel housingPanel = new JPanel();
+				housingPanel.setLayout(null);
+				housingFrame.add(housingPanel);
+				housingFrame.setSize(180, 400);
+				housingFrame.setVisible(true);
 				
 				JButton[] colorPairCards = new JButton[player2ColorPairCardsList.size()];
 				int y = 15;
 				for (int i = 0; i < player2ColorPairCardsList.size(); i++) {
 					colorPairCards[i] = new JButton(player2ColorPairCardsList.get(i));
-					buyHousePanel.add(colorPairCards[i]);
+					housingPanel.add(colorPairCards[i]);
 					enableButton(colorPairCards[i]);
+					colorPairCards[i].setForeground(Color.BLACK);
+					coloredCardButtons(colorPairCards[i], player2CardColors.get(i));
 					colorPairCards[i].setBounds(15, y, 120, 25);
 					y += 30;
 				}
@@ -3247,29 +3279,34 @@ public class gameFrame {
 						public void actionPerformed(ActionEvent e) {
 							for (int i = 0; i < colorPairCards.length; i++) {
 								colorPairCards[i].hide();
-								buyHousePanel.remove(colorPairCards[i]);
+								housingPanel.remove(colorPairCards[i]);
 							}
-							buyHouseFrame.setSize(300, 170);
+							housingFrame.setSize(300, 170);
 							
 							JLabel coinsLabel = new JLabel("$" + player2Coins);
-							buyHousePanel.add(coinsLabel);
+							housingPanel.add(coinsLabel);
 							coinsLabel.show();
 							coinsLabel.setBounds(125, 2, 100, 30);
 							coinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
 							JLabel houseCountLabel = new JLabel("Houses: " + player2ColorPairCardsHousesList.get(j));
-							buyHousePanel.add(houseCountLabel);
+							housingPanel.add(houseCountLabel);
 							houseCountLabel.show();
 							houseCountLabel.setBounds(112, 15, 100, 30);
 							houseCountLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
-							JButton buyMoreHouse = new JButton("House +1");
-							buyHousePanel.add(buyMoreHouse);
-							buyMoreHouse.show();
-							buyMoreHouse.setBounds(100, 60, 80, 25);
+							JButton buyHouse = new JButton("Buy House");
+							housingPanel.add(buyHouse);
+							buyHouse.show();
+							buyHouse.setBounds(60, 60, 80, 25);
+							
+							JButton sellHouse = new JButton("Sell House");
+							housingPanel.add(sellHouse);
+							sellHouse.show();
+							sellHouse.setBounds(145, 60, 80, 25);
 							
 							JButton back = new JButton("Back");
-							buyHousePanel.add(back);
+							housingPanel.add(back);
 							enableButton(back);
 							back.show();
 							back.setBounds(105, 90, 70, 25);
@@ -3281,13 +3318,14 @@ public class gameFrame {
 							}
 							
 							JLabel cardPaymentPriceLabel = new JLabel("Payment Price: $" + places_PaymentPrices[cardLocation]);
-							buyHousePanel.add(cardPaymentPriceLabel);
+							housingPanel.add(cardPaymentPriceLabel);
 							cardPaymentPriceLabel.show();
 							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
 							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
 							String cardColor = "";
 							boolean canBuyHouse = true;
+							boolean canSellHouse = false;
 							
 							for (int i = 0; i < arr_places.length; i++) {
 								if(arr_places[i].equals(player2ColorPairCardsList.get(j))) {
@@ -3306,6 +3344,9 @@ public class gameFrame {
 								if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i)) {
 									canBuyHouse = false;
 								}
+								if (player2ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+									canSellHouse = true;
+								}
 							}
 							
 							if (cardColors[cardLocation].equals("purple") || cardColors[cardLocation].equals("lightblue")) {
@@ -3319,21 +3360,36 @@ public class gameFrame {
 							}
 							
 							if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
-								enableButton(buyMoreHouse);
+								enableButton(buyHouse);
 							} else {
-								disableButton(buyMoreHouse);
+								disableButton(buyHouse);
 							}
 							
-							buyMoreHouse.addMouseListener(new MouseAdapter() {
+							if (player2ColorPairCardsHousesList.get(j) > 0 && canSellHouse == true) {
+								enableButton(sellHouse);
+							} else {
+								disableButton(sellHouse);
+							}
+							
+							buyHouse.addMouseListener(new MouseAdapter() {
 								public void mouseEntered(MouseEvent e) {
-									buyMoreHouse.setText("-$" + houseCost);
+									buyHouse.setText("-$" + houseCost);
 								}
 								public void mouseExited(MouseEvent e) {
-									buyMoreHouse.setText("House +1");
+									buyHouse.setText("Buy House");
 								}
 							});
 							
-							buyMoreHouse.addActionListener(new ActionListener() {
+							sellHouse.addMouseListener(new MouseAdapter() {
+								public void mouseEntered(MouseEvent e) {
+									sellHouse.setText("+$" + houseCost);
+								}
+								public void mouseExited(MouseEvent e) {
+									sellHouse.setText("Sell House");
+								}
+							});
+							
+							buyHouse.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									moneyChangingAnimation(houseCost, 0, 2);
 									coinsLabel.setText("$" + (player2Coins - houseCost));
@@ -3362,9 +3418,59 @@ public class gameFrame {
 									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
 									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
 										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5) {
-											disableButton(buyMoreHouse);
+											disableButton(buyHouse);
 										} else if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) < 5 && player2ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
-											enableButton(buyMoreHouse);
+											enableButton(buyHouse);
+										}
+										if (player2ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 0) {
+											disableButton(sellHouse);
+										} else if (player2ColorPairCardsHousesList.get(j) > 0 && player2ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+											enableButton(sellHouse);
+										}
+									}
+								}
+							});
+							
+							sellHouse.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									moneyChangingAnimation(houseCost, 2, 0);
+									coinsLabel.setText("$" + (player2Coins + houseCost));
+									int previousHouses = player2ColorPairCardsHousesList.get(j);
+									player2ColorPairCardsHousesList.remove(j);
+									player2ColorPairCardsHousesList.add(j, previousHouses - 1);
+									houseCountLabel.setText("Houses: " + player2ColorPairCardsHousesList.get(j));
+									
+									switch (player2ColorPairCardsHousesList.get(j)) {
+										case 0:
+											places_PaymentPrices[cardLocation] = places_PaymentPrices2[cardLocation] * 2;
+											break;
+										case 1:
+											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
+											break;
+										case 2:
+											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
+											break;
+										case 3:
+											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
+											break;
+										case 4:
+											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
+											break;
+										case 5:
+											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
+											break;
+									}
+									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
+									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
+										if (player2ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 0) {
+											disableButton(sellHouse);
+										} else if (player2ColorPairCardsHousesList.get(j) > 0 && player2ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+											enableButton(sellHouse);
+										}
+										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5) {
+											disableButton(buyHouse);
+										} else if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
+											enableButton(buyHouse);
 										}
 									}
 								}
@@ -3372,21 +3478,23 @@ public class gameFrame {
 							
 							back.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									buyHousePanel.remove(buyMoreHouse);
-									buyHousePanel.remove(coinsLabel);
-									buyHousePanel.remove(houseCountLabel);
-									buyHousePanel.remove(cardPaymentPriceLabel);
-									buyHousePanel.remove(back);
-									buyMoreHouse.hide();
+									housingPanel.remove(buyHouse);
+									housingPanel.remove(sellHouse);
+									housingPanel.remove(coinsLabel);
+									housingPanel.remove(houseCountLabel);
+									housingPanel.remove(cardPaymentPriceLabel);
+									housingPanel.remove(back);
+									buyHouse.hide();
+									sellHouse.hide();
 									coinsLabel.hide();
 									houseCountLabel.hide();
 									cardPaymentPriceLabel.hide();
 									back.hide();
 									
-									buyHouseFrame.setSize(165, 400);
+									housingFrame.setSize(165, 400);
 									int y = 15;
 									for (int i = 0; i < player2ColorPairCardsList.size(); i++) {
-										buyHousePanel.add(colorPairCards[i]);
+										housingPanel.add(colorPairCards[i]);
 										colorPairCards[i].show();
 										enableButton(colorPairCards[i]);
 										colorPairCards[i].setBounds(15, y, 120, 25);
@@ -3397,37 +3505,6 @@ public class gameFrame {
 						}
 					});
 					i++;
-				}
-			}
-		});
-
-		player2SellHouse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFrame sellHouseFrame = new JFrame("Sell Houses");
-				JPanel sellHousePanel = new JPanel();
-				sellHousePanel.setLayout(null);
-				sellHouseFrame.add(sellHousePanel);
-				sellHouseFrame.setSize(180, 400);
-				sellHouseFrame.setVisible(true);
-				
-				JButton[] colorPairCards = new JButton[player2ColorPairCardsList.size()];
-				int y = 15;
-				for (int i = 0; i < player2ColorPairCardsList.size(); i++) {
-					colorPairCards[i] = new JButton(player2ColorPairCardsList.get(i));
-					sellHousePanel.add(colorPairCards[i]);
-					enableButton(colorPairCards[i]);
-					colorPairCards[i].setBounds(15, y, 120, 25);
-					y += 30;
-				}
-				
-				int i = 0;
-				while (i < colorPairCards.length) {
-					int j = i;
-					colorPairCards[i].addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							
-						}
-					});
 				}
 			}
 		});
@@ -4202,21 +4279,23 @@ public class gameFrame {
 			}
 		});
 
-		player3BuyHouse.addActionListener(new ActionListener() {
+		player3Housing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame buyHouseFrame = new JFrame("Buy Houses");
-				JPanel buyHousePanel = new JPanel();
-				buyHousePanel.setLayout(null);
-				buyHouseFrame.add(buyHousePanel);
-				buyHouseFrame.setSize(180, 400);
-				buyHouseFrame.setVisible(true);
+				JFrame housingFrame = new JFrame("Housing");
+				JPanel housingPanel = new JPanel();
+				housingPanel.setLayout(null);
+				housingFrame.add(housingPanel);
+				housingFrame.setSize(180, 400);
+				housingFrame.setVisible(true);
 				
 				JButton[] colorPairCards = new JButton[player3ColorPairCardsList.size()];
 				int y = 15;
 				for (int i = 0; i < player3ColorPairCardsList.size(); i++) {
 					colorPairCards[i] = new JButton(player3ColorPairCardsList.get(i));
-					buyHousePanel.add(colorPairCards[i]);
+					housingPanel.add(colorPairCards[i]);
 					enableButton(colorPairCards[i]);
+					colorPairCards[i].setForeground(Color.BLACK);
+					coloredCardButtons(colorPairCards[i], player3CardColors.get(i));
 					colorPairCards[i].setBounds(15, y, 120, 25);
 					y += 30;
 				}
@@ -4228,29 +4307,34 @@ public class gameFrame {
 						public void actionPerformed(ActionEvent e) {
 							for (int i = 0; i < colorPairCards.length; i++) {
 								colorPairCards[i].hide();
-								buyHousePanel.remove(colorPairCards[i]);
+								housingPanel.remove(colorPairCards[i]);
 							}
-							buyHouseFrame.setSize(300, 170);
+							housingFrame.setSize(300, 170);
 							
 							JLabel coinsLabel = new JLabel("$" + player3Coins);
-							buyHousePanel.add(coinsLabel);
+							housingPanel.add(coinsLabel);
 							coinsLabel.show();
 							coinsLabel.setBounds(125, 2, 100, 30);
 							coinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
 							JLabel houseCountLabel = new JLabel("Houses: " + player3ColorPairCardsHousesList.get(j));
-							buyHousePanel.add(houseCountLabel);
+							housingPanel.add(houseCountLabel);
 							houseCountLabel.show();
 							houseCountLabel.setBounds(112, 15, 100, 30);
 							houseCountLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
-							JButton buyMoreHouse = new JButton("House +1");
-							buyHousePanel.add(buyMoreHouse);
-							buyMoreHouse.show();
-							buyMoreHouse.setBounds(100, 60, 80, 25);
+							JButton buyHouse = new JButton("Buy House");
+							housingPanel.add(buyHouse);
+							buyHouse.show();
+							buyHouse.setBounds(60, 60, 80, 25);
+							
+							JButton sellHouse = new JButton("Sell House");
+							housingPanel.add(sellHouse);
+							sellHouse.show();
+							sellHouse.setBounds(145, 60, 80, 25);
 							
 							JButton back = new JButton("Back");
-							buyHousePanel.add(back);
+							housingPanel.add(back);
 							enableButton(back);
 							back.show();
 							back.setBounds(105, 90, 70, 25);
@@ -4262,13 +4346,14 @@ public class gameFrame {
 							}
 							
 							JLabel cardPaymentPriceLabel = new JLabel("Payment Price: $" + places_PaymentPrices[cardLocation]);
-							buyHousePanel.add(cardPaymentPriceLabel);
+							housingPanel.add(cardPaymentPriceLabel);
 							cardPaymentPriceLabel.show();
 							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
 							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 							
 							String cardColor = "";
 							boolean canBuyHouse = true;
+							boolean canSellHouse = false;
 							
 							for (int i = 0; i < arr_places.length; i++) {
 								if(arr_places[i].equals(player3ColorPairCardsList.get(j))) {
@@ -4287,6 +4372,9 @@ public class gameFrame {
 								if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i)) {
 									canBuyHouse = false;
 								}
+								if (player3ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+									canSellHouse = true;
+								}
 							}
 							
 							if (cardColors[cardLocation].equals("purple") || cardColors[cardLocation].equals("lightblue")) {
@@ -4300,21 +4388,35 @@ public class gameFrame {
 							}
 							
 							if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
-								enableButton(buyMoreHouse);
+								enableButton(buyHouse);
 							} else {
-								disableButton(buyMoreHouse);
+								disableButton(buyHouse);
+							}
+							if (player3ColorPairCardsHousesList.get(j) > 0 && canSellHouse == true) {
+								enableButton(sellHouse);
+							} else {
+								disableButton(sellHouse);
 							}
 							
-							buyMoreHouse.addMouseListener(new MouseAdapter() {
+							buyHouse.addMouseListener(new MouseAdapter() {
 								public void mouseEntered(MouseEvent e) {
-									buyMoreHouse.setText("-$" + houseCost);
+									buyHouse.setText("-$" + houseCost);
 								}
 								public void mouseExited(MouseEvent e) {
-									buyMoreHouse.setText("House +1");
+									buyHouse.setText("Buy House");
 								}
 							});
 							
-							buyMoreHouse.addActionListener(new ActionListener() {
+							sellHouse.addMouseListener(new MouseAdapter() {
+								public void mouseEntered(MouseEvent e) {
+									sellHouse.setText("+$" + houseCost);
+								}
+								public void mouseExited(MouseEvent e) {
+									sellHouse.setText("Sell House");
+								}
+							});
+							
+							buyHouse.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									moneyChangingAnimation(houseCost, 0, 3);
 									coinsLabel.setText("$" + (player3Coins - houseCost));
@@ -4343,9 +4445,59 @@ public class gameFrame {
 									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
 									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
 										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5) {
-											disableButton(buyMoreHouse);
+											disableButton(buyHouse);
 										} else if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) < 5 && player3ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
-											enableButton(buyMoreHouse);
+											enableButton(buyHouse);
+										}
+										if (player3ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 0) {
+											disableButton(sellHouse);
+										} else if (player3ColorPairCardsHousesList.get(j) > 0 && player3ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+											enableButton(sellHouse);
+										}
+									}
+								}
+							});
+							
+							sellHouse.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									moneyChangingAnimation(houseCost, 3, 0);
+									coinsLabel.setText("$" + (player3Coins + houseCost));
+									int previousHouses = player3ColorPairCardsHousesList.get(j);
+									player3ColorPairCardsHousesList.remove(j);
+									player3ColorPairCardsHousesList.add(j, previousHouses - 1);
+									houseCountLabel.setText("Houses: " + player3ColorPairCardsHousesList.get(j));
+									
+									switch (player3ColorPairCardsHousesList.get(j)) {
+										case 0:
+											places_PaymentPrices[cardLocation] = places_PaymentPrices2[cardLocation] * 2;
+											break;
+										case 1:
+											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
+											break;
+										case 2:
+											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
+											break;
+										case 3:
+											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
+											break;
+										case 4:
+											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
+											break;
+										case 5:
+											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
+											break;
+									}
+									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
+									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
+										if (player3ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 0) {
+											disableButton(sellHouse);
+										} else if (player3ColorPairCardsHousesList.get(j) > 0 && player3ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
+											enableButton(sellHouse);
+										}
+										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5) {
+											disableButton(buyHouse);
+										} else if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
+											enableButton(buyHouse);
 										}
 									}
 								}
@@ -4353,21 +4505,23 @@ public class gameFrame {
 							
 							back.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									buyHousePanel.remove(buyMoreHouse);
-									buyHousePanel.remove(coinsLabel);
-									buyHousePanel.remove(houseCountLabel);
-									buyHousePanel.remove(cardPaymentPriceLabel);
-									buyHousePanel.remove(back);
-									buyMoreHouse.hide();
+									housingPanel.remove(buyHouse);
+									housingPanel.remove(sellHouse);
+									housingPanel.remove(coinsLabel);
+									housingPanel.remove(houseCountLabel);
+									housingPanel.remove(cardPaymentPriceLabel);
+									housingPanel.remove(back);
+									buyHouse.hide();
+									sellHouse.hide();
 									coinsLabel.hide();
 									houseCountLabel.hide();
 									cardPaymentPriceLabel.hide();
 									back.hide();
 									
-									buyHouseFrame.setSize(165, 400);
+									housingFrame.setSize(165, 400);
 									int y = 15;
 									for (int i = 0; i < player3ColorPairCardsList.size(); i++) {
-										buyHousePanel.add(colorPairCards[i]);
+										housingPanel.add(colorPairCards[i]);
 										colorPairCards[i].show();
 										enableButton(colorPairCards[i]);
 										colorPairCards[i].setBounds(15, y, 120, 25);
@@ -4382,37 +4536,6 @@ public class gameFrame {
 			}
 		});
 
-		player3SellHouse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFrame sellHouseFrame = new JFrame("Sell Houses");
-				JPanel sellHousePanel = new JPanel();
-				sellHousePanel.setLayout(null);
-				sellHouseFrame.add(sellHousePanel);
-				sellHouseFrame.setSize(180, 400);
-				sellHouseFrame.setVisible(true);
-				
-				JButton[] colorPairCards = new JButton[player3ColorPairCardsList.size()];
-				int y = 15;
-				for (int i = 0; i < player3ColorPairCardsList.size(); i++) {
-					colorPairCards[i] = new JButton(player3ColorPairCardsList.get(i));
-					sellHousePanel.add(colorPairCards[i]);
-					enableButton(colorPairCards[i]);
-					colorPairCards[i].setBounds(15, y, 120, 25);
-					y += 30;
-				}
-				
-				int i = 0;
-				while (i < colorPairCards.length) {
-					int j = i;
-					colorPairCards[i].addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							
-						}
-					});
-				}
-			}
-		});
-		
 		player3NotBuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				isPlayer1Pass = false;
@@ -5260,4 +5383,35 @@ public class gameFrame {
 			}
 		}
 	}
+	
+	public void coloredCardButtons(JButton colorCardButton, String cardColor) {
+		switch (cardColor) {
+			case "purple":
+				colorCardButton.setBackground(new Color(77, 0, 153));
+				break;
+			case "lightblue":
+				colorCardButton.setBackground(new Color(128, 212, 255));
+				break;
+			case "pink":
+				colorCardButton.setBackground(new Color(204, 0, 153));
+				break;
+			case "orange":
+				colorCardButton.setBackground(new Color(255, 51, 0));
+				break;
+			case "red":
+				colorCardButton.setBackground(new Color(255, 0, 0));
+				break;
+			case "yellow":
+				colorCardButton.setBackground(new Color(255, 255, 0));
+				break;
+			case "green":
+				colorCardButton.setBackground(new Color(0, 153, 0));
+				break;
+			case "darkblue":
+				colorCardButton.setBackground(new Color(0, 51, 204));
+				break;
+		}
+	}
+	
+	
 }
