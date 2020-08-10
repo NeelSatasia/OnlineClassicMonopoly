@@ -50,6 +50,9 @@ public class gameFrame {
 	private ArrayList<JLabel> player1CardsLabel;
 	private ArrayList<JLabel> player2CardsLabel;
 	private ArrayList<JLabel> player3CardsLabel;
+	private ArrayList<JLabel> player1HousesLabel;
+	private ArrayList<JLabel> player2HousesLabel;
+	private ArrayList<JLabel> player3HousesLabel;
 	private JButton player1Buy;
 	private JButton player1Housing;
 	private JButton player1NotBuy;
@@ -280,6 +283,9 @@ public class gameFrame {
 		player1ColorPairCardsHousesList = new ArrayList<Integer>();
 		player2ColorPairCardsHousesList = new ArrayList<Integer>();
 		player3ColorPairCardsHousesList = new ArrayList<Integer>();
+		player1HousesLabel = new ArrayList<JLabel>();
+		player2HousesLabel = new ArrayList<JLabel>();
+		player3HousesLabel = new ArrayList<JLabel>();
 		
 		player1ColorPairCards = new int[8];
 		player2ColorPairCards = new int[8];
@@ -641,9 +647,9 @@ public class gameFrame {
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
 							//player1Location += currentRollDice1 + currentRollDice2;
 							if (player1Location == 0) {
-								player1Location += 6;
-							} else if (player1Location == 6) {
-								player1Location += 2;
+								player1Location += 16;
+							} else if (player1Location == 16) {
+								player1Location += 1;
 							} else {
 								player1Location += 1;
 							}
@@ -711,9 +717,7 @@ public class gameFrame {
 								player1x = 70;
 								if (i == 10) {
 									player1y -= 130;
-								} else if (i == 14) {
-									player1y -= 115;
-								} else if (i == 15) {
+								} else if (i == 14 || i == 15) {
 									player1y -= 115;
 								} else if (i == 19) {
 									player1x = 85;
@@ -2111,6 +2115,7 @@ public class gameFrame {
 							for (int i = 0; i < 2; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("purple");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("purple");
 						}
@@ -2124,6 +2129,7 @@ public class gameFrame {
 							for (int i = 0; i < 3; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("lightblue");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("lightblue");
 						}
@@ -2137,6 +2143,7 @@ public class gameFrame {
 							for (int i = 0; i < 3; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("pink");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("pink");
 						}
@@ -2150,6 +2157,7 @@ public class gameFrame {
 							for (int i = 0; i < 3; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("orange");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("orange");
 						}
@@ -2163,6 +2171,7 @@ public class gameFrame {
 							for (int i = 0; i < 3; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("red");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("red");
 						}
@@ -2176,6 +2185,7 @@ public class gameFrame {
 							for (int i = 0; i < 3; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("yellow");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("yellow");
 						}
@@ -2189,6 +2199,7 @@ public class gameFrame {
 							for (int i = 0; i < 3; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("green");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("green");
 						}
@@ -2201,6 +2212,7 @@ public class gameFrame {
 							for (int i = 0; i < 2; i++) {
 								player1ColorPairCardsHousesList.add(0);
 								player1CardColors.add("darkblue");
+								player1HousesLabel.add(new JLabel(""));
 							}
 							doubleRentPayment("darkblue");
 						}
@@ -2208,7 +2220,7 @@ public class gameFrame {
 				}
 				isPlayer1Buy = false;
 				
-				if (player1Location == 9) {
+				if (player1Location == 19) {
 					player1Buy.hide();
 					monopolyDataPanel.remove(player1Buy);
 					monopolyDataPanel.add(player1Housing);
@@ -2219,8 +2231,8 @@ public class gameFrame {
 
 		player1Housing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				isPlayer1Turn = false;
-				isPlayer2Turn = true;
+				//isPlayer1Turn = false;
+				//isPlayer2Turn = true;
 				
 				JFrame housingFrame = new JFrame("Housing");
 				JPanel housingPanel = new JPanel();
@@ -2361,12 +2373,17 @@ public class gameFrame {
 							
 							buyHouse.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
+									monopolyBoard.hide();
+									monopolyBoardPanel.remove(monopolyBoard);
 									moneyChangingAnimation(houseCost, 0, 1);
 									coinsLabel.setText("$" + (player1Coins - houseCost));
 									int previousHouses = player1ColorPairCardsHousesList.get(j);
 									player1ColorPairCardsHousesList.remove(j);
 									player1ColorPairCardsHousesList.add(j, previousHouses + 1);
 									houseCountLabel.setText("Houses: " + player1ColorPairCardsHousesList.get(j));
+									housePositioning(arr_places[cardLocation], j);
+									monopolyBoardPanel.add(monopolyBoard);
+									monopolyBoard.show();
 									
 									switch (player1ColorPairCardsHousesList.get(j)) {
 										case 1:
@@ -2467,6 +2484,8 @@ public class gameFrame {
 										housingPanel.add(colorPairCards[i]);
 										colorPairCards[i].show();
 										enableButton(colorPairCards[i]);
+										colorPairCards[i].setForeground(Color.BLACK);
+										coloredCardButtons(colorPairCards[i], player1CardColors.get(i));
 										colorPairCards[i].setBounds(15, y, 120, 25);
 										y += 30;
 									}
@@ -3497,6 +3516,8 @@ public class gameFrame {
 										housingPanel.add(colorPairCards[i]);
 										colorPairCards[i].show();
 										enableButton(colorPairCards[i]);
+										colorPairCards[i].setForeground(Color.BLACK);
+										coloredCardButtons(colorPairCards[i], player2CardColors.get(i));
 										colorPairCards[i].setBounds(15, y, 120, 25);
 										y += 30;
 									}
@@ -4524,6 +4545,8 @@ public class gameFrame {
 										housingPanel.add(colorPairCards[i]);
 										colorPairCards[i].show();
 										enableButton(colorPairCards[i]);
+										colorPairCards[i].setForeground(Color.BLACK);
+										coloredCardButtons(colorPairCards[i], player3CardColors.get(i));
 										colorPairCards[i].setBounds(15, y, 120, 25);
 										y += 30;
 									}
@@ -5413,5 +5436,57 @@ public class gameFrame {
 		}
 	}
 	
-	
+	public void housePositioning(String cardName, int index) {
+		
+		player1HousesLabel.get(index).setText("Houses: " + player1ColorPairCardsHousesList.get(index));
+		
+		if (player1ColorPairCardsHousesList.get(index) == 1) {
+			player1HousesLabel.get(index).setForeground(new Color(0, 128, 0));
+			monopolyBoardPanel.add(player1HousesLabel.get(index));
+		}
+		
+		int x = 1122;
+		int y = 0;
+		int j = 0;
+		
+		if (cardLocation < 10) {
+			j = 0;
+			y = 1107;
+		} else if (cardLocation > 10 && cardLocation < 20) {
+			j = 10;
+			x = 50;
+			y = 1150;
+		} else if (cardLocation > 20 && cardLocation < 30) {
+			j = 20;
+		} else {
+			j = 30;
+		}
+		
+		for (int i = j; i < cardLocation; i++) {
+			if (cardLocation < 10) {
+				if (i == 4) {
+					x -=  112;
+				} else if (i == 5) {
+					x -= 109;
+				} else {
+					x -= 102;
+				}
+			} else if (cardLocation >= 10 && cardLocation < 20) {
+				if (i == 10) {
+					y = 1055;
+				} else if (i == 14 || i == 15) {
+					y -= 110;
+				} else {
+					y -= 102;
+				}
+			} else if (cardLocation >= 20 && cardLocation < 30) {
+				
+			} else {}
+		}
+		if (cardLocation < 10) {
+			x -= 16;
+		}
+		
+		player1HousesLabel.get(index).setBounds(x, y, 100, 30);
+	}
 }
