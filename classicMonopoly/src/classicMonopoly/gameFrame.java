@@ -642,8 +642,8 @@ public class gameFrame {
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
 							//player1Location += currentRollDice1 + currentRollDice2;
 							if (player1Location == 0) {
-								player1Location += 21;
-							} else if (player1Location == 21) {
+								player1Location += 6;
+							} else if (player1Location == 6) {
 								player1Location += 2;
 							} else {
 								player1Location += 1;
@@ -2215,7 +2215,7 @@ public class gameFrame {
 				}
 				isPlayer1Buy = false;
 				
-				if (player1Location == 24) {
+				if (player1Location == 9) {
 					player1Buy.hide();
 					monopolyDataPanel.remove(player1Buy);
 					monopolyDataPanel.add(player1Housing);
@@ -2226,8 +2226,8 @@ public class gameFrame {
 
 		player1Housing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//isPlayer1Turn = false;
-				//isPlayer2Turn = true;
+				isPlayer1Turn = false;
+				isPlayer2Turn = true;
 				
 				JFrame housingFrame = new JFrame("Housing");
 				JPanel housingPanel = new JPanel();
@@ -2415,6 +2415,8 @@ public class gameFrame {
 							
 							sellHouse.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
+									monopolyBoard.hide();
+									monopolyBoardPanel.remove(monopolyBoard);
 									moneyChangingAnimation(houseCost, 1, 0);
 									coinsLabel.setText("$" + (player1Coins + houseCost));
 									int previousHouses = player1ColorPairCardsHousesList.get(j);
@@ -2422,6 +2424,8 @@ public class gameFrame {
 									player1ColorPairCardsHousesList.add(j, previousHouses - 1);
 									houseCountLabel.setText("Houses: " + player1ColorPairCardsHousesList.get(j));
 									housePositioning(arr_places[cardLocation], j, 1);
+									monopolyBoardPanel.add(monopolyBoard);
+									monopolyBoard.show();
 									
 									switch (player1ColorPairCardsHousesList.get(j)) {
 										case 0:
@@ -5441,11 +5445,13 @@ public class gameFrame {
 				if (player1ColorPairCardsHousesList.get(index) == 1) {
 					player1HousesLabel.get(index).setForeground(new Color(0, 128, 0));
 					monopolyBoardPanel.add(player1HousesLabel.get(index));
-					player1HousesLabel.get(index).show();
-				} 
-				if (player1ColorPairCardsHousesList.get(index) == 0) {
+				} else if (player1ColorPairCardsHousesList.get(index) == 0) {
 					monopolyBoardPanel.remove(player1HousesLabel.get(index));
-					player1HousesLabel.get(index).hide();
+				} else if (player1ColorPairCardsHousesList.get(index) == 5) {
+					player1HousesLabel.get(index).setText("Hotel");
+					player1HousesLabel.get(index).setForeground(Color.RED);
+				} else if (player1ColorPairCardsHousesList.get(index) == 4) {
+					player1HousesLabel.get(index).setForeground(new Color(0, 128, 0));
 				}
 				break;
 			case 2:
@@ -5453,6 +5459,13 @@ public class gameFrame {
 				if (player2ColorPairCardsHousesList.get(index) == 1) {
 					player2HousesLabel.get(index).setForeground(new Color(0, 128, 0));
 					monopolyBoardPanel.add(player2HousesLabel.get(index));
+				} else if (player2ColorPairCardsHousesList.get(index) == 0) {
+					monopolyBoardPanel.remove(player2HousesLabel.get(index));
+				} else if (player2ColorPairCardsHousesList.get(index) == 5) {
+					player2HousesLabel.get(index).setText("Hotel");
+					player2HousesLabel.get(index).setForeground(Color.RED);
+				} else if (player2ColorPairCardsHousesList.get(index) == 4) {
+					player2HousesLabel.get(index).setForeground(new Color(0, 128, 0));
 				}
 				break;
 			case 3:
@@ -5460,6 +5473,13 @@ public class gameFrame {
 				if (player3ColorPairCardsHousesList.get(index) == 1) {
 					player3HousesLabel.get(index).setForeground(new Color(0, 128, 0));
 					monopolyBoardPanel.add(player3HousesLabel.get(index));
+				} else if (player3ColorPairCardsHousesList.get(index) == 0) {
+					monopolyBoardPanel.remove(player3HousesLabel.get(index));
+				} else if (player3ColorPairCardsHousesList.get(index) == 5) {
+					player3HousesLabel.get(index).setText("Hotel");
+					player3HousesLabel.get(index).setForeground(Color.RED);
+				} else if (player3ColorPairCardsHousesList.get(index) == 4) {
+					player3HousesLabel.get(index).setForeground(new Color(0, 128, 0));
 				}
 				break;
 		}
@@ -5523,6 +5543,29 @@ public class gameFrame {
 			}
 		}
 		
-		player1HousesLabel.get(index).setBounds(x, y, 100, 30);
+		switch (whichPlayer) {
+			case 1:
+				if (player1ColorPairCardsHousesList.get(index) == 5) {
+					player1HousesLabel.get(index).setBounds(x + 16, y, 100, 30);
+				} else {
+					player1HousesLabel.get(index).setBounds(x, y, 100, 30);
+				}
+				break;
+			case 2:
+				if (player2ColorPairCardsHousesList.get(index) == 5) { 
+					player2HousesLabel.get(index).setBounds(x + 16, y, 100, 30);
+				} else {
+					player2HousesLabel.get(index).setBounds(x, y, 100, 30);
+				}
+				break;
+			case 3:
+				if (player2ColorPairCardsHousesList.get(index) == 5) { 
+					player3HousesLabel.get(index).setBounds(x + 16, y, 100, 30);
+				} else {
+					player3HousesLabel.get(index).setBounds(x, y, 100, 30);
+				}
+				break;
+		}
 	}
+
 }
