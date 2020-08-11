@@ -379,11 +379,6 @@ public class gameFrame {
 		starLabel = new JLabel(starImage);
 		monopolyBoardPanel.add(starLabel);
 		starLabel.setBounds(player3x, player3y, 24, 22);
-		
-		ImageIcon houseImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\monopoly_house.png");
-		houseLabel = new JLabel(houseImage);
-		monopolyBoardPanel.add(houseLabel);
-		houseLabel.setBounds(120, 5, 100, 50);
 
 		ImageIcon monopolyBoardImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\Monopoly_GameBoard.png");
 		monopolyBoard = new JLabel(monopolyBoardImage);
@@ -647,9 +642,9 @@ public class gameFrame {
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
 							//player1Location += currentRollDice1 + currentRollDice2;
 							if (player1Location == 0) {
-								player1Location += 16;
-							} else if (player1Location == 16) {
-								player1Location += 1;
+								player1Location += 21;
+							} else if (player1Location == 21) {
+								player1Location += 2;
 							} else {
 								player1Location += 1;
 							}
@@ -2220,7 +2215,7 @@ public class gameFrame {
 				}
 				isPlayer1Buy = false;
 				
-				if (player1Location == 19) {
+				if (player1Location == 24) {
 					player1Buy.hide();
 					monopolyDataPanel.remove(player1Buy);
 					monopolyDataPanel.add(player1Housing);
@@ -2381,7 +2376,7 @@ public class gameFrame {
 									player1ColorPairCardsHousesList.remove(j);
 									player1ColorPairCardsHousesList.add(j, previousHouses + 1);
 									houseCountLabel.setText("Houses: " + player1ColorPairCardsHousesList.get(j));
-									housePositioning(arr_places[cardLocation], j);
+									housePositioning(arr_places[cardLocation], j, 1);
 									monopolyBoardPanel.add(monopolyBoard);
 									monopolyBoard.show();
 									
@@ -2426,6 +2421,7 @@ public class gameFrame {
 									player1ColorPairCardsHousesList.remove(j);
 									player1ColorPairCardsHousesList.add(j, previousHouses - 1);
 									houseCountLabel.setText("Houses: " + player1ColorPairCardsHousesList.get(j));
+									housePositioning(arr_places[cardLocation], j, 1);
 									
 									switch (player1ColorPairCardsHousesList.get(j)) {
 										case 0:
@@ -3099,6 +3095,7 @@ public class gameFrame {
 									player1ColorPairCardsHousesList.remove(k);
 									player1ColorPairCardsList.remove(k);
 									player1CardColors.remove(k);
+									player1HousesLabel.remove(k);
 								} else {
 									k++;
 								}
@@ -5436,17 +5433,39 @@ public class gameFrame {
 		}
 	}
 	
-	public void housePositioning(String cardName, int index) {
+	public void housePositioning(String cardName, int index, int whichPlayer) {
 		
-		player1HousesLabel.get(index).setText("Houses: " + player1ColorPairCardsHousesList.get(index));
-		
-		if (player1ColorPairCardsHousesList.get(index) == 1) {
-			player1HousesLabel.get(index).setForeground(new Color(0, 128, 0));
-			monopolyBoardPanel.add(player1HousesLabel.get(index));
+		switch (whichPlayer) {
+			case 1:
+				player1HousesLabel.get(index).setText("Houses: " + player1ColorPairCardsHousesList.get(index));
+				if (player1ColorPairCardsHousesList.get(index) == 1) {
+					player1HousesLabel.get(index).setForeground(new Color(0, 128, 0));
+					monopolyBoardPanel.add(player1HousesLabel.get(index));
+					player1HousesLabel.get(index).show();
+				} 
+				if (player1ColorPairCardsHousesList.get(index) == 0) {
+					monopolyBoardPanel.remove(player1HousesLabel.get(index));
+					player1HousesLabel.get(index).hide();
+				}
+				break;
+			case 2:
+				player2HousesLabel.get(index).setText("Houses: " + player2ColorPairCardsHousesList.get(index));
+				if (player2ColorPairCardsHousesList.get(index) == 1) {
+					player2HousesLabel.get(index).setForeground(new Color(0, 128, 0));
+					monopolyBoardPanel.add(player2HousesLabel.get(index));
+				}
+				break;
+			case 3:
+				player3HousesLabel.get(index).setText("Houses: " + player3ColorPairCardsHousesList.get(index));
+				if (player3ColorPairCardsHousesList.get(index) == 1) {
+					player3HousesLabel.get(index).setForeground(new Color(0, 128, 0));
+					monopolyBoardPanel.add(player3HousesLabel.get(index));
+				}
+				break;
 		}
 		
-		int x = 1122;
-		int y = 0;
+		int x = 0;
+		int y = 35;
 		int j = 0;
 		
 		if (cardLocation < 10) {
@@ -5458,13 +5477,17 @@ public class gameFrame {
 			y = 1150;
 		} else if (cardLocation > 20 && cardLocation < 30) {
 			j = 20;
+			y = 25;
 		} else {
 			j = 30;
+			x = 1125;
 		}
 		
 		for (int i = j; i < cardLocation; i++) {
 			if (cardLocation < 10) {
-				if (i == 4) {
+				if (i == 0) {
+					x = 1004;
+				} else if (i == 4) {
 					x -=  112;
 				} else if (i == 5) {
 					x -= 109;
@@ -5479,12 +5502,25 @@ public class gameFrame {
 				} else {
 					y -= 102;
 				}
-			} else if (cardLocation >= 20 && cardLocation < 30) {
-				
-			} else {}
-		}
-		if (cardLocation < 10) {
-			x -= 16;
+			} else if (i >= 20 && i < 30) {
+				if (i == 20) {
+					x = 171;
+				} else if (i == 24) {
+					x += 112;
+				} else if (i == 25) {
+					x += 109;
+				} else {
+					x += 102;
+				}
+			} else {
+				if (i == 30) {
+					y = 223;
+				} else if (i == 34 || i == 35) {
+					y += 110;
+				} else {
+					y += 102;
+				}
+			}
 		}
 		
 		player1HousesLabel.get(index).setBounds(x, y, 100, 30);
