@@ -100,6 +100,7 @@ public class gameFrame {
 	private ArrayList<String> player1MortgageCards;
 	private ArrayList<String> player1ColorPairCardsList;
 	private ArrayList<String> player1CardColors;
+	private ArrayList<String> player1DealList;
 	private ArrayList<Integer> player1ColorPairCardsHousesList;
 	private int[] player1ColorPairCards;
 	private int player1Cardsy;
@@ -127,6 +128,7 @@ public class gameFrame {
 	private ArrayList<String> player2MortgageCards;
 	private ArrayList<String> player2ColorPairCardsList;
 	private ArrayList<String> player2CardColors;
+	private ArrayList<String> player2DealList;
 	private ArrayList<Integer> player2ColorPairCardsHousesList;
 	private int[] player2ColorPairCards;
 	private int player2Cardsy;
@@ -154,6 +156,7 @@ public class gameFrame {
 	private ArrayList<String> player3MortgageCards;
 	private ArrayList<String> player3ColorPairCardsList;
 	private ArrayList<String> player3CardColors;
+	private ArrayList<String> player3DealList;
 	private ArrayList<Integer> player3ColorPairCardsHousesList;
 	private int[] player3ColorPairCards;
 	private int player3Cardsy;
@@ -170,6 +173,7 @@ public class gameFrame {
 	private int cardDrawingPay;
 	private ArrayList<String> chances;
 	private ArrayList<String> communityChests;
+	private ArrayList<String> dealOptions;
 	private int[] house1Payment;
 	private int[] house2Payment;
 	private int[] house3Payment;
@@ -267,6 +271,9 @@ public class gameFrame {
 		}
 		
 		chances.add(0, "Collect $150");
+		
+		dealOptions = new ArrayList<String>(Arrays.asList("Forgive house payments for both", "50% of house payments for both", "30% of house payments for both",
+				"75% of house payments for both", "Exchange cards"));
 
 		player1Cards = new ArrayList<String>();
 		player2Cards = new ArrayList<String>();
@@ -289,6 +296,9 @@ public class gameFrame {
 		player1HousesLabel = new ArrayList<JLabel>();
 		player2HousesLabel = new ArrayList<JLabel>();
 		player3HousesLabel = new ArrayList<JLabel>();
+		player1DealList = new ArrayList<String>();
+		player2DealList = new ArrayList<String>();
+		player3DealList = new ArrayList<String>();
 		
 		player1ColorPairCards = new int[8];
 		player2ColorPairCards = new int[8];
@@ -503,7 +513,6 @@ public class gameFrame {
 		disableButton(player1Buy);
 		
 		player1Housing = new JButton("Housing");
-		//monopolyDataPanel.add(player1BuyHouse);
 		player1Housing.setBounds(143, 160, 65, 30);
 		player1Housing.setFocusable(false);
 		disableButton(player1Housing);
@@ -524,7 +533,7 @@ public class gameFrame {
 		monopolyDataPanel.add(player1Deal);
 		player1Deal.setBounds(145, 240, 60, 30);
 		player1Deal.setFocusable(false);
-		disableButton(player1Deal);
+		enableButton(player1Deal);
 
 		player1Mortgage = new JButton("Mortgage");
 		monopolyDataPanel.add(player1Mortgage);
@@ -646,9 +655,9 @@ public class gameFrame {
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
 							//player1Location += currentRollDice1 + currentRollDice2;
 							if (player1Location == 0) {
-								player1Location += 21;
-							} else if (player1Location == 21) {
-								player1Location += 1;
+								player1Location += 6;
+							} else if (player1Location == 6) {
+								player1Location += 2;
 							} else {
 								player1Location += 1;
 							}
@@ -2291,9 +2300,14 @@ public class gameFrame {
 							back.show();
 							back.setBounds(105, 90, 70, 25);
 							
+							String cardColor = "";
+							boolean canBuyHouse = true;
+							boolean canSellHouse = false;
+							
 							for (int i = 0; i < arr_places.length; i++) {
 								if (arr_places[i].equals(player1ColorPairCardsList.get(j))) {
 									cardLocation = i;
+									cardColor = cardColors[i];
 								}
 							}
 							
@@ -2302,16 +2316,6 @@ public class gameFrame {
 							cardPaymentPriceLabel.show();
 							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
 							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							String cardColor = "";
-							boolean canBuyHouse = true;
-							boolean canSellHouse = false;
-							
-							for (int i = 0; i < arr_places.length; i++) {
-								if(arr_places[i].equals(player1ColorPairCardsList.get(j))) {
-									cardColor = cardColors[i];
-								}
-							}
 							
 							ArrayList<Integer> colorPairCardsHouses = new ArrayList<Integer>();
 							for (int i = 0; i < player1ColorPairCardsList.size(); i++) {
@@ -2329,13 +2333,13 @@ public class gameFrame {
 								}
 							}
 							
-							if (cardColors[cardLocation].equals("purple") || cardColors[cardLocation].equals("lightblue")) {
+							if (cardColor.equals("purple") || cardColor.equals("lightblue")) {
 								houseCost = 50;
-							} else if (cardColors[cardLocation].equals("pink") || cardColors[cardLocation].equals("orange")) {
+							} else if (cardColor.equals("pink") || cardColor.equals("orange")) {
 								houseCost = 100;
-							} else if (cardColors[cardLocation].equals("red") || cardColors[cardLocation].equals("yellow")) {
+							} else if (cardColor.equals("red") || cardColor.equals("yellow")) {
 								houseCost = 150;
-							} else if (cardColors[cardLocation].equals("green") || cardColors[cardLocation].equals("darkblue")) {
+							} else if (cardColor.equals("green") || cardColor.equals("darkblue")) {
 								houseCost = 200;
 							}
 							
@@ -2374,7 +2378,7 @@ public class gameFrame {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
 									moneyDealing(houseCost, 0, 1);
-									coinsLabel.setText("$" + (player1Coins - houseCost));
+									coinsLabel.setText("$" + player1Coins);
 									int previousHouses = player1ColorPairCardsHousesList.get(j);
 									player1ColorPairCardsHousesList.remove(j);
 									player1ColorPairCardsHousesList.add(j, previousHouses + 1);
@@ -2402,7 +2406,7 @@ public class gameFrame {
 									}
 									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
 									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5) {
+										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5 || player1Coins < houseCost) {
 											disableButton(buyHouse);
 										} else if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
 											enableButton(buyHouse);
@@ -2421,7 +2425,7 @@ public class gameFrame {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
 									moneyDealing(houseCost, 1, 0);
-									coinsLabel.setText("$" + (player1Coins + houseCost));
+									coinsLabel.setText("$" + player1Coins);
 									int previousHouses = player1ColorPairCardsHousesList.get(j);
 									player1ColorPairCardsHousesList.remove(j);
 									player1ColorPairCardsHousesList.add(j, previousHouses - 1);
@@ -2457,7 +2461,7 @@ public class gameFrame {
 										} else if (player1ColorPairCardsHousesList.get(j) > 0 && player1ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
 											enableButton(sellHouse);
 										}
-										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5) {
+										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5 || player1Coins < houseCost) {
 											disableButton(buyHouse);
 										} else if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
 											enableButton(buyHouse);
@@ -3146,6 +3150,55 @@ public class gameFrame {
 			}
 		});
 
+		player1Deal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame dealFrame = new JFrame("Dealing");
+				JPanel dealPanel = new JPanel();
+				dealPanel.setLayout(null);
+				dealFrame.add(dealPanel);
+				dealFrame.setSize(400, 300);
+				dealFrame.setVisible(true);
+				
+				JLabel setDealWithLabel = new JLabel("Set Deal With:");
+				dealPanel.add(setDealWithLabel);
+				setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+				setDealWithLabel.setBounds(130, 50, 200, 30);
+				
+				JButton dealWithPlayer2 = new JButton("Player 2");
+				dealPanel.add(dealWithPlayer2);
+				enableButton(dealWithPlayer2);
+				dealWithPlayer2.setBounds(90, 100, 80, 30);
+				
+				JButton dealWithPlayer3 = new JButton("Player 3");
+				dealPanel.add(dealWithPlayer3);
+				enableButton(dealWithPlayer3);
+				dealWithPlayer3.setBounds(200, 100, 80, 30);
+				
+				dealWithPlayer2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setDealWithLabel.hide();
+						dealWithPlayer2.hide();
+						dealWithPlayer3.hide();
+						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(dealWithPlayer2);
+						dealPanel.remove(dealWithPlayer3);
+					}
+				});
+				
+				dealWithPlayer3.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setDealWithLabel.hide();
+						dealWithPlayer2.hide();
+						dealWithPlayer3.hide();
+						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(dealWithPlayer2);
+						dealPanel.remove(dealWithPlayer3);
+					}
+				});
+			}
+		});
+		
+		
 		player2Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				moneyDealing(prices_places[player2Location], 0, 2);
@@ -3340,9 +3393,14 @@ public class gameFrame {
 							back.show();
 							back.setBounds(105, 90, 70, 25);
 							
+							String cardColor = "";
+							boolean canBuyHouse = true;
+							boolean canSellHouse = false;
+							
 							for (int i = 0; i < arr_places.length; i++) {
 								if (arr_places[i].equals(player2ColorPairCardsList.get(j))) {
 									cardLocation = i;
+									cardColor = cardColors[i];
 								}
 							}
 							
@@ -3351,16 +3409,6 @@ public class gameFrame {
 							cardPaymentPriceLabel.show();
 							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
 							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							String cardColor = "";
-							boolean canBuyHouse = true;
-							boolean canSellHouse = false;
-							
-							for (int i = 0; i < arr_places.length; i++) {
-								if(arr_places[i].equals(player2ColorPairCardsList.get(j))) {
-									cardColor = cardColors[i];
-								}
-							}
 							
 							ArrayList<Integer> colorPairCardsHouses = new ArrayList<Integer>();
 							for (int i = 0; i < player2ColorPairCardsList.size(); i++) {
@@ -3378,13 +3426,13 @@ public class gameFrame {
 								}
 							}
 							
-							if (cardColors[cardLocation].equals("purple") || cardColors[cardLocation].equals("lightblue")) {
+							if (cardColor.equals("purple") || cardColor.equals("lightblue")) {
 								houseCost = 50;
-							} else if (cardColors[cardLocation].equals("pink") || cardColors[cardLocation].equals("orange")) {
+							} else if (cardColor.equals("pink") || cardColor.equals("orange")) {
 								houseCost = 100;
-							} else if (cardColors[cardLocation].equals("red") || cardColors[cardLocation].equals("yellow")) {
+							} else if (cardColor.equals("red") || cardColor.equals("yellow")) {
 								houseCost = 150;
-							} else if (cardColors[cardLocation].equals("green") || cardColors[cardLocation].equals("darkblue")) {
+							} else if (cardColor.equals("green") || cardColor.equals("darkblue")) {
 								houseCost = 200;
 							}
 							
@@ -3423,7 +3471,7 @@ public class gameFrame {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
 									moneyDealing(houseCost, 0, 2);
-									coinsLabel.setText("$" + (player2Coins - houseCost));
+									coinsLabel.setText("$" + player2Coins);
 									int previousHouses = player2ColorPairCardsHousesList.get(j);
 									player2ColorPairCardsHousesList.remove(j);
 									player2ColorPairCardsHousesList.add(j, previousHouses + 1);
@@ -3451,7 +3499,7 @@ public class gameFrame {
 									}
 									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
 									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5) {
+										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5 || player2Coins < houseCost) {
 											disableButton(buyHouse);
 										} else if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) < 5 && player2ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
 											enableButton(buyHouse);
@@ -3470,7 +3518,7 @@ public class gameFrame {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
 									moneyDealing(houseCost, 2, 0);
-									coinsLabel.setText("$" + (player2Coins + houseCost));
+									coinsLabel.setText("$" + player2Coins);
 									int previousHouses = player2ColorPairCardsHousesList.get(j);
 									player2ColorPairCardsHousesList.remove(j);
 									player2ColorPairCardsHousesList.add(j, previousHouses - 1);
@@ -3506,7 +3554,7 @@ public class gameFrame {
 										} else if (player2ColorPairCardsHousesList.get(j) > 0 && player2ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
 											enableButton(sellHouse);
 										}
-										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5) {
+										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5 || player2Coins < houseCost) {
 											disableButton(buyHouse);
 										} else if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
 											enableButton(buyHouse);
@@ -4191,6 +4239,54 @@ public class gameFrame {
 			}
 		});
 
+		player2Deal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame dealFrame = new JFrame("Dealing");
+				JPanel dealPanel = new JPanel();
+				dealPanel.setLayout(null);
+				dealFrame.add(dealPanel);
+				dealFrame.setSize(400, 400);
+				dealFrame.setVisible(true);
+				
+				JLabel setDealWithLabel = new JLabel("Set Deal With:");
+				dealPanel.add(setDealWithLabel);
+				setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+				setDealWithLabel.setBounds(130, 50, 200, 30);
+				
+				JButton dealWithPlayer1 = new JButton("Player 1");
+				dealPanel.add(dealWithPlayer1);
+				enableButton(dealWithPlayer1);
+				dealWithPlayer1.setBounds(90, 100, 80, 30);
+				
+				JButton dealWithPlayer3 = new JButton("Player 3");
+				dealPanel.add(dealWithPlayer3);
+				enableButton(dealWithPlayer3);
+				dealWithPlayer3.setBounds(200, 100, 80, 30);
+				
+				dealWithPlayer1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setDealWithLabel.hide();
+						dealWithPlayer1.hide();
+						dealWithPlayer3.hide();
+						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(dealWithPlayer1);
+						dealPanel.remove(dealWithPlayer3);
+					}
+				});
+				
+				dealWithPlayer3.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setDealWithLabel.hide();
+						dealWithPlayer1.hide();
+						dealWithPlayer3.hide();
+						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(dealWithPlayer1);
+						dealPanel.remove(dealWithPlayer3);
+					}
+				});
+			}
+		});
+		
 		player3Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				moneyDealing(prices_places[player3Location], 0, 3);
@@ -4385,9 +4481,14 @@ public class gameFrame {
 							back.show();
 							back.setBounds(105, 90, 70, 25);
 							
+							String cardColor = "";
+							boolean canBuyHouse = true;
+							boolean canSellHouse = false;
+							
 							for (int i = 0; i < arr_places.length; i++) {
 								if (arr_places[i].equals(player3ColorPairCardsList.get(j))) {
 									cardLocation = i;
+									cardColor = cardColors[i];
 								}
 							}
 							
@@ -4396,16 +4497,6 @@ public class gameFrame {
 							cardPaymentPriceLabel.show();
 							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
 							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							String cardColor = "";
-							boolean canBuyHouse = true;
-							boolean canSellHouse = false;
-							
-							for (int i = 0; i < arr_places.length; i++) {
-								if(arr_places[i].equals(player3ColorPairCardsList.get(j))) {
-									cardColor = cardColors[i];
-								}
-							}
 							
 							ArrayList<Integer> colorPairCardsHouses = new ArrayList<Integer>();
 							for (int i = 0; i < player3ColorPairCardsList.size(); i++) {
@@ -4423,13 +4514,13 @@ public class gameFrame {
 								}
 							}
 							
-							if (cardColors[cardLocation].equals("purple") || cardColors[cardLocation].equals("lightblue")) {
+							if (cardColor.equals("purple") || cardColor.equals("lightblue")) {
 								houseCost = 50;
-							} else if (cardColors[cardLocation].equals("pink") || cardColors[cardLocation].equals("orange")) {
+							} else if (cardColor.equals("pink") || cardColor.equals("orange")) {
 								houseCost = 100;
-							} else if (cardColors[cardLocation].equals("red") || cardColors[cardLocation].equals("yellow")) {
+							} else if (cardColor.equals("red") || cardColor.equals("yellow")) {
 								houseCost = 150;
-							} else if (cardColors[cardLocation].equals("green") || cardColors[cardLocation].equals("darkblue")) {
+							} else if (cardColor.equals("green") || cardColor.equals("darkblue")) {
 								houseCost = 200;
 							}
 							
@@ -4467,7 +4558,7 @@ public class gameFrame {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
 									moneyDealing(houseCost, 0, 3);
-									coinsLabel.setText("$" + (player3Coins - houseCost));
+									coinsLabel.setText("$" + player3Coins);
 									int previousHouses = player3ColorPairCardsHousesList.get(j);
 									player3ColorPairCardsHousesList.remove(j);
 									player3ColorPairCardsHousesList.add(j, previousHouses + 1);
@@ -4495,7 +4586,7 @@ public class gameFrame {
 									}
 									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
 									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5) {
+										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5 || player3Coins < houseCost) {
 											disableButton(buyHouse);
 										} else if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) < 5 && player3ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
 											enableButton(buyHouse);
@@ -4514,7 +4605,7 @@ public class gameFrame {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
 									moneyDealing(houseCost, 3, 0);
-									coinsLabel.setText("$" + (player3Coins + houseCost));
+									coinsLabel.setText("$" + player3Coins);
 									int previousHouses = player3ColorPairCardsHousesList.get(j);
 									player3ColorPairCardsHousesList.remove(j);
 									player3ColorPairCardsHousesList.add(j, previousHouses - 1);
@@ -4550,7 +4641,7 @@ public class gameFrame {
 										} else if (player3ColorPairCardsHousesList.get(j) > 0 && player3ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
 											enableButton(sellHouse);
 										}
-										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5) {
+										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5 || player3Coins < houseCost) {
 											disableButton(buyHouse);
 										} else if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
 											enableButton(buyHouse);
@@ -5234,12 +5325,59 @@ public class gameFrame {
 				}
 			}
 		});
+	
+		player3Deal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame dealFrame = new JFrame("Dealing");
+				JPanel dealPanel = new JPanel();
+				dealPanel.setLayout(null);
+				dealFrame.add(dealPanel);
+				dealFrame.setSize(400, 400);
+				dealFrame.setVisible(true);
+				
+				JLabel setDealWithLabel = new JLabel("Set Deal With:");
+				dealPanel.add(setDealWithLabel);
+				setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+				setDealWithLabel.setBounds(130, 50, 200, 30);
+				
+				JButton dealWithPlayer1 = new JButton("Player 1");
+				dealPanel.add(dealWithPlayer1);
+				enableButton(dealWithPlayer1);
+				dealWithPlayer1.setBounds(90, 100, 80, 30);
+				
+				JButton dealWithPlayer2 = new JButton("Player 2");
+				dealPanel.add(dealWithPlayer2);
+				enableButton(dealWithPlayer2);
+				dealWithPlayer2.setBounds(200, 100, 80, 30);
+				
+				dealWithPlayer1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setDealWithLabel.hide();
+						dealWithPlayer1.hide();
+						dealWithPlayer2.hide();
+						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(dealWithPlayer1);
+						dealPanel.remove(dealWithPlayer2);
+					}
+				});
+				
+				dealWithPlayer2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setDealWithLabel.hide();
+						dealWithPlayer1.hide();
+						dealWithPlayer2.hide();
+						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(dealWithPlayer1);
+						dealPanel.remove(dealWithPlayer2);
+					}
+				});
+			}
+		});
 	}
 	
 	public void startGame() {
 
 	}
-	
 	
 	public void enableButton(JButton enableThis) {
 		enableThis.setEnabled(true);
@@ -5353,7 +5491,8 @@ public class gameFrame {
 			case 1:
 				player1HousesLabel.get(index).setText("Houses: " + player1ColorPairCardsHousesList.get(index));
 				if (player1ColorPairCardsHousesList.get(index) == 1) {
-					player1HousesLabel.get(index).setForeground(new Color(0, 128, 0));
+					player1HousesLabel.get(index).setForeground(new Color(0, 77, 0));
+					player1HousesLabel.get(index).setFont(new Font("Times New Roman", Font.BOLD, 14));
 					monopolyBoardPanel.add(player1HousesLabel.get(index));
 				} else if (player1ColorPairCardsHousesList.get(index) == 0) {
 					monopolyBoardPanel.remove(player1HousesLabel.get(index));
@@ -5367,7 +5506,8 @@ public class gameFrame {
 			case 2:
 				player2HousesLabel.get(index).setText("Houses: " + player2ColorPairCardsHousesList.get(index));
 				if (player2ColorPairCardsHousesList.get(index) == 1) {
-					player2HousesLabel.get(index).setForeground(new Color(0, 128, 0));
+					player2HousesLabel.get(index).setForeground(new Color(0, 77, 0));
+					player2HousesLabel.get(index).setFont(new Font("Times New Roman", Font.BOLD, 14));
 					monopolyBoardPanel.add(player2HousesLabel.get(index));
 				} else if (player2ColorPairCardsHousesList.get(index) == 0) {
 					monopolyBoardPanel.remove(player2HousesLabel.get(index));
@@ -5381,7 +5521,8 @@ public class gameFrame {
 			case 3:
 				player3HousesLabel.get(index).setText("Houses: " + player3ColorPairCardsHousesList.get(index));
 				if (player3ColorPairCardsHousesList.get(index) == 1) {
-					player3HousesLabel.get(index).setForeground(new Color(0, 128, 0));
+					player3HousesLabel.get(index).setForeground(new Color(0, 77, 0));
+					player3HousesLabel.get(index).setFont(new Font("Times New Roman", Font.BOLD, 14));
 					monopolyBoardPanel.add(player3HousesLabel.get(index));
 				} else if (player3ColorPairCardsHousesList.get(index) == 0) {
 					monopolyBoardPanel.remove(player3HousesLabel.get(index));
@@ -5456,21 +5597,21 @@ public class gameFrame {
 		switch (whichPlayer) {
 			case 1:
 				if (player1ColorPairCardsHousesList.get(index) == 5) {
-					player1HousesLabel.get(index).setBounds(x + 16, y, 100, 30);
+					player1HousesLabel.get(index).setBounds(x + 12, y, 100, 30);
 				} else {
 					player1HousesLabel.get(index).setBounds(x, y, 100, 30);
 				}
 				break;
 			case 2:
 				if (player2ColorPairCardsHousesList.get(index) == 5) { 
-					player2HousesLabel.get(index).setBounds(x + 16, y, 100, 30);
+					player2HousesLabel.get(index).setBounds(x + 12, y, 100, 30);
 				} else {
 					player2HousesLabel.get(index).setBounds(x, y, 100, 30);
 				}
 				break;
 			case 3:
 				if (player2ColorPairCardsHousesList.get(index) == 5) { 
-					player3HousesLabel.get(index).setBounds(x + 16, y, 100, 30);
+					player3HousesLabel.get(index).setBounds(x + 12, y, 100, 30);
 				} else {
 					player3HousesLabel.get(index).setBounds(x, y, 100, 30);
 				}
