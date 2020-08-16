@@ -109,6 +109,7 @@ public class gameFrame {
 	private int player1JailFree;
 	private int player1Railroads;
 	private int player1Utilities;
+	private int player1TotalDeals;
 	private int player1SameDiceNumCount;
 
 	private String player2;
@@ -137,6 +138,7 @@ public class gameFrame {
 	private int player2JailFree;
 	private int player2Railroads;
 	private int player2Utilities;
+	private int player2TotalDeals;
 	private int player2SameDiceNumCount;
 
 	private String player3;
@@ -165,6 +167,7 @@ public class gameFrame {
 	private int player3JailFree;
 	private int player3Railroads;
 	private int player3Utilities;
+	private int player3TotalDeals;
 	private int player3SameDiceNumCount;
 
 	private boolean isCommunityPay;
@@ -306,7 +309,6 @@ public class gameFrame {
 		player2Cards.add("Atlantic Ave.");
 		player2Cards.add("Ventnor Ave.");
 		player2Cards.add("Marvin Gardens");
-		player1Cards.remove("Kentucky Ave");
 		
 		player1ColorPairCards = new int[8];
 		player2ColorPairCards = new int[8];
@@ -360,6 +362,9 @@ public class gameFrame {
 		player1Utilities = 0;
 		player2Utilities = 0;
 		player3Utilities = 0;
+		player1TotalDeals = 0;
+		player2TotalDeals = 0;
+		player3TotalDeals = 0;
 		isPlayer1AtUtility = false;
 		isPlayer2AtUtility = false;
 		isPlayer3AtUtility = false;
@@ -537,7 +542,7 @@ public class gameFrame {
 		player1Pay.setFocusable(false);
 		disableButton(player1Pay);
 
-		player1Deal = new JButton("Set Deal");
+		player1Deal = new JButton("Dealing");
 		monopolyDataPanel.add(player1Deal);
 		player1Deal.setBounds(145, 240, 60, 30);
 		player1Deal.setFocusable(false);
@@ -572,7 +577,7 @@ public class gameFrame {
 		player2Pay.setFocusable(false);
 		disableButton(player2Pay);
 
-		player2Deal = new JButton("Set Deal");
+		player2Deal = new JButton("Dealing");
 		monopolyDataPanel.add(player2Deal);
 		player2Deal.setBounds(145, 440, 60, 30);
 		player2Deal.setFocusable(false);
@@ -607,7 +612,7 @@ public class gameFrame {
 		player3Pay.setFocusable(false);
 		disableButton(player3Pay);
 
-		player3Deal = new JButton("Set Deal");
+		player3Deal = new JButton("Dealing");
 		monopolyDataPanel.add(player3Deal);
 		player3Deal.setBounds(145, 640, 60, 30);
 		player3Deal.setFocusable(false);
@@ -3184,6 +3189,11 @@ public class gameFrame {
 				setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 				setDealWithLabel.setBounds(60, 50, 200, 30);
 				
+				JLabel useDealLabel = new JLabel("Use Deal Of:");
+				dealPanel.add(useDealLabel);
+				useDealLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+				useDealLabel.setBounds(65, 150, 200, 30);
+				
 				JButton dealWithPlayer2 = new JButton("Player 2");
 				dealPanel.add(dealWithPlayer2);
 				enableButton(dealWithPlayer2);
@@ -3194,13 +3204,36 @@ public class gameFrame {
 				enableButton(dealWithPlayer3);
 				dealWithPlayer3.setBounds(120, 100, 80, 30);
 				
+				JButton useDealOfPlayer2 = new JButton("Player 2");
+				dealPanel.add(useDealOfPlayer2);
+				if (player1TotalDeals > 0 && isPlayer2Pay == false) {
+					enableButton(useDealOfPlayer2);
+				} else {
+					disableButton(useDealOfPlayer2);
+				}
+				useDealOfPlayer2.setBounds(30, 200, 80, 30);
+				
+				JButton useDealOfPlayer3 = new JButton("Player 3");
+				dealPanel.add(useDealOfPlayer3);
+				if (player1TotalDeals > 0 && isPlayer3Pay == false) {
+					enableButton(useDealOfPlayer3);
+				} else {
+					disableButton(useDealOfPlayer3);
+				}
+				useDealOfPlayer3.setBounds(120, 200, 80, 30);
+				
 				dealWithPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dealWithPlayer2.hide();
 						dealWithPlayer3.hide();
+						useDealOfPlayer2.hide();
+						useDealOfPlayer3.hide();
 						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(useDealLabel);
 						dealPanel.remove(dealWithPlayer2);
 						dealPanel.remove(dealWithPlayer3);
+						dealPanel.remove(useDealOfPlayer2);
+						dealPanel.remove(useDealOfPlayer3);
 						
 						int y = 45;
 						JButton[] dealButtons = new JButton[dealOptions.length];
@@ -3255,19 +3288,33 @@ public class gameFrame {
 										
 										JButton finalExchange = new JButton("Exchange");
 										dealPanel.add(finalExchange);
-										enableButton(finalExchange);
-										finalExchange.setBounds(30, dealFrame.getHeight() - 75, 100, 30);
+										finalExchange.show();
+										disableButton(finalExchange);
+										finalExchange.setBounds(85, dealFrame.getHeight() - 75, 100, 30);
+										
+										JButton player1Confirm = new JButton("Confirm");
+										dealPanel.add(player1Confirm);
+										player1Confirm.show();
+										disableButton(player1Confirm);
+										player1Confirm.setBounds(20, dealFrame.getHeight() - 110, 80, 30);
+										
+										JButton player2Confirm = new JButton("Confirm");
+										dealPanel.add(player2Confirm);
+										player2Confirm.show();
+										disableButton(player2Confirm);
+										player2Confirm.setBounds(170, dealFrame.getHeight() - 110, 80, 30);
 										
 										JButton[] player1CardsButtons = new JButton[player1Cards.size()];
 										JButton[] player2CardsButtons = new JButton[player2Cards.size()];
-										ArrayList<String> player1ExchangedCards = new ArrayList<String>();
-										ArrayList<String> player2ExchangedCards = new ArrayList<String>();
+										ArrayList<Integer> player1Index_ExchangedCards = new ArrayList<Integer>();
+										ArrayList<Integer> player2Index_ExchangedCards = new ArrayList<Integer>();
 										
 										int y = 40;
 										
 										for (int i = 0; i < player1Cards.size(); i++) {
 											player1CardsButtons[i] = new JButton(player1Cards.get(i));
 											dealPanel.add(player1CardsButtons[i]);
+											player1CardsButtons[i].show();
 											enableButton(player1CardsButtons[i]);
 											player1CardsButtons[i].setBounds(10, y, 100, 25);
 											y += 30;
@@ -3276,7 +3323,8 @@ public class gameFrame {
 										for (int i = 0; i < player2Cards.size(); i++) {
 											player2CardsButtons[i] = new JButton(player2Cards.get(i));
 											dealPanel.add(player2CardsButtons[i]);
-											enableButton(player2CardsButtons[i]);
+											player2CardsButtons[i].show();
+											disableButton(player2CardsButtons[i]);
 											player2CardsButtons[i].setBounds(165, y, 100, 25);
 											y += 30;
 										}
@@ -3286,9 +3334,9 @@ public class gameFrame {
 											int j = i;
 											player1CardsButtons[i].addActionListener(new ActionListener() {
 												public void actionPerformed(ActionEvent e) {
-													player1ExchangedCards.add(player1Cards.get(j));
-													player1Cards.remove(j);
+													player1Index_ExchangedCards.add(j);
 													disableButton(player1CardsButtons[j]);
+													enableButton(player1Confirm);
 												}
 											});
 											i++;
@@ -3299,34 +3347,75 @@ public class gameFrame {
 											int j = k;
 											player2CardsButtons[k].addActionListener(new ActionListener() {
 												public void actionPerformed(ActionEvent e) {
-													player2ExchangedCards.add(player2Cards.get(j));
-													player2Cards.remove(j);
+													player2Index_ExchangedCards.add(j);
 													disableButton(player2CardsButtons[j]);
+													enableButton(player2Confirm);
 												}
 											});
 											k++;
 										}
 										
+										player1Confirm.addActionListener(new ActionListener() {
+											public void actionPerformed(ActionEvent e) {
+												for (int i = 0; i < player1CardsButtons.length; i++) {
+													disableButton(player1CardsButtons[i]);
+												}
+												for (int i = 0; i < player2CardsButtons.length; i++) {
+													enableButton(player2CardsButtons[i]);
+												}
+												disableButton(player1Confirm);
+											}
+										});
+										
+										player2Confirm.addActionListener(new ActionListener() {
+											public void actionPerformed(ActionEvent e) {
+												for (int i = 0; i < player2CardsButtons.length; i++) {
+													disableButton(player2CardsButtons[i]);
+												}
+												disableButton(player2Confirm);
+												enableButton(finalExchange);
+											}
+										});
+										
 										finalExchange.addActionListener(new ActionListener() {
 											public void actionPerformed(ActionEvent e) {
-												for (int i = 0; i < player1ExchangedCards.size(); i++) {
-													player2Cards.add(player1ExchangedCards.get(i));
-													player1ExchangedCards.remove(i);
+												finalExchange.hide();
+												player1Confirm.hide();
+												player2Confirm.hide();
+												dealPanel.remove(finalExchange);
+												dealPanel.remove(player1ExchangedCardsLabel);
+												dealPanel.remove(player2ExchangedCardsLabel);
+												dealPanel.remove(player1Confirm);
+												dealPanel.remove(player2Confirm);
+												for (int i = 0; i < player1CardsButtons.length; i++) {
+													player1CardsButtons[i].hide();
+													dealPanel.remove(player1CardsButtons[i]);
 												}
-												for (int i = 0; i < player2ExchangedCards.size(); i++) {
-													player1Cards.add(player2ExchangedCards.get(i));
-													player2ExchangedCards.remove(i);
+												for (int i = 0; i < player2CardsButtons.length; i++) {
+													player2CardsButtons[i].hide();
+													dealPanel.remove(player2CardsButtons[i]);
 												}
-												for (int i = 0; i < player1CardsLabel.size(); i++) {
+												for (int k = player1Index_ExchangedCards.size() - 1; k >= 0; k--) {
+													player2Cards.add(player1Cards.get(player1Index_ExchangedCards.get(k)));
+													player1Cards.remove(player1Cards.get(player1Index_ExchangedCards.get(k)));
+													player1Index_ExchangedCards.remove(k);
+												}
+												for (int k = player2Index_ExchangedCards.size() - 1; k >= 0; k--) {
+													player1Cards.add(player2Cards.get(player2Index_ExchangedCards.get(k)));
+													player2Cards.remove(player2Cards.get(player2Index_ExchangedCards.get(k)));
+													player2Index_ExchangedCards.remove(k);
+												}
+												for (int i = player1CardsLabel.size() - 1; i >= 0; i--) {
 													monopolyDataPanel.remove(player1CardsLabel.get(i));
 													player1CardsLabel.remove(i);
 												}
-												for (int i = 0; i < player2CardsLabel.size(); i++) {
+												for (int i = player2CardsLabel.size() - 1; i >= 0; i--) {
 													monopolyDataPanel.remove(player2CardsLabel.get(i));
 													player2CardsLabel.remove(i);
 												}
 												player1Cardsy = 145;
 												for (int i = 0; i < player1Cards.size(); i++) {
+													System.out.println("Player 1: " + player1Cards.get(i));
 													player1CardsLabel.add(new JLabel(player1Cards.get(i)));
 													player1CardsLabel.get(i).setFont(new Font("Arial", Font.PLAIN, 12));
 													monopolyDataPanel.add(player1CardsLabel.get(i));
@@ -3335,27 +3424,47 @@ public class gameFrame {
 												}
 												player2Cardsy = 345;
 												for (int i = 0; i < player2Cards.size(); i++) {
+													System.out.println("Player 2: " + player2Cards.get(i));
 													player2CardsLabel.add(new JLabel(player2Cards.get(i)));
 													player2CardsLabel.get(i).setFont(new Font("Arial", Font.PLAIN, 12));
 													monopolyDataPanel.add(player2CardsLabel.get(i));
 													player2CardsLabel.get(i).setBounds(16, player2Cardsy, 140, 15);
 													player2Cardsy += 15;
 												}
+												
+												dealFrame.setSize(250, 300);
+												dealPanel.add(setDealWithLabel);
+												dealPanel.add(useDealLabel);
+												dealPanel.add(dealWithPlayer2);
+												dealPanel.add(dealWithPlayer3);
+												dealPanel.add(useDealOfPlayer2);
+												dealPanel.add(useDealOfPlayer3);
+												dealWithPlayer2.show();
+												dealWithPlayer3.show();
+												useDealOfPlayer2.show();
+												useDealOfPlayer3.show();
 											}
 										});
 										
 									} else {
 										player1DealList.add(dealOptions[j]);
 										player2DealList.add(dealOptions[j]);
+										player1TotalDeals += 1;
+										player2TotalDeals += 1;
 										for (int i = 0; i < dealButtons.length; i++) {
 											dealButtons[i].hide();
 											dealPanel.remove(dealButtons[i]);
 										}
 										dealPanel.add(setDealWithLabel);
+										dealPanel.add(useDealLabel);
 										dealPanel.add(dealWithPlayer2);
 										dealPanel.add(dealWithPlayer3);
+										dealPanel.add(useDealOfPlayer2);
+										dealPanel.add(useDealOfPlayer3);
 										dealWithPlayer2.show();
 										dealWithPlayer3.show();
+										useDealOfPlayer2.show();
+										useDealOfPlayer3.show();
 									}
 								}
 							});
@@ -3411,6 +3520,18 @@ public class gameFrame {
 							});
 							i++;
 						}
+					}
+				});
+				
+				useDealOfPlayer2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+				});
+				
+				useDealOfPlayer3.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
 					}
 				});
 			}
@@ -5620,6 +5741,8 @@ public class gameFrame {
 
 	}
 	
+	
+	
 	public void enableButton(JButton enableThis) {
 		enableThis.setEnabled(true);
 		enableThis.setBackground(Color.DARK_GRAY);
@@ -5627,6 +5750,7 @@ public class gameFrame {
 		enableThis.setForeground(Color.WHITE);
 	}
 
+	
 	public void disableButton(JButton disableThis) {
 		disableThis.setEnabled(false);
 		disableThis.setBackground(new Color(217, 217, 217));
@@ -5689,6 +5813,7 @@ public class gameFrame {
 		return totalPayment;
 	}
 
+
 	public void doubleRentPayment(String cardColor) {
 		for (int i = 0; i < cardColors.length; i++) {
 			if (cardColors[i].equals(cardColor)) {
@@ -5696,6 +5821,7 @@ public class gameFrame {
 			}
 		}
 	}
+	
 	
 	public void coloredCardButtons(JButton colorCardButton, String cardColor) {
 		switch (cardColor) {
@@ -5725,6 +5851,7 @@ public class gameFrame {
 				break;
 		}
 	}
+	
 	
 	public void housePositioning(String cardName, int index, int whichPlayer) {
 		
@@ -5860,6 +5987,7 @@ public class gameFrame {
 		}
 	}
 
+	
 	public void moneyDealing(int howMuch, int playerEarned, int playerPaid) {
 		switch (playerEarned) {
 			case 1:
