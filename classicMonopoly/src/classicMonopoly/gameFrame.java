@@ -13,8 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -2132,118 +2130,7 @@ public class gameFrame {
 				} else if (arr_places[player1Location].equals("Electric Company") || arr_places[player1Location].equals("Water Works")) {
 					player1Utilities += 1;
 				}
-				switch(cardColors[player1Location]) {
-					case "purple":
-						player1ColorPairCards[0] += 1;
-						if (player1ColorPairCards[0] == 2) {
-							player1ColorPairCardsList.add("Baltic Ave.");
-							player1ColorPairCardsList.add("Mediterranean Ave.");
-							for (int i = 0; i < 2; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("purple");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("purple");
-						}
-						break;
-					case "lightblue":
-						player1ColorPairCards[1] += 1;
-						if (player1ColorPairCards[1] == 3) {
-							player1ColorPairCardsList.add("Oriental Ave.");
-							player1ColorPairCardsList.add("Vermont Ave.");
-							player1ColorPairCardsList.add("Connecticut Ave.");
-							for (int i = 0; i < 3; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("lightblue");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("lightblue");
-						}
-						break;
-					case "pink":
-						player1ColorPairCards[2] += 1;
-						if (player1ColorPairCards[2] == 3) {
-							player1ColorPairCardsList.add("St. Charles Place");
-							player1ColorPairCardsList.add("States Ave.");
-							player1ColorPairCardsList.add("Virginia Ave.");
-							for (int i = 0; i < 3; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("pink");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("pink");
-						}
-						break;
-					case "orange":
-						player1ColorPairCards[3] += 1;
-						if (player1ColorPairCards[3] == 3) {
-							player1ColorPairCardsList.add("St. James Place");
-							player1ColorPairCardsList.add("Tennessee Ave.");
-							player1ColorPairCardsList.add("New York Ave.");
-							for (int i = 0; i < 3; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("orange");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("orange");
-						}
-						break;
-					case "red":
-						player1ColorPairCards[4] += 1;
-						if (player1ColorPairCards[4] == 3) {
-							player1ColorPairCardsList.add("Kentucky Ave.");
-							player1ColorPairCardsList.add("Indiana Ave.");
-							player1ColorPairCardsList.add("Illinois Ave.");
-							for (int i = 0; i < 3; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("red");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("red");
-						}
-						break;
-					case "yellow":
-						player1ColorPairCards[5] += 1;
-						if (player1ColorPairCards[5] == 3) {
-							player1ColorPairCardsList.add("Atlantic Ave.");
-							player1ColorPairCardsList.add("Ventnor Ave.");
-							player1ColorPairCardsList.add("Marvin Gardens");
-							for (int i = 0; i < 3; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("yellow");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("yellow");
-						}
-						break;
-					case "green":
-						player1ColorPairCards[6] += 1;
-						if (player1ColorPairCards[6] == 3) {
-							player1ColorPairCardsList.add("Pacific Ave.");
-							player1ColorPairCardsList.add("North Carolina Ave.");
-							player1ColorPairCardsList.add("Pennsylvania Ave.");
-							for (int i = 0; i < 3; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("green");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("green");
-						}
-						break;
-					case "darkblue":
-						player1ColorPairCards[7] += 1;
-						if (player1ColorPairCards[7] == 2) {
-							player1ColorPairCardsList.add("Park Place");
-							player1ColorPairCardsList.add("Boardwalk");
-							for (int i = 0; i < 2; i++) {
-								player1ColorPairCardsHousesList.add(0);
-								player1CardColors.add("darkblue");
-								player1HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("darkblue");
-						}
-						break;
-				}
+				makingOrUsingDeals(1, arr_places[player1Location]);
 				isPlayer1Buy = false;
 				
 				if (player1Location == 9) {
@@ -3411,7 +3298,14 @@ public class gameFrame {
 												}
 												for (int k = player1Index_ExchangedCards.size() - 1; k >= 0; k--) {
 													player2Cards.add(player1Cards.get(player1Index_ExchangedCards.get(k)));
+													int exchangedCardLocation = 0;
+													for (int i = 0; i < arr_places.length; i++) {
+														if (arr_places[i].equals(player1Cards.get(player1Index_ExchangedCards.get(k)))) {
+															exchangedCardLocation = i;
+														}
+													}
 													player1Cards.remove(player1Cards.get(player1Index_ExchangedCards.get(k)));
+													exchangeCards(1, 2, cardColors[exchangedCardLocation]);
 													player1Index_ExchangedCards.remove(k);
 												}
 												for (int k = player2Index_ExchangedCards.size() - 1; k >= 0; k--) {
@@ -3700,118 +3594,7 @@ public class gameFrame {
 				} else if (arr_places[player2Location].equals("Electric Company") || arr_places[player2Location].equals("Water Works")) {
 					player2Utilities += 1;
 				}
-				switch(cardColors[player2Location]) {
-					case "purple":
-						player2ColorPairCards[0] += 1;
-						if (player2ColorPairCards[0] == 2) {
-							player2ColorPairCardsList.add("Baltic Ave.");
-							player2ColorPairCardsList.add("Mediterranean Ave.");
-							for (int i = 0; i < 2; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("purple");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("purple");
-						}
-						break;
-					case "lightblue":
-						player2ColorPairCards[1] += 1;
-						if (player2ColorPairCards[1] == 3) {
-							player2ColorPairCardsList.add("Oriental Ave.");
-							player2ColorPairCardsList.add("Vermont Ave.");
-							player2ColorPairCardsList.add("Connecticut Ave.");
-							for (int i = 0; i < 3; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("lightblue");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("lightblue");
-						}
-						break;
-					case "pink":
-						player2ColorPairCards[2] += 1;
-						if (player2ColorPairCards[2] == 3) {
-							player2ColorPairCardsList.add("St. Charles Place");
-							player2ColorPairCardsList.add("States Ave.");
-							player2ColorPairCardsList.add("Virginia Ave.");
-							for (int i = 0; i < 3; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("pink");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("pink");
-						}
-						break;
-					case "orange":
-						player2ColorPairCards[3] += 1;
-						if (player2ColorPairCards[3] == 3) {
-							player2ColorPairCardsList.add("St. James Place");
-							player2ColorPairCardsList.add("Tennessee Ave.");
-							player2ColorPairCardsList.add("New York Ave.");
-							for (int i = 0; i < 3; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("orange");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("orange");
-						}
-						break;
-					case "red":
-						player2ColorPairCards[4] += 1;
-						if (player2ColorPairCards[4] == 3) {
-							player2ColorPairCardsList.add("Kentucky Ave.");
-							player2ColorPairCardsList.add("Indiana Ave.");
-							player2ColorPairCardsList.add("Illinois Ave.");
-							for (int i = 0; i < 3; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("red");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("red");
-						}
-						break;
-					case "yellow":
-						player2ColorPairCards[5] += 1;
-						if (player2ColorPairCards[5] == 3) {
-							player2ColorPairCardsList.add("Atlantic Ave.");
-							player2ColorPairCardsList.add("Ventnor Ave.");
-							player2ColorPairCardsList.add("Marvin Gardens");
-							for (int i = 0; i < 3; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("yellow");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("yellow");
-						}
-						break;
-					case "green":
-						player2ColorPairCards[6] += 1;
-						if (player2ColorPairCards[6] == 3) {
-							player2ColorPairCardsList.add("Pacific Ave.");
-							player2ColorPairCardsList.add("North Carolina Ave.");
-							player2ColorPairCardsList.add("Pennsylvania Ave.");
-							for (int i = 0; i < 3; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("green");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("green");
-						}
-						break;
-					case "darkblue":
-						player2ColorPairCards[7] += 1;
-						if (player2ColorPairCards[7] == 2) {
-							player2ColorPairCardsList.add("Park Place");
-							player2ColorPairCardsList.add("Boardwalk");
-							for (int i = 0; i < 2; i++) {
-								player2ColorPairCardsHousesList.add(0);
-								player2CardColors.add("darkblue");
-								player2HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("darkblue");
-						}
-						break;
-				}
+				makingOrUsingDeals(2, arr_places[player2Location]);
 				isPlayer2Buy = false;
 			}
 		});
@@ -4800,118 +4583,7 @@ public class gameFrame {
 				} else if (arr_places[player3Location].equals("Electric Company") || arr_places[player3Location].equals("Water Works")) {
 					player3Utilities += 1;
 				}
-				switch(cardColors[player3Location]) {
-					case "purple":
-						player3ColorPairCards[0] += 1;
-						if (player3ColorPairCards[0] == 2) {
-							player3ColorPairCardsList.add("Baltic Ave.");
-							player3ColorPairCardsList.add("Mediterranean Ave.");
-							for (int i = 0; i < 2; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("purple");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("purple");
-						}
-						break;
-					case "lightblue":
-						player3ColorPairCards[1] += 1;
-						if (player3ColorPairCards[1] == 3) {
-							player3ColorPairCardsList.add("Oriental Ave.");
-							player3ColorPairCardsList.add("Vermont Ave.");
-							player3ColorPairCardsList.add("Connecticut Ave.");
-							for (int i = 0; i < 3; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("lightblue");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("lightblue");
-						}
-						break;
-					case "pink":
-						player3ColorPairCards[2] += 1;
-						if (player3ColorPairCards[2] == 3) {
-							player3ColorPairCardsList.add("St. Charles Place");
-							player3ColorPairCardsList.add("States Ave.");
-							player3ColorPairCardsList.add("Virginia Ave.");
-							for (int i = 0; i < 3; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("pink");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("pink");
-						}
-						break;
-					case "orange":
-						player3ColorPairCards[3] += 1;
-						if (player3ColorPairCards[3] == 3) {
-							player3ColorPairCardsList.add("St. James Place");
-							player3ColorPairCardsList.add("Tennessee Ave.");
-							player3ColorPairCardsList.add("New York Ave.");
-							for (int i = 0; i < 3; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("orange");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("orange");
-						}
-						break;
-					case "red":
-						player3ColorPairCards[4] += 1;
-						if (player3ColorPairCards[4] == 3) {
-							player3ColorPairCardsList.add("Kentucky Ave.");
-							player3ColorPairCardsList.add("Indiana Ave.");
-							player3ColorPairCardsList.add("Illinois Ave.");
-							for (int i = 0; i < 3; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("red");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("red");
-						}
-						break;
-					case "yellow":
-						player3ColorPairCards[5] += 1;
-						if (player3ColorPairCards[5] == 3) {
-							player3ColorPairCardsList.add("Atlantic Ave.");
-							player3ColorPairCardsList.add("Ventnor Ave.");
-							player3ColorPairCardsList.add("Marvin Gardens");
-							for (int i = 0; i < 3; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("yellow");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("yellow");
-						}
-						break;
-					case "green":
-						player3ColorPairCards[6] += 1;
-						if (player3ColorPairCards[6] == 3) {
-							player3ColorPairCardsList.add("Pacific Ave.");
-							player3ColorPairCardsList.add("North Carolina Ave.");
-							player3ColorPairCardsList.add("Pennsylvania Ave.");
-							for (int i = 0; i < 3; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("green");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("green");
-						}
-						break;
-					case "darkblue":
-						player3ColorPairCards[7] += 1;
-						if (player3ColorPairCards[7] == 2) {
-							player3ColorPairCardsList.add("Park Place");
-							player3ColorPairCardsList.add("Boardwalk");
-							for (int i = 0; i < 2; i++) {
-								player3ColorPairCardsHousesList.add(0);
-								player3CardColors.add("darkblue");
-								player3HousesLabel.add(new JLabel(""));
-							}
-							doubleRentPayment("darkblue");
-						}
-						break;
-				}
+				makingOrUsingDeals(3, arr_places[player3Location]);
 				isPlayer3Buy = false;
 			}
 		});
@@ -5880,8 +5552,7 @@ public class gameFrame {
 				});
 			}
 		});
-	}
-	
+	}	
 	
 	public void startGame() {
 
@@ -6153,19 +5824,404 @@ public class gameFrame {
 		}
 	}
 
-	public void makingUsingDeals (int whichPlayer) {
-		
+	public void makingOrUsingDeals (int whichPlayer, String cardColor) {
 		switch (whichPlayer) {
 			case 1:
-				
+				switch(cardColor) {
+					case "purple":
+						player1ColorPairCards[0] += 1;
+						if (player1ColorPairCards[0] == 2) {
+							player1ColorPairCardsList.add("Baltic Ave.");
+							player1ColorPairCardsList.add("Mediterranean Ave.");
+							for (int i = 0; i < 2; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("purple");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("purple");
+						}
+						break;
+					case "lightblue":
+						player1ColorPairCards[1] += 1;
+						if (player1ColorPairCards[1] == 3) {
+							player1ColorPairCardsList.add("Oriental Ave.");
+							player1ColorPairCardsList.add("Vermont Ave.");
+							player1ColorPairCardsList.add("Connecticut Ave.");
+							for (int i = 0; i < 3; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("lightblue");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("lightblue");
+						}
+						break;
+					case "pink":
+						player1ColorPairCards[2] += 1;
+						if (player1ColorPairCards[2] == 3) {
+							player1ColorPairCardsList.add("St. Charles Place");
+							player1ColorPairCardsList.add("States Ave.");
+							player1ColorPairCardsList.add("Virginia Ave.");
+							for (int i = 0; i < 3; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("pink");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("pink");
+						}
+						break;
+					case "orange":
+						player1ColorPairCards[3] += 1;
+						if (player1ColorPairCards[3] == 3) {
+							player1ColorPairCardsList.add("St. James Place");
+							player1ColorPairCardsList.add("Tennessee Ave.");
+							player1ColorPairCardsList.add("New York Ave.");
+							for (int i = 0; i < 3; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("orange");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("orange");
+						}
+						break;
+					case "red":
+						player1ColorPairCards[4] += 1;
+						if (player1ColorPairCards[4] == 3) {
+							player1ColorPairCardsList.add("Kentucky Ave.");
+							player1ColorPairCardsList.add("Indiana Ave.");
+							player1ColorPairCardsList.add("Illinois Ave.");
+							for (int i = 0; i < 3; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("red");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("red");
+						}
+						break;
+					case "yellow":
+						player1ColorPairCards[5] += 1;
+						if (player1ColorPairCards[5] == 3) {
+							player1ColorPairCardsList.add("Atlantic Ave.");
+							player1ColorPairCardsList.add("Ventnor Ave.");
+							player1ColorPairCardsList.add("Marvin Gardens");
+							for (int i = 0; i < 3; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("yellow");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("yellow");
+						}
+						break;
+					case "green":
+						player1ColorPairCards[6] += 1;
+						if (player1ColorPairCards[6] == 3) {
+							player1ColorPairCardsList.add("Pacific Ave.");
+							player1ColorPairCardsList.add("North Carolina Ave.");
+							player1ColorPairCardsList.add("Pennsylvania Ave.");
+							for (int i = 0; i < 3; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("green");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("green");
+						}
+						break;
+					case "darkblue":
+						player1ColorPairCards[7] += 1;
+						if (player1ColorPairCards[7] == 2) {
+							player1ColorPairCardsList.add("Park Place");
+							player1ColorPairCardsList.add("Boardwalk");
+							for (int i = 0; i < 2; i++) {
+								player1ColorPairCardsHousesList.add(0);
+								player1CardColors.add("darkblue");
+								player1HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("darkblue");
+						}
+						break;
+				}
 				break;
 			case 2:
-				
+				switch(cardColor) {
+					case "purple":
+						player2ColorPairCards[0] += 1;
+						if (player2ColorPairCards[0] == 2) {
+							player2ColorPairCardsList.add("Baltic Ave.");
+							player2ColorPairCardsList.add("Mediterranean Ave.");
+							for (int i = 0; i < 2; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("purple");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("purple");
+						}
+						break;
+					case "lightblue":
+						player2ColorPairCards[1] += 1;
+						if (player2ColorPairCards[1] == 3) {
+							player2ColorPairCardsList.add("Oriental Ave.");
+							player2ColorPairCardsList.add("Vermont Ave.");
+							player2ColorPairCardsList.add("Connecticut Ave.");
+							for (int i = 0; i < 3; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("lightblue");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("lightblue");
+						}
+						break;
+					case "pink":
+						player2ColorPairCards[2] += 1;
+						if (player2ColorPairCards[2] == 3) {
+							player2ColorPairCardsList.add("St. Charles Place");
+							player2ColorPairCardsList.add("States Ave.");
+							player2ColorPairCardsList.add("Virginia Ave.");
+							for (int i = 0; i < 3; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("pink");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("pink");
+						}
+						break;
+					case "orange":
+						player2ColorPairCards[3] += 1;
+						if (player2ColorPairCards[3] == 3) {
+							player2ColorPairCardsList.add("St. James Place");
+							player2ColorPairCardsList.add("Tennessee Ave.");
+							player2ColorPairCardsList.add("New York Ave.");
+							for (int i = 0; i < 3; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("orange");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("orange");
+						}
+						break;
+					case "red":
+						player2ColorPairCards[4] += 1;
+						if (player2ColorPairCards[4] == 3) {
+							player2ColorPairCardsList.add("Kentucky Ave.");
+							player2ColorPairCardsList.add("Indiana Ave.");
+							player2ColorPairCardsList.add("Illinois Ave.");
+							for (int i = 0; i < 3; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("red");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("red");
+						}
+						break;
+					case "yellow":
+						player2ColorPairCards[5] += 1;
+						if (player2ColorPairCards[5] == 3) {
+							player2ColorPairCardsList.add("Atlantic Ave.");
+							player2ColorPairCardsList.add("Ventnor Ave.");
+							player2ColorPairCardsList.add("Marvin Gardens");
+							for (int i = 0; i < 3; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("yellow");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("yellow");
+						}
+						break;
+					case "green":
+						player2ColorPairCards[6] += 1;
+						if (player2ColorPairCards[6] == 3) {
+							player2ColorPairCardsList.add("Pacific Ave.");
+							player2ColorPairCardsList.add("North Carolina Ave.");
+							player2ColorPairCardsList.add("Pennsylvania Ave.");
+							for (int i = 0; i < 3; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("green");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("green");
+						}
+						break;
+					case "darkblue":
+						player2ColorPairCards[7] += 1;
+						if (player2ColorPairCards[7] == 2) {
+							player2ColorPairCardsList.add("Park Place");
+							player2ColorPairCardsList.add("Boardwalk");
+							for (int i = 0; i < 2; i++) {
+								player2ColorPairCardsHousesList.add(0);
+								player2CardColors.add("darkblue");
+								player2HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("darkblue");
+						}
+						break;
+				}
 				break;
 			case 3:
-				
+				switch(cardColor) {
+					case "purple":
+						player3ColorPairCards[0] += 1;
+						if (player3ColorPairCards[0] == 2) {
+							player3ColorPairCardsList.add("Baltic Ave.");
+							player3ColorPairCardsList.add("Mediterranean Ave.");
+							for (int i = 0; i < 2; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("purple");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("purple");
+						}
+						break;
+					case "lightblue":
+						player3ColorPairCards[1] += 1;
+						if (player3ColorPairCards[1] == 3) {
+							player3ColorPairCardsList.add("Oriental Ave.");
+							player3ColorPairCardsList.add("Vermont Ave.");
+							player3ColorPairCardsList.add("Connecticut Ave.");
+							for (int i = 0; i < 3; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("lightblue");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("lightblue");
+						}
+						break;
+					case "pink":
+						player3ColorPairCards[2] += 1;
+						if (player3ColorPairCards[2] == 3) {
+							player3ColorPairCardsList.add("St. Charles Place");
+							player3ColorPairCardsList.add("States Ave.");
+							player3ColorPairCardsList.add("Virginia Ave.");
+							for (int i = 0; i < 3; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("pink");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("pink");
+						}
+						break;
+					case "orange":
+						player3ColorPairCards[3] += 1;
+						if (player3ColorPairCards[3] == 3) {
+							player3ColorPairCardsList.add("St. James Place");
+							player3ColorPairCardsList.add("Tennessee Ave.");
+							player3ColorPairCardsList.add("New York Ave.");
+							for (int i = 0; i < 3; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("orange");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("orange");
+						}
+						break;
+					case "red":
+						player3ColorPairCards[4] += 1;
+						if (player3ColorPairCards[4] == 3) {
+							player3ColorPairCardsList.add("Kentucky Ave.");
+							player3ColorPairCardsList.add("Indiana Ave.");
+							player3ColorPairCardsList.add("Illinois Ave.");
+							for (int i = 0; i < 3; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("red");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("red");
+						}
+						break;
+					case "yellow":
+						player3ColorPairCards[5] += 1;
+						if (player3ColorPairCards[5] == 3) {
+							player3ColorPairCardsList.add("Atlantic Ave.");
+							player3ColorPairCardsList.add("Ventnor Ave.");
+							player3ColorPairCardsList.add("Marvin Gardens");
+							for (int i = 0; i < 3; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("yellow");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("yellow");
+						}
+						break;
+					case "green":
+						player3ColorPairCards[6] += 1;
+						if (player3ColorPairCards[6] == 3) {
+							player3ColorPairCardsList.add("Pacific Ave.");
+							player3ColorPairCardsList.add("North Carolina Ave.");
+							player3ColorPairCardsList.add("Pennsylvania Ave.");
+							for (int i = 0; i < 3; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("green");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("green");
+						}
+						break;
+					case "darkblue":
+						player3ColorPairCards[7] += 1;
+						if (player3ColorPairCards[7] == 2) {
+							player3ColorPairCardsList.add("Park Place");
+							player3ColorPairCardsList.add("Boardwalk");
+							for (int i = 0; i < 2; i++) {
+								player3ColorPairCardsHousesList.add(0);
+								player3CardColors.add("darkblue");
+								player3HousesLabel.add(new JLabel(""));
+							}
+							doubleRentPayment("darkblue");
+						}
+						break;
+				}
+				break;
+		}
+	}
+	
+	public void exchangeCards(int playerGaveCard, int playerRecievedCard, String cardColor) {
+		int i = 0;
+		switch (playerGaveCard) {
+			case 1:
+				while (i < player1ColorPairCardsList.size()) {
+					if (player1CardColors.get(i).equals(cardColor)) {
+						player1ColorPairCardsList.remove(i);
+						player1CardColors.remove(i);
+						player1ColorPairCardsHousesList.remove(i);
+						player1HousesLabel.remove(i);
+					} else {
+						i++;
+					}
+				}
+				break;
+			case 2:
+				while (i < player2ColorPairCardsList.size()) {
+					if (player2CardColors.get(i).equals(cardColor)) {
+						player2ColorPairCardsList.remove(i);
+						player2CardColors.remove(i);
+						player2ColorPairCardsHousesList.remove(i);
+						player2HousesLabel.remove(i);
+					} else {
+						i++;
+					}
+				}
+				break;
+			case 3:
+				while (i < player3ColorPairCardsList.size()) {
+					if (player3CardColors.get(i).equals(cardColor)) {
+						player3ColorPairCardsList.remove(i);
+						player3CardColors.remove(i);
+						player3ColorPairCardsHousesList.remove(i);
+						player3HousesLabel.remove(i);
+					} else {
+						i++;
+					}
+				}
 				break;
 		}
 		
+		switch (playerRecievedCard) {
+			case 1:
+				makingOrUsingDeals(1, cardColor);
+				break;
+			case 2:
+				makingOrUsingDeals(2, cardColor);
+				break;
+			case 3:
+				makingOrUsingDeals(3, cardColor);
+				break;
+		}
 	}
 }
