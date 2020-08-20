@@ -42,7 +42,6 @@ public class gameFrame {
 	private JLabel hexagonLabel;
 	private JLabel starLabel;
 	private JLabel playerTurnArrow;
-	private JLabel houseLabel;
 	private JLabel xLabel;
 	private JLabel yLabel;
 	private ArrayList<JLabel> player1CardsLabel;
@@ -80,6 +79,7 @@ public class gameFrame {
 	private int[] prices_places;
 	private ArrayList<String> propertiesNotBought;
 	private int[] mortgagePricesPlaces;
+	private String[] coloredCardsName;
 
 	private String player1;
 	private int player1Location;
@@ -256,6 +256,8 @@ public class gameFrame {
 		hotelPayment = new int[] { 0, 250, 0, 450, 0, 0, 550, 0, 550, 600, 0, 750, 0, 750, 900, 0, 950, 0, 950, 1000, 0,
 				1050, 0, 1050, 1100, 0, 1150, 1150, 0, 1200, 0, 1275, 0, 1275, 1400, 0, 0, 1500, 75, 2000 };
 		
+		coloredCardsName = new String[] {"purple", "lightblue", "pink", "orange", "red", "yellow", "green", "darkblue"};
+		
 		cardColors = new String[] { "", "purple", "", "purple", "", "", "lightblue", "", "lightblue", "lightblue", "", "pink", "", "pink", "pink", "", "orange", "", "orange",
 				"orange", "", "red", "", "red", "red", "", "yellow", "yellow", "", "yellow", "", "green", "green", "", "green", "", "", "darkblue", "", "darkblue" };
 
@@ -303,12 +305,12 @@ public class gameFrame {
 		player2DealList = new ArrayList<String>();
 		player3DealList = new ArrayList<String>();
 		
-		player1Cards.add("Kentucky Ave.");
+		/*player1Cards.add("Kentucky Ave.");
 		player1Cards.add("Indiana Ave.");
 		player1Cards.add("Illinois Ave.");
 		player2Cards.add("Atlantic Ave.");
 		player2Cards.add("Ventnor Ave.");
-		player2Cards.add("Marvin Gardens");
+		player2Cards.add("Marvin Gardens");*/
 		
 		player1ColorPairCards = new int[8];
 		player2ColorPairCards = new int[8];
@@ -672,8 +674,8 @@ public class gameFrame {
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
 							//player1Location += currentRollDice1 + currentRollDice2;
 							if (player1Location == 0) {
-								player1Location += 6;
-							} else if (player1Location == 6) {
+								player1Location += 21;
+							} else if (player1Location == 21) {
 								player1Location += 2;
 							} else {
 								player1Location += 1;
@@ -1147,7 +1149,14 @@ public class gameFrame {
 
 						if (isJailPlayer2 == false && isPlayer2AtUtility == false) {
 							//player2Location += currentRollDice1 + currentRollDice2;
-							player2Location += 8;
+							if (player2Location == 0) {
+								player2Location += 26;
+							} else if (player2Location == 26) {
+								player2Location += 1;
+							} else {
+								player2Location += 2;
+								enableButton(player1Deal);
+							}
 						} else if (isJailPlayer2 == true) {
 							if (currentRollDice1 != currentRollDice2) {
 								disableButton(player2Pay);
@@ -1187,13 +1196,13 @@ public class gameFrame {
 							if(player2Cards.size() > 0) {
 								enableButton(player2Mortgage);
 							}
-						} else if (currentRollDice1 != currentRollDice2) {
+						} /*else if (currentRollDice1 != currentRollDice2) {
 							isPlayer2Turn = false;
 							isPlayer3Turn = true;
 							if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 								enableButton(player3Pay);
 							}
-						}
+						}*/
 
 						for (int i = player2PreviousLocation; i < player2Location; i++) {
 							if (i >= 0 && i < 10) {
@@ -2130,10 +2139,10 @@ public class gameFrame {
 				} else if (arr_places[player1Location].equals("Electric Company") || arr_places[player1Location].equals("Water Works")) {
 					player1Utilities += 1;
 				}
-				makingOrUsingDeals(1, arr_places[player1Location]);
+				makingOrUsingDeals(1, cardColors[player1Location]);
 				isPlayer1Buy = false;
 				
-				if (player1Location == 9) {
+				if (player1Location == 24) {
 					player1Buy.hide();
 					monopolyDataPanel.remove(player1Buy);
 					monopolyDataPanel.add(player1Housing);
@@ -3310,7 +3319,14 @@ public class gameFrame {
 												}
 												for (int k = player2Index_ExchangedCards.size() - 1; k >= 0; k--) {
 													player1Cards.add(player2Cards.get(player2Index_ExchangedCards.get(k)));
+													int exchangedCardLocation = 0;
+													for (int i = 0; i < arr_places.length; i++) {
+														if (arr_places[i].equals(player2Cards.get(player2Index_ExchangedCards.get(k)))) {
+															exchangedCardLocation = i;
+														}
+													}
 													player2Cards.remove(player2Cards.get(player2Index_ExchangedCards.get(k)));
+													exchangeCards(2, 1, cardColors[exchangedCardLocation]);
 													player2Index_ExchangedCards.remove(k);
 												}
 												for (int i = player1CardsLabel.size() - 1; i >= 0; i--) {
@@ -3594,7 +3610,7 @@ public class gameFrame {
 				} else if (arr_places[player2Location].equals("Electric Company") || arr_places[player2Location].equals("Water Works")) {
 					player2Utilities += 1;
 				}
-				makingOrUsingDeals(2, arr_places[player2Location]);
+				makingOrUsingDeals(2, cardColors[player2Location]);
 				isPlayer2Buy = false;
 			}
 		});
@@ -4583,7 +4599,7 @@ public class gameFrame {
 				} else if (arr_places[player3Location].equals("Electric Company") || arr_places[player3Location].equals("Water Works")) {
 					player3Utilities += 1;
 				}
-				makingOrUsingDeals(3, arr_places[player3Location]);
+				makingOrUsingDeals(3, cardColors[player3Location]);
 				isPlayer3Buy = false;
 			}
 		});
@@ -5673,7 +5689,9 @@ public class gameFrame {
 					player1HousesLabel.get(index).setForeground(new Color(0, 77, 0));
 					player1HousesLabel.get(index).setFont(new Font("Times New Roman", Font.BOLD, 14));
 					monopolyBoardPanel.add(player1HousesLabel.get(index));
+					player1HousesLabel.get(index).show();
 				} else if (player1ColorPairCardsHousesList.get(index) == 0) {
+					player1HousesLabel.get(index).hide();
 					monopolyBoardPanel.remove(player1HousesLabel.get(index));
 				} else if (player1ColorPairCardsHousesList.get(index) == 5) {
 					player1HousesLabel.get(index).setText("Hotel");
@@ -5688,7 +5706,9 @@ public class gameFrame {
 					player2HousesLabel.get(index).setForeground(new Color(0, 77, 0));
 					player2HousesLabel.get(index).setFont(new Font("Times New Roman", Font.BOLD, 14));
 					monopolyBoardPanel.add(player2HousesLabel.get(index));
+					player2HousesLabel.get(index).show();
 				} else if (player2ColorPairCardsHousesList.get(index) == 0) {
+					player2HousesLabel.get(index).hide();
 					monopolyBoardPanel.remove(player2HousesLabel.get(index));
 				} else if (player2ColorPairCardsHousesList.get(index) == 5) {
 					player2HousesLabel.get(index).setText("Hotel");
@@ -5703,7 +5723,9 @@ public class gameFrame {
 					player3HousesLabel.get(index).setForeground(new Color(0, 77, 0));
 					player3HousesLabel.get(index).setFont(new Font("Times New Roman", Font.BOLD, 14));
 					monopolyBoardPanel.add(player3HousesLabel.get(index));
+					player3HousesLabel.get(index).show();
 				} else if (player3ColorPairCardsHousesList.get(index) == 0) {
+					player3HousesLabel.get(index).hide();
 					monopolyBoardPanel.remove(player3HousesLabel.get(index));
 				} else if (player3ColorPairCardsHousesList.get(index) == 5) {
 					player3HousesLabel.get(index).setText("Hotel");
@@ -5822,6 +5844,10 @@ public class gameFrame {
 				player3Coins -= howMuch;
 				break;
 		}
+		
+		player1CoinsLabel.setText("$" + player1Coins);
+		player2CoinsLabel.setText("$" + player2Coins);
+		player3CoinsLabel.setText("$" + player3Coins);
 	}
 
 	public void makingOrUsingDeals (int whichPlayer, String cardColor) {
@@ -6180,7 +6206,14 @@ public class gameFrame {
 						player1ColorPairCardsList.remove(i);
 						player1CardColors.remove(i);
 						player1ColorPairCardsHousesList.remove(i);
+						player1HousesLabel.get(i).hide();
+						monopolyBoardPanel.remove(player1HousesLabel.get(i));
 						player1HousesLabel.remove(i);
+						for (int j = 0; j < coloredCardsName.length; j++) {
+							if (coloredCardsName.equals(cardColor)) {
+								player1ColorPairCards[j] -= 1;
+							}
+						}
 					} else {
 						i++;
 					}
@@ -6192,7 +6225,14 @@ public class gameFrame {
 						player2ColorPairCardsList.remove(i);
 						player2CardColors.remove(i);
 						player2ColorPairCardsHousesList.remove(i);
+						player2HousesLabel.get(i).hide();
+						monopolyBoardPanel.remove(player2HousesLabel.get(i));
 						player2HousesLabel.remove(i);
+						for (int j = 0; j < coloredCardsName.length; j++) {
+							if (coloredCardsName.equals(cardColor)) {
+								player2ColorPairCards[j] -= 1;
+							}
+						}
 					} else {
 						i++;
 					}
@@ -6203,8 +6243,15 @@ public class gameFrame {
 					if (player3CardColors.get(i).equals(cardColor)) {
 						player3ColorPairCardsList.remove(i);
 						player3CardColors.remove(i);
+						player3HousesLabel.get(i).hide();
 						player3ColorPairCardsHousesList.remove(i);
+						monopolyBoardPanel.remove(player3HousesLabel.get(i));
 						player3HousesLabel.remove(i);
+						for (int j = 0; j < coloredCardsName.length; j++) {
+							if (coloredCardsName.equals(cardColor)) {
+								player3ColorPairCards[j] -= 1;
+							}
+						}
 					} else {
 						i++;
 					}
