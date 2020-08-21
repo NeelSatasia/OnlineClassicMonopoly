@@ -181,7 +181,7 @@ public class gameFrame {
 	private int[] house3Payment;
 	private int[] house4Payment;
 	private int[] hotelPayment;
-	private int dealPrice;
+	private int cardRegularPrice;
 	private Dimension screenSize;
 	private int screenMaxWidth;
 	private int screenMaxHeight;
@@ -383,6 +383,7 @@ public class gameFrame {
 		houseCost = 0;
 		cardLocation = 0;
 		coinCounter = 0;
+		cardRegularPrice = 0;
 
 		monopolyFrame = new JFrame("Classic Monopoly");
 		monopolyFrame.setVisible(true);
@@ -2248,15 +2249,7 @@ public class gameFrame {
 								}
 							}
 							
-							if (cardColor.equals("purple") || cardColor.equals("lightblue")) {
-								houseCost = 50;
-							} else if (cardColor.equals("pink") || cardColor.equals("orange")) {
-								houseCost = 100;
-							} else if (cardColor.equals("red") || cardColor.equals("yellow")) {
-								houseCost = 150;
-							} else if (cardColor.equals("green") || cardColor.equals("darkblue")) {
-								houseCost = 200;
-							}
+							houseCost = getHouseCost(cardColor);
 							
 							if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
 								enableButton(buyHouse);
@@ -2823,6 +2816,9 @@ public class gameFrame {
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location]) {
 								moneyDealing(places_PaymentPrices[player1Location], 2, 1);
+								if (isDeal == true) {
+									places_PaymentPrices[player1Location] = cardRegularPrice;
+								}
 								disableButton(player1Pay);
 								isPlayer1Pay = false;
 								isPlayer2Pay = false;
@@ -2867,6 +2863,9 @@ public class gameFrame {
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
 								moneyDealing(places_PaymentPrices[player1Location] / 2, 2, 1);
+								if (isDeal == true) {
+									places_PaymentPrices[player1Location] = cardRegularPrice;
+								}
 								isPlayer1Pay = false;
 								isPlayer2Pay = false;
 							}
@@ -2911,9 +2910,10 @@ public class gameFrame {
 							}
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location]) {
-								player1Coins -= places_PaymentPrices[player1Location];
-								player3Coins += places_PaymentPrices[player1Location];
 								moneyDealing(places_PaymentPrices[player1Location], 3, 1);
+								if (isDeal == true) {
+									places_PaymentPrices[player1Location] = cardRegularPrice;
+								}
 								disableButton(player1Pay);
 								isPlayer1Pay = false;
 								isPlayer3Pay = false;
@@ -2958,6 +2958,9 @@ public class gameFrame {
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
 								moneyDealing(places_PaymentPrices[player1Location] / 2, 3, 1);
+								if (isDeal == true) {
+									places_PaymentPrices[player1Location] = cardRegularPrice;
+								}
 								disableButton(player1Pay);
 								isPlayer1Pay = false;
 								isPlayer3Pay = false;
@@ -3329,13 +3332,15 @@ public class gameFrame {
 													exchangeCards(2, 1, cardColors[exchangedCardLocation]);
 													player2Index_ExchangedCards.remove(k);
 												}
-												for (int i = player1CardsLabel.size() - 1; i >= 0; i--) {
-													monopolyDataPanel.remove(player1CardsLabel.get(i));
-													player1CardsLabel.remove(i);
+												while (player1CardsLabel.size() > 0) {
+													player1CardsLabel.get(0).hide();
+													monopolyDataPanel.remove(player1CardsLabel.get(0));
+													player1CardsLabel.remove(0);
 												}
-												for (int i = player2CardsLabel.size() - 1; i >= 0; i--) {
-													monopolyDataPanel.remove(player2CardsLabel.get(i));
-													player2CardsLabel.remove(i);
+												while (player2CardsLabel.size() > 0) {
+													player2CardsLabel.get(0).hide();
+													monopolyDataPanel.remove(player2CardsLabel.get(0));
+													player2CardsLabel.remove(0);
 												}
 												player1Cardsy = 145;
 												for (int i = 0; i < player1Cards.size(); i++) {
@@ -3343,6 +3348,7 @@ public class gameFrame {
 													player1CardsLabel.add(new JLabel(player1Cards.get(i)));
 													player1CardsLabel.get(i).setFont(new Font("Arial", Font.PLAIN, 12));
 													monopolyDataPanel.add(player1CardsLabel.get(i));
+													player1CardsLabel.get(i).show();
 													player1CardsLabel.get(i).setBounds(16, player1Cardsy, 140, 15);
 													player1Cardsy += 15;
 												}
@@ -3352,6 +3358,7 @@ public class gameFrame {
 													player2CardsLabel.add(new JLabel(player2Cards.get(i)));
 													player2CardsLabel.get(i).setFont(new Font("Arial", Font.PLAIN, 12));
 													monopolyDataPanel.add(player2CardsLabel.get(i));
+													player2CardsLabel.get(i).show();
 													player2CardsLabel.get(i).setBounds(16, player2Cardsy, 140, 15);
 													player2Cardsy += 15;
 												}
@@ -3495,15 +3502,15 @@ public class gameFrame {
 											disableButton(player2Pay);
 											break;
 										case "Player 2 30% Of House Payments For Both":
-											dealPrice = places_PaymentPrices[player1Location];
+											cardRegularPrice = places_PaymentPrices[player1Location];
 											places_PaymentPrices[player1Location] *= (int) .30;
 											break;
 										case "Player 2 50% Of House Payments For Both":
-											dealPrice = places_PaymentPrices[player1Location];
+											cardRegularPrice = places_PaymentPrices[player1Location];
 											places_PaymentPrices[player1Location] /= 2;
 											break;
 										case "Player 2 75% Of House Payments For Both":
-											dealPrice = places_PaymentPrices[player1Location];
+											cardRegularPrice = places_PaymentPrices[player1Location];
 											places_PaymentPrices[player1Location] *= (int) .75;
 											break;
 									}
@@ -3567,15 +3574,15 @@ public class gameFrame {
 											disableButton(player2Pay);
 											break;
 										case "Player 3 30% Of House Payments For Both":
-											dealPrice = places_PaymentPrices[player1Location];
+											cardRegularPrice = places_PaymentPrices[player1Location];
 											places_PaymentPrices[player1Location] *= (int) .30;
 											break;
 										case "Player 3 50% Of House Payments For Both":
-											dealPrice = places_PaymentPrices[player1Location];
+											cardRegularPrice = places_PaymentPrices[player1Location];
 											places_PaymentPrices[player1Location] /= 2;
 											break;
 										case "Player 3 75% Of House Payments For Both":
-											dealPrice = places_PaymentPrices[player1Location];
+											cardRegularPrice = places_PaymentPrices[player1Location];
 											places_PaymentPrices[player1Location] *= (int) .75;
 											break;
 									}
@@ -3708,15 +3715,7 @@ public class gameFrame {
 								}
 							}
 							
-							if (cardColor.equals("purple") || cardColor.equals("lightblue")) {
-								houseCost = 50;
-							} else if (cardColor.equals("pink") || cardColor.equals("orange")) {
-								houseCost = 100;
-							} else if (cardColor.equals("red") || cardColor.equals("yellow")) {
-								houseCost = 150;
-							} else if (cardColor.equals("green") || cardColor.equals("darkblue")) {
-								houseCost = 200;
-							}
+							houseCost = getHouseCost(cardColor);
 							
 							if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
 								enableButton(buyHouse);
@@ -4697,15 +4696,7 @@ public class gameFrame {
 								}
 							}
 							
-							if (cardColor.equals("purple") || cardColor.equals("lightblue")) {
-								houseCost = 50;
-							} else if (cardColor.equals("pink") || cardColor.equals("orange")) {
-								houseCost = 100;
-							} else if (cardColor.equals("red") || cardColor.equals("yellow")) {
-								houseCost = 150;
-							} else if (cardColor.equals("green") || cardColor.equals("darkblue")) {
-								houseCost = 200;
-							}
+							houseCost = getHouseCost(cardColor);
 							
 							if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
 								enableButton(buyHouse);
@@ -6205,6 +6196,8 @@ public class gameFrame {
 					if (player1CardColors.get(i).equals(cardColor)) {
 						player1ColorPairCardsList.remove(i);
 						player1CardColors.remove(i);
+						int returnHouseCost = getHouseCost(cardColor) * player1ColorPairCardsHousesList.get(i);
+						moneyDealing(returnHouseCost, 1, 0);
 						player1ColorPairCardsHousesList.remove(i);
 						player1HousesLabel.get(i).hide();
 						monopolyBoardPanel.remove(player1HousesLabel.get(i));
@@ -6224,6 +6217,8 @@ public class gameFrame {
 					if (player2CardColors.get(i).equals(cardColor)) {
 						player2ColorPairCardsList.remove(i);
 						player2CardColors.remove(i);
+						int returnHouseCost = getHouseCost(cardColor) * player2ColorPairCardsHousesList.get(i);
+						moneyDealing(returnHouseCost, 2, 0);
 						player2ColorPairCardsHousesList.remove(i);
 						player2HousesLabel.get(i).hide();
 						monopolyBoardPanel.remove(player2HousesLabel.get(i));
@@ -6244,6 +6239,8 @@ public class gameFrame {
 						player3ColorPairCardsList.remove(i);
 						player3CardColors.remove(i);
 						player3HousesLabel.get(i).hide();
+						int returnHouseCost = getHouseCost(cardColor) * player3ColorPairCardsHousesList.get(i);
+						moneyDealing(returnHouseCost, 3, 0);
 						player3ColorPairCardsHousesList.remove(i);
 						monopolyBoardPanel.remove(player3HousesLabel.get(i));
 						player3HousesLabel.remove(i);
@@ -6270,5 +6267,19 @@ public class gameFrame {
 				makingOrUsingDeals(3, cardColor);
 				break;
 		}
+	}
+
+	public int getHouseCost(String cardColor) {
+		int getTotalHouseCost = 0;
+		if (cardColor.equals("purple") || cardColor.equals("lightblue")) {
+			getTotalHouseCost = 50;
+		} else if (cardColor.equals("pink") || cardColor.equals("orange")) {
+			getTotalHouseCost = 100;
+		} else if (cardColor.equals("red") || cardColor.equals("yellow")) {
+			getTotalHouseCost = 150;
+		} else if (cardColor.equals("green") || cardColor.equals("darkblue")) {
+			getTotalHouseCost = 200;
+		}
+		return getTotalHouseCost;
 	}
 }
