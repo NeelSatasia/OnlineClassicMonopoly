@@ -2140,7 +2140,7 @@ public class gameFrame {
 				} else if (arr_places[player1Location].equals("Electric Company") || arr_places[player1Location].equals("Water Works")) {
 					player1Utilities += 1;
 				}
-				makingDeals(1, cardColors[player1Location]);
+				exchangingCards(1, cardColors[player1Location]);
 				isPlayer1Buy = false;
 				
 				if (player1Location == 24) {
@@ -2779,7 +2779,7 @@ public class gameFrame {
 				} else if (isPlayer2Pay == true) {
 					if (isJailPlayer2 == false) {
 						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(2);
+							int totalRailroadPayment = getRailroadPayment(2);
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -2826,7 +2826,7 @@ public class gameFrame {
 						}
 					} else if (isJailPlayer2 == true) {
 						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(2)/2;
+							int totalRailroadPayment = getRailroadPayment(2)/2;
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -2875,7 +2875,7 @@ public class gameFrame {
 				} else if (isPlayer3Pay == true) {
 					if (isJailPlayer3 == false) {
 						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(3);
+							int totalRailroadPayment = getRailroadPayment(3);
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -2922,7 +2922,7 @@ public class gameFrame {
 						}
 					} else if (isJailPlayer3 == true) {
 						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(3)/2;
+							int totalRailroadPayment = getRailroadPayment(3)/2;
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -3120,7 +3120,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer2 = new JButton(player2);
 				dealPanel.add(useDealOfPlayer2);
-				if (player1TotalDeals > 0 && isPlayer2Pay == false) {
+				if (player1TotalDeals > 0 && isPlayer2Pay == true) {
 					enableButton(useDealOfPlayer2);
 				} else {
 					disableButton(useDealOfPlayer2);
@@ -3129,14 +3129,12 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer3 = new JButton(player3);
 				dealPanel.add(useDealOfPlayer3);
-				if (player1TotalDeals > 0 && isPlayer3Pay == false) {
+				if (player1TotalDeals > 0 && isPlayer3Pay == true) {
 					enableButton(useDealOfPlayer3);
 				} else {
 					disableButton(useDealOfPlayer3);
 				}
 				useDealOfPlayer3.setBounds(120, 200, 80, 30);
-				
-				
 				
 				dealWithPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -3153,458 +3151,43 @@ public class gameFrame {
 						
 						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player1CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer3, useDealOfPlayer2,
 								useDealOfPlayer3, player1Cards, player2Cards, 145, 345, player1, player2, 1, 2, player1DealList, player2DealList, player1Deal, player1Pay, player1Location);
-						/*int y = 45;
-						JButton[] dealButtons = new JButton[dealOptions.length];
-						for (int i = 0; i < dealOptions.length; i++) {
-							dealButtons[i] = new JButton(dealOptions[i]);
-							dealPanel.add(dealButtons[i]);
-							enableButton(dealButtons[i]);
-							dealButtons[i].setBackground(new Color(217, 217, 217));
-							dealButtons[i].setForeground(Color.DARK_GRAY);
-							dealButtons[i].setBounds(15, y, 200, 25);
-							y += 30;
-						}
-						
-						int i = 0;
-						while (i < dealButtons.length) {
-							int j = i;
-							dealButtons[i].addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									dealButtons[j].setBackground(Color.DARK_GRAY);
-									dealButtons[j].setForeground(Color.WHITE);
-								}
-								public void mouseExited(MouseEvent e) {
-									dealButtons[j].setBackground(new Color(217, 217, 217));
-									dealButtons[j].setForeground(Color.DARK_GRAY);
-								}
-							});
-							i++;
-						}
-						
-						
-						int k = 0;
-						while (k < dealButtons.length) {
-							int j = k;
-							dealButtons[k].addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									if (dealOptions[j].equals("Exchange Cards")) {
-										for (int i = 0; i < dealButtons.length; i++) {
-											dealButtons[i].hide();
-											dealPanel.remove(dealButtons[i]);
-										}
 										
-										dealFrame.setSize(300, 500);
-										
-										JLabel player1ExchangedCardsLabel = new JLabel("Player 1 Cards");
-										dealPanel.add(player1ExchangedCardsLabel);
-										player1ExchangedCardsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-										player1ExchangedCardsLabel.setBounds(20, 10, 150, 30);
-										
-										JLabel player2ExchangedCardsLabel = new JLabel("Player 2 Cards");
-										dealPanel.add(player2ExchangedCardsLabel);
-										player2ExchangedCardsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-										player2ExchangedCardsLabel.setBounds(175, 10, 150, 30);
-										
-										JButton finalExchange = new JButton("Exchange");
-										dealPanel.add(finalExchange);
-										finalExchange.show();
-										disableButton(finalExchange);
-										finalExchange.setBounds(85, dealFrame.getHeight() - 75, 100, 30);
-										
-										JButton player1Confirm = new JButton("Confirm");
-										dealPanel.add(player1Confirm);
-										player1Confirm.show();
-										disableButton(player1Confirm);
-										player1Confirm.setBounds(20, dealFrame.getHeight() - 110, 80, 30);
-										
-										JButton player2Confirm = new JButton("Confirm");
-										dealPanel.add(player2Confirm);
-										player2Confirm.show();
-										disableButton(player2Confirm);
-										player2Confirm.setBounds(170, dealFrame.getHeight() - 110, 80, 30);
-										
-										JButton[] player1CardsButtons = new JButton[player1Cards.size()];
-										JButton[] player2CardsButtons = new JButton[player2Cards.size()];
-										ArrayList<Integer> player1Index_ExchangedCards = new ArrayList<Integer>();
-										ArrayList<Integer> player2Index_ExchangedCards = new ArrayList<Integer>();
-										
-										int y = 40;
-										
-										for (int i = 0; i < player1Cards.size(); i++) {
-											player1CardsButtons[i] = new JButton(player1Cards.get(i));
-											dealPanel.add(player1CardsButtons[i]);
-											player1CardsButtons[i].show();
-											enableButton(player1CardsButtons[i]);
-											player1CardsButtons[i].setBounds(10, y, 100, 25);
-											y += 30;
-										}
-										y = 40;
-										for (int i = 0; i < player2Cards.size(); i++) {
-											player2CardsButtons[i] = new JButton(player2Cards.get(i));
-											dealPanel.add(player2CardsButtons[i]);
-											player2CardsButtons[i].show();
-											disableButton(player2CardsButtons[i]);
-											player2CardsButtons[i].setBounds(165, y, 100, 25);
-											y += 30;
-										}
-										
-										int i = 0;
-										while (i < player1Cards.size()) {
-											int j = i;
-											player1CardsButtons[i].addActionListener(new ActionListener() {
-												public void actionPerformed(ActionEvent e) {
-													player1Index_ExchangedCards.add(j);
-													disableButton(player1CardsButtons[j]);
-													enableButton(player1Confirm);
-												}
-											});
-											i++;
-										}
-										
-										int k = 0;
-										while (k < player2Cards.size()) {
-											int j = k;
-											player2CardsButtons[k].addActionListener(new ActionListener() {
-												public void actionPerformed(ActionEvent e) {
-													player2Index_ExchangedCards.add(j);
-													disableButton(player2CardsButtons[j]);
-													enableButton(player2Confirm);
-												}
-											});
-											k++;
-										}
-										
-										player1Confirm.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												for (int i = 0; i < player1CardsButtons.length; i++) {
-													disableButton(player1CardsButtons[i]);
-												}
-												for (int i = 0; i < player2CardsButtons.length; i++) {
-													enableButton(player2CardsButtons[i]);
-												}
-												disableButton(player1Confirm);
-											}
-										});
-										
-										player2Confirm.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												for (int i = 0; i < player2CardsButtons.length; i++) {
-													disableButton(player2CardsButtons[i]);
-												}
-												disableButton(player2Confirm);
-												enableButton(finalExchange);
-											}
-										});
-										
-										finalExchange.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												finalExchange.hide();
-												player1Confirm.hide();
-												player2Confirm.hide();
-												dealPanel.remove(finalExchange);
-												dealPanel.remove(player1ExchangedCardsLabel);
-												dealPanel.remove(player2ExchangedCardsLabel);
-												dealPanel.remove(player1Confirm);
-												dealPanel.remove(player2Confirm);
-												for (int i = 0; i < player1CardsButtons.length; i++) {
-													player1CardsButtons[i].hide();
-													dealPanel.remove(player1CardsButtons[i]);
-												}
-												for (int i = 0; i < player2CardsButtons.length; i++) {
-													player2CardsButtons[i].hide();
-													dealPanel.remove(player2CardsButtons[i]);
-												}
-												for (int k = player1Index_ExchangedCards.size() - 1; k >= 0; k--) {
-													player2Cards.add(player1Cards.get(player1Index_ExchangedCards.get(k)));
-													int exchangedCardLocation = 0;
-													for (int i = 0; i < arr_places.length; i++) {
-														if (arr_places[i].equals(player1Cards.get(player1Index_ExchangedCards.get(k)))) {
-															exchangedCardLocation = i;
-														}
-													}
-													player1Cards.remove(player1Cards.get(player1Index_ExchangedCards.get(k)));
-													exchangeCards(1, 2, cardColors[exchangedCardLocation]);
-													player1Index_ExchangedCards.remove(k);
-												}
-												for (int k = player2Index_ExchangedCards.size() - 1; k >= 0; k--) {
-													player1Cards.add(player2Cards.get(player2Index_ExchangedCards.get(k)));
-													int exchangedCardLocation = 0;
-													for (int i = 0; i < arr_places.length; i++) {
-														if (arr_places[i].equals(player2Cards.get(player2Index_ExchangedCards.get(k)))) {
-															exchangedCardLocation = i;
-														}
-													}
-													player2Cards.remove(player2Cards.get(player2Index_ExchangedCards.get(k)));
-													exchangeCards(2, 1, cardColors[exchangedCardLocation]);
-													player2Index_ExchangedCards.remove(k);
-												}
-												while (player1CardsLabel.size() > 0) {
-													player1CardsLabel.get(0).hide();
-													monopolyDataPanel.remove(player1CardsLabel.get(0));
-													player1CardsLabel.remove(0);
-												}
-												while (player2CardsLabel.size() > 0) {
-													player2CardsLabel.get(0).hide();
-													monopolyDataPanel.remove(player2CardsLabel.get(0));
-													player2CardsLabel.remove(0);
-												}
-												player1Cardsy = 145;
-												for (int i = 0; i < player1Cards.size(); i++) {
-													System.out.println("Player 1: " + player1Cards.get(i));
-													player1CardsLabel.add(new JLabel(player1Cards.get(i)));
-													player1CardsLabel.get(i).setFont(new Font("Arial", Font.PLAIN, 12));
-													monopolyDataPanel.add(player1CardsLabel.get(i));
-													player1CardsLabel.get(i).show();
-													player1CardsLabel.get(i).setBounds(16, player1Cardsy, 140, 15);
-													player1Cardsy += 15;
-												}
-												player2Cardsy = 345;
-												for (int i = 0; i < player2Cards.size(); i++) {
-													System.out.println("Player 2: " + player2Cards.get(i));
-													player2CardsLabel.add(new JLabel(player2Cards.get(i)));
-													player2CardsLabel.get(i).setFont(new Font("Arial", Font.PLAIN, 12));
-													monopolyDataPanel.add(player2CardsLabel.get(i));
-													player2CardsLabel.get(i).show();
-													player2CardsLabel.get(i).setBounds(16, player2Cardsy, 140, 15);
-													player2Cardsy += 15;
-												}
-												
-												dealFrame.setSize(250, 300);
-												dealPanel.add(setDealWithLabel);
-												dealPanel.add(useDealLabel);
-												dealPanel.add(dealWithPlayer2);
-												dealPanel.add(dealWithPlayer3);
-												dealPanel.add(useDealOfPlayer2);
-												dealPanel.add(useDealOfPlayer3);
-												dealWithPlayer2.show();
-												dealWithPlayer3.show();
-												useDealOfPlayer2.show();
-												useDealOfPlayer3.show();
-											}
-										});
-										
-									} else {
-										player1DealList.add("Player 2 " + dealOptions[j]);
-										player2DealList.add("Player 1 " + dealOptions[j]);
-										player1TotalDeals += 1;
-										player2TotalDeals += 1;
-										for (int i = 0; i < dealButtons.length; i++) {
-											dealButtons[i].hide();
-											dealPanel.remove(dealButtons[i]);
-										}
-										dealPanel.add(setDealWithLabel);
-										dealPanel.add(useDealLabel);
-										dealPanel.add(dealWithPlayer2);
-										dealPanel.add(dealWithPlayer3);
-										dealPanel.add(useDealOfPlayer2);
-										dealPanel.add(useDealOfPlayer3);
-										dealWithPlayer2.show();
-										dealWithPlayer3.show();
-										useDealOfPlayer2.show();
-										useDealOfPlayer3.show();
-									}
-								}
-							});
-							k++;
-						}*/					
 					}
 				});
 				
-				/*dealWithPlayer3.addActionListener(new ActionListener() {
+				dealWithPlayer3.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						setDealWithLabel.hide();
 						dealWithPlayer2.hide();
 						dealWithPlayer3.hide();
+						useDealOfPlayer2.hide();
+						useDealOfPlayer3.hide();
 						dealPanel.remove(setDealWithLabel);
 						dealPanel.remove(dealWithPlayer2);
 						dealPanel.remove(dealWithPlayer3);
+						dealPanel.remove(useDealOfPlayer2);
+						dealPanel.remove(useDealOfPlayer3);
 						
-						int y = 45;
-						JButton[] dealButtons = new JButton[dealOptions.length];
-						for (int i = 0; i < dealOptions.length; i++) {
-							dealButtons[i] = new JButton(dealOptions[i]);
-							dealPanel.add(dealButtons[i]);
-							enableButton(dealButtons[i]);
-							dealButtons[i].setBackground(new Color(217, 217, 217));
-							dealButtons[i].setForeground(Color.DARK_GRAY);
-							dealButtons[i].setBounds(15, y, 200, 25);
-							y += 30;
-						}
-						
-						int i = 0;
-						while (i < dealButtons.length) {
-							int j = i;
-							dealButtons[i].addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									dealButtons[j].setBackground(Color.DARK_GRAY);
-									dealButtons[j].setForeground(Color.WHITE);
-								}
-								public void mouseExited(MouseEvent e) {
-									dealButtons[j].setBackground(new Color(217, 217, 217));
-									dealButtons[j].setForeground(Color.DARK_GRAY);
-								}
-							});
-							i++;
-						}
-						
-						while (i < dealButtons.length) {
-							int j = i;
-							dealButtons[i].addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									player1DealList.add("Player 3 " + dealOptions[j]);
-									player3DealList.add("Player 1 " + dealOptions[j]);
-								}
-							});
-							i++;
-						}
+						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player1CardsLabel, player3CardsLabel, dealWithPlayer3, dealWithPlayer2, useDealOfPlayer3,
+								useDealOfPlayer2, player1Cards, player3Cards, 145, 545, player1, player3, 1, 3, player1DealList, player3DealList, player1Deal, player1Pay, player1Location);
 					}
 				});
 				
 				useDealOfPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dealWithPlayer2.hide();
-						dealWithPlayer3.hide();
-						useDealOfPlayer2.hide();
-						useDealOfPlayer3.hide();
-						setDealWithLabel.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(useDealLabel);
-						dealPanel.remove(dealWithPlayer2);
-						dealPanel.remove(dealWithPlayer3);
-						dealPanel.remove(useDealOfPlayer2);
-						dealPanel.remove(useDealOfPlayer3);
-						
-						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player1CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer3, useDealOfPlayer2,
-								useDealOfPlayer3, player1Cards, player2Cards, 145, 345, player1, player2, 1, 2, player1DealList, player2DealList, player1Deal, player1Pay, player1Location);
-						
-						dealFrame.setSize(290, 500);
-						int y = 50;
-						int arrayLength = 0;
-						for (int i = 0; i < player1DealList.size(); i++) {
-							if (player1DealList.get(i).indexOf("Player 2") >= 0) {
-								arrayLength += 1;
-							}
-						}
-						JButton[] player1Deals = new JButton[arrayLength];
-						for (int i = 0; i < player1DealList.size(); i++) {
-							if (player1DealList.get(i).indexOf("Player 2") >= 0) {
-								String dealName = player1DealList.get(i);
-								String sub_DealName = dealName.substring(9);
-								player1Deals[i] = new JButton(sub_DealName);
-								dealPanel.add(player1Deals[i]);
-								enableButton(player1Deals[i]);
-								player1Deals[i].setBounds(30, y, 200, 25);
-								y += 30;
-							}
-						}
-						
-						int i = 0;
-						while (i < player1Deals.length) {
-							int j = i;
-							player1Deals[i].addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									isDeal = true;
-									switch (player1DealList.get(j)) {
-										case "Player 2 Forgive House Payments For Both":
-											isPlayer1Pay = false;
-											isPlayer2Pay = false;
-											disableButton(player2Pay);
-											break;
-										case "Player 2 30% Of House Payments For Both":
-											cardRegularPrice = places_PaymentPrices[player1Location];
-											places_PaymentPrices[player1Location] *= (int) .30;
-											break;
-										case "Player 2 50% Of House Payments For Both":
-											cardRegularPrice = places_PaymentPrices[player1Location];
-											places_PaymentPrices[player1Location] /= 2;
-											break;
-										case "Player 2 75% Of House Payments For Both":
-											cardRegularPrice = places_PaymentPrices[player1Location];
-											places_PaymentPrices[player1Location] *= (int) .75;
-											break;
-									}
-									player1DealList.remove(j);
-									player1TotalDeals--;
-									dealFrame.dispose();
-									disableButton(player1Deal);
-								}
-							});
-							i++;
-						}
+						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer3,
+								useDealOfPlayer2, useDealOfPlayer3, player1Location, 1, 2, player1DealList,
+								player2DealList, player1, player2, player1Pay, player1Deal);
 					}
 				});
 				
 				useDealOfPlayer3.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dealWithPlayer2.hide();
-						dealWithPlayer3.hide();
-						useDealOfPlayer2.hide();
-						useDealOfPlayer3.hide();
-						setDealWithLabel.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(useDealLabel);
-						dealPanel.remove(dealWithPlayer2);
-						dealPanel.remove(dealWithPlayer3);
-						dealPanel.remove(useDealOfPlayer2);
-						dealPanel.remove(useDealOfPlayer3);
-						
-						dealFrame.setSize(290, 500);
-						int y = 50;
-						int arrayLength = 0;
-						for (int i = 0; i < player1DealList.size(); i++) {
-							if (player1DealList.get(i).indexOf("Player 3") >= 0) {
-								arrayLength += 1;
-							}
-						}
-						JButton[] player1Deals = new JButton[arrayLength];
-						for (int i = 0; i < player1DealList.size(); i++) {
-							if (player1DealList.get(i).indexOf("Player 3") >= 0) {
-								String dealName = player1DealList.get(i);
-								String sub_DealName = dealName.substring(9);
-								player1Deals[i] = new JButton(sub_DealName);
-								player1Deals[i] = new JButton(player1DealList.get(i));
-								dealPanel.add(player1Deals[i]);
-								enableButton(player1Deals[i]);
-								player1Deals[i].setBounds(30, y, 200, 25);
-								y += 30;
-							}
-						}
-						
-						int i = 0;
-						while (i < player1Deals.length) {
-							int j = i;
-							player1Deals[i].addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									isDeal = true;
-									switch (player1DealList.get(j)) {
-										case "Player 3 Forgive House Payments For Both":
-											isPlayer1Pay = false;
-											isPlayer2Pay = false;
-											disableButton(player2Pay);
-											break;
-										case "Player 3 30% Of House Payments For Both":
-											cardRegularPrice = places_PaymentPrices[player1Location];
-											places_PaymentPrices[player1Location] *= (int) .30;
-											break;
-										case "Player 3 50% Of House Payments For Both":
-											cardRegularPrice = places_PaymentPrices[player1Location];
-											places_PaymentPrices[player1Location] /= 2;
-											break;
-										case "Player 3 75% Of House Payments For Both":
-											cardRegularPrice = places_PaymentPrices[player1Location];
-											places_PaymentPrices[player1Location] *= (int) .75;
-											break;
-									}
-									player1DealList.remove(j);
-									player1TotalDeals--;
-									dealFrame.dispose();
-									disableButton(player1Deal);
-								}
-							});
-							i++;
-						}
+						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer3, dealWithPlayer2,
+								useDealOfPlayer3, useDealOfPlayer2, player1Location, 1, 3, player1DealList,
+								player3DealList, player1, player3, player1Pay, player1Deal);
 					}
-				});*/
+				});
 			}
 		});
 		
@@ -3626,7 +3209,7 @@ public class gameFrame {
 				} else if (arr_places[player2Location].equals("Electric Company") || arr_places[player2Location].equals("Water Works")) {
 					player2Utilities += 1;
 				}
-				makingDeals(2, cardColors[player2Location]);
+				exchangingCards(2, cardColors[player2Location]);
 				isPlayer2Buy = false;
 			}
 		});
@@ -4252,7 +3835,7 @@ public class gameFrame {
 				} else if (isPlayer1Pay == true) {
 					if (isJailPlayer1 == false) {
 						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(1);
+							int totalRailroadPayment = getRailroadPayment(1);
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -4299,7 +3882,7 @@ public class gameFrame {
 						}
 					} else if (isJailPlayer1 == true) {
 						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(1)/2;
+							int totalRailroadPayment = getRailroadPayment(1)/2;
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -4348,7 +3931,7 @@ public class gameFrame {
 				} else if (isPlayer3Pay == true) {
 					if (isJailPlayer3 == false) {
 						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(3);
+							int totalRailroadPayment = getRailroadPayment(3);
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -4395,7 +3978,7 @@ public class gameFrame {
 						}
 					} else if (isJailPlayer3 == true) {
 						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(3)/2;
+							int totalRailroadPayment = getRailroadPayment(3)/2;
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -4559,32 +4142,71 @@ public class gameFrame {
 				JPanel dealPanel = new JPanel();
 				dealPanel.setLayout(null);
 				dealFrame.add(dealPanel);
-				dealFrame.setSize(400, 400);
+				dealFrame.setSize(250, 300);
 				dealFrame.setVisible(true);
 				
 				JLabel setDealWithLabel = new JLabel("Set Deal With:");
 				dealPanel.add(setDealWithLabel);
 				setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-				setDealWithLabel.setBounds(130, 50, 200, 30);
+				setDealWithLabel.setBounds(60, 50, 200, 30);
 				
-				JButton dealWithPlayer1 = new JButton("Player 1");
+				JLabel useDealLabel = new JLabel("Use Deal Of:");
+				dealPanel.add(useDealLabel);
+				useDealLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+				useDealLabel.setBounds(65, 150, 200, 30);
+				
+				JButton dealWithPlayer1 = new JButton(player1);
 				dealPanel.add(dealWithPlayer1);
-				enableButton(dealWithPlayer1);
-				dealWithPlayer1.setBounds(90, 100, 80, 30);
+				if (isPlayer1Pay == false) {
+					enableButton(dealWithPlayer1);
+				} else {
+					disableButton(dealWithPlayer1);
+				}
+				dealWithPlayer1.setBounds(30, 100, 80, 30);
 				
-				JButton dealWithPlayer3 = new JButton("Player 3");
+				JButton dealWithPlayer3 = new JButton(player3);
 				dealPanel.add(dealWithPlayer3);
-				enableButton(dealWithPlayer3);
-				dealWithPlayer3.setBounds(200, 100, 80, 30);
+				if (isPlayer3Pay == false) {
+					enableButton(dealWithPlayer3);
+				} else {
+					disableButton(dealWithPlayer3);
+				}
+				dealWithPlayer3.setBounds(120, 100, 80, 30);
+				
+				JButton useDealOfPlayer1 = new JButton(player1);
+				dealPanel.add(useDealOfPlayer1);
+				if (player2TotalDeals > 0 && isPlayer1Pay == true) {
+					enableButton(useDealOfPlayer1);
+				} else {
+					disableButton(useDealOfPlayer1);
+				}
+				useDealOfPlayer1.setBounds(30, 200, 80, 30);
+				
+				JButton useDealOfPlayer3 = new JButton(player3);
+				dealPanel.add(useDealOfPlayer3);
+				if (player2TotalDeals > 0 && isPlayer3Pay == true) {
+					enableButton(useDealOfPlayer3);
+				} else {
+					disableButton(useDealOfPlayer3);
+				}
+				useDealOfPlayer3.setBounds(120, 200, 80, 30);
 				
 				dealWithPlayer1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setDealWithLabel.hide();
 						dealWithPlayer1.hide();
 						dealWithPlayer3.hide();
+						useDealOfPlayer1.hide();
+						useDealOfPlayer3.hide();
 						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(useDealLabel);
 						dealPanel.remove(dealWithPlayer1);
 						dealPanel.remove(dealWithPlayer3);
+						dealPanel.remove(useDealOfPlayer1);
+						dealPanel.remove(useDealOfPlayer3);
+						
+						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player2CardsLabel, player1CardsLabel, dealWithPlayer1, dealWithPlayer3, useDealOfPlayer1,
+								useDealOfPlayer3, player2Cards, player1Cards, 345, 145, player2, player1, 2, 1, player2DealList, player1DealList, player2Deal, player2Pay, player2Location);
+										
 					}
 				});
 				
@@ -4593,9 +4215,32 @@ public class gameFrame {
 						setDealWithLabel.hide();
 						dealWithPlayer1.hide();
 						dealWithPlayer3.hide();
+						useDealOfPlayer1.hide();
+						useDealOfPlayer3.hide();
 						dealPanel.remove(setDealWithLabel);
 						dealPanel.remove(dealWithPlayer1);
 						dealPanel.remove(dealWithPlayer3);
+						dealPanel.remove(useDealOfPlayer1);
+						dealPanel.remove(useDealOfPlayer3);
+						
+						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player2CardsLabel, player3CardsLabel, dealWithPlayer3, dealWithPlayer1, useDealOfPlayer3,
+								useDealOfPlayer1, player2Cards, player3Cards, 345, 545, player2, player3, 2, 3, player2DealList, player3DealList, player2Deal, player2Pay, player2Location);
+					}
+				});
+				
+				useDealOfPlayer1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer3,
+								useDealOfPlayer1, useDealOfPlayer3, player2Location, 2, 1, player2DealList,
+								player1DealList, player2, player1, player2Pay, player2Deal);
+					}
+				});
+				
+				useDealOfPlayer3.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer3, dealWithPlayer1,
+								useDealOfPlayer3, useDealOfPlayer1, player2Location, 2, 3, player2DealList,
+								player3DealList, player2, player3, player2Pay, player2Deal);
 					}
 				});
 			}
@@ -4619,7 +4264,7 @@ public class gameFrame {
 				} else if (arr_places[player3Location].equals("Electric Company") || arr_places[player3Location].equals("Water Works")) {
 					player3Utilities += 1;
 				}
-				makingDeals(3, cardColors[player3Location]);
+				exchangingCards(3, cardColors[player3Location]);
 				isPlayer3Buy = false;
 			}
 		});
@@ -5245,7 +4890,7 @@ public class gameFrame {
 				} else if (isPlayer1Pay == true) {
 					if (isJailPlayer1 == false) {
 						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(1);
+							int totalRailroadPayment = getRailroadPayment(1);
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -5292,7 +4937,7 @@ public class gameFrame {
 						}
 					} else if (isJailPlayer1 == true) {
 						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(1)/2;
+							int totalRailroadPayment = getRailroadPayment(1)/2;
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -5341,7 +4986,7 @@ public class gameFrame {
 				} else if (isPlayer2Pay == true) {
 					if (isJailPlayer2 == false) {
 						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(2);
+							int totalRailroadPayment = getRailroadPayment(2);
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -5388,7 +5033,7 @@ public class gameFrame {
 						}
 					} else if (isJailPlayer2 == true) {
 						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = railroadPayment(2)/2;
+							int totalRailroadPayment = getRailroadPayment(2)/2;
 							if (isNearestToNonColors == true) {
 								totalRailroadPayment *= 2;
 							}
@@ -5551,32 +5196,71 @@ public class gameFrame {
 				JPanel dealPanel = new JPanel();
 				dealPanel.setLayout(null);
 				dealFrame.add(dealPanel);
-				dealFrame.setSize(400, 400);
+				dealFrame.setSize(250, 300);
 				dealFrame.setVisible(true);
 				
 				JLabel setDealWithLabel = new JLabel("Set Deal With:");
 				dealPanel.add(setDealWithLabel);
 				setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-				setDealWithLabel.setBounds(130, 50, 200, 30);
+				setDealWithLabel.setBounds(60, 50, 200, 30);
 				
-				JButton dealWithPlayer1 = new JButton("Player 1");
+				JLabel useDealLabel = new JLabel("Use Deal Of:");
+				dealPanel.add(useDealLabel);
+				useDealLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+				useDealLabel.setBounds(65, 150, 200, 30);
+				
+				JButton dealWithPlayer1 = new JButton(player1);
 				dealPanel.add(dealWithPlayer1);
-				enableButton(dealWithPlayer1);
-				dealWithPlayer1.setBounds(90, 100, 80, 30);
+				if (isPlayer1Pay == false) {
+					enableButton(dealWithPlayer1);
+				} else {
+					disableButton(dealWithPlayer1);
+				}
+				dealWithPlayer1.setBounds(30, 100, 80, 30);
 				
-				JButton dealWithPlayer2 = new JButton("Player 2");
+				JButton dealWithPlayer2 = new JButton(player2);
 				dealPanel.add(dealWithPlayer2);
-				enableButton(dealWithPlayer2);
-				dealWithPlayer2.setBounds(200, 100, 80, 30);
+				if (isPlayer2Pay == false) {
+					enableButton(dealWithPlayer2);
+				} else {
+					disableButton(dealWithPlayer2);
+				}
+				dealWithPlayer2.setBounds(120, 100, 80, 30);
+				
+				JButton useDealOfPlayer1 = new JButton(player1);
+				dealPanel.add(useDealOfPlayer1);
+				if (player3TotalDeals > 0 && isPlayer1Pay == true) {
+					enableButton(useDealOfPlayer1);
+				} else {
+					disableButton(useDealOfPlayer1);
+				}
+				useDealOfPlayer1.setBounds(30, 200, 80, 30);
+				
+				JButton useDealOfPlayer2 = new JButton(player2);
+				dealPanel.add(useDealOfPlayer2);
+				if (player3TotalDeals > 0 && isPlayer2Pay == true) {
+					enableButton(useDealOfPlayer2);
+				} else {
+					disableButton(useDealOfPlayer2);
+				}
+				useDealOfPlayer2.setBounds(120, 200, 80, 30);
 				
 				dealWithPlayer1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setDealWithLabel.hide();
 						dealWithPlayer1.hide();
 						dealWithPlayer2.hide();
+						useDealOfPlayer1.hide();
+						useDealOfPlayer2.hide();
 						dealPanel.remove(setDealWithLabel);
+						dealPanel.remove(useDealLabel);
 						dealPanel.remove(dealWithPlayer1);
 						dealPanel.remove(dealWithPlayer2);
+						dealPanel.remove(useDealOfPlayer1);
+						dealPanel.remove(useDealOfPlayer2);
+						
+						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player1CardsLabel, dealWithPlayer1, dealWithPlayer2, useDealOfPlayer1,
+								useDealOfPlayer2, player3Cards, player1Cards, 545, 145, player3, player1, 3, 1, player3DealList, player1DealList, player3Deal, player3Pay, player3Location);
+										
 					}
 				});
 				
@@ -5585,9 +5269,32 @@ public class gameFrame {
 						setDealWithLabel.hide();
 						dealWithPlayer1.hide();
 						dealWithPlayer2.hide();
+						useDealOfPlayer1.hide();
+						useDealOfPlayer2.hide();
 						dealPanel.remove(setDealWithLabel);
 						dealPanel.remove(dealWithPlayer1);
 						dealPanel.remove(dealWithPlayer2);
+						dealPanel.remove(useDealOfPlayer1);
+						dealPanel.remove(useDealOfPlayer2);
+						
+						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer1, useDealOfPlayer2,
+								useDealOfPlayer1, player3Cards, player2Cards, 545, 345, player3, player2, 3, 2, player3DealList, player2DealList, player3Deal, player3Pay, player3Location);
+					}
+				});
+				
+				useDealOfPlayer1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
+								useDealOfPlayer1, useDealOfPlayer2, player3Location, 3, 1, player3DealList,
+								player1DealList, player3, player1, player3Pay, player3Deal);
+					}
+				});
+				
+				useDealOfPlayer2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer1,
+								useDealOfPlayer2, useDealOfPlayer1, player3Location, 3, 2, player3DealList,
+								player2DealList, player3, player2, player3Pay, player3Deal);
 					}
 				});
 			}
@@ -5596,23 +5303,23 @@ public class gameFrame {
 	
 	public void startGame() {
 
-	}	
+	}
 	
 	public void enableButton(JButton enableThis) {
 		enableThis.setEnabled(true);
 		enableThis.setBackground(Color.DARK_GRAY);
 		enableThis.setBorder(null);
 		enableThis.setForeground(Color.WHITE);
-	}	
+	}
 	
 	public void disableButton(JButton disableThis) {
 		disableThis.setEnabled(false);
 		disableThis.setBackground(new Color(217, 217, 217));
 		disableThis.setForeground(new Color(26, 26, 26));
 		disableThis.setBorder(null);
-	}	
+	}
 	
-	public int railroadPayment(int whoEarned) {
+	public int getRailroadPayment(int whoEarned) {
 		int totalPayment = 0;
 		switch(whoEarned) {
 			case 1:
@@ -5673,7 +5380,7 @@ public class gameFrame {
 				places_PaymentPrices[i] *= 2;
 			}
 		}
-	}
+	}	
 	
 	public void coloredCardButtons(JButton colorCardButton, String cardColor) {
 		switch (cardColor) {
@@ -5874,7 +5581,7 @@ public class gameFrame {
 		player3CoinsLabel.setText("$" + player3Coins);
 	}
 	
-	public void makingDeals (int whichPlayer, String cardColor) {
+	public void exchangingCards(int whichPlayer, String cardColor) {
 		switch (whichPlayer) {
 			case 1:
 				switch(cardColor) {
@@ -6291,13 +5998,13 @@ public class gameFrame {
 		
 		switch (playerRecievedCard) {
 			case 1:
-				makingDeals(1, cardColor);
+				exchangingCards(1, cardColor);
 				break;
 			case 2:
-				makingDeals(2, cardColor);
+				exchangingCards(2, cardColor);
 				break;
 			case 3:
-				makingDeals(3, cardColor);
+				exchangingCards(3, cardColor);
 				break;
 		}
 	}
@@ -6336,8 +6043,9 @@ public class gameFrame {
 			JButton dealWithFirstPlayer, JButton dealWithSecondPlayer, JButton useDealWithFirstPlayer, JButton useDealWithSecondPlayer, ArrayList<String> firstPlayerCards,
 			ArrayList<String> secondPlayerCards, int firstPlayerCardsLabely, int secondPlayerCardsLabely, String firstPlayerName, String secondPlayerName,
 			int whichPlayer1, int whichPlayer2, ArrayList<String> firstPlayerDeals, ArrayList<String> secondPlayerDeals, JButton playerUsingDeal, JButton playerPaying, int playerLocation) {
-		int y = 45;
+		
 		JButton[] dealButtons = new JButton[dealOptions.length];
+		int y = 45;
 		for (int i = 0; i < dealOptions.length; i++) {
 			dealButtons[i] = new JButton(dealOptions[i]);
 			dealPanel.add(dealButtons[i]);
@@ -6621,103 +6329,105 @@ public class gameFrame {
 			});
 			k++;
 		}
-		
-		useDealWithFirstPlayer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				useDealWithFirstPlayer.hide();
-				useDealWithSecondPlayer.hide();
-				dealWithFirstPlayer.hide();
-				dealWithSecondPlayer.hide();
-				setDealWithLabel.hide();
-				dealPanel.remove(setDealWithLabel);
-				dealPanel.remove(useDealLabel);
-				dealPanel.remove(useDealWithFirstPlayer);
-				dealPanel.remove(dealWithFirstPlayer);
-				dealPanel.remove(useDealWithSecondPlayer);
-				dealPanel.remove(dealWithSecondPlayer);
-				
-				dealFrame.setSize(290, 500);
-				int y = 50;
-				int arrayLength = 0;
-				for (int i = 0; i < firstPlayerDeals.size(); i++) {
-					if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
-						arrayLength += 1;
-					}
-				}
-				JButton[] player1Deals = new JButton[arrayLength];
-				for (int i = 0; i < firstPlayerDeals.size(); i++) {
-					if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
-						String dealName = firstPlayerDeals.get(i);
-						String sub_DealName = dealName.substring(secondPlayerName.length() + 1);
-						player1Deals[i] = new JButton(sub_DealName);
-						dealPanel.add(player1Deals[i]);
-						enableButton(player1Deals[i]);
-						player1Deals[i].setBounds(30, y, 200, 25);
-						y += 30;
-					}
-				}
-				
-				int i = 0;
-				while (i < player1Deals.length) {
-					int j = i;
-					player1Deals[i].addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							isDeal = true;
-							String dealName = secondPlayerName + firstPlayerDeals.get(j);
-							if (dealName.indexOf("Forgive House Payments For Both") >= 0) {
-								switch (whichPlayer1) {
-									case 1:
-										isPlayer1Pay = false;
-										break;
-									case 2:
-										isPlayer2Pay = false;
-										break;
-									case 3:
-										isPlayer3Pay = false;
-										break;
-								}
-								switch (whichPlayer2) {
-									case 1:
-										isPlayer1Pay = false;
-										break;
-									case 2:
-										isPlayer2Pay = false;
-										break;
-									case 3:
-										isPlayer3Pay = false;
-										break;
-								}
-								disableButton(playerPaying);
-							} else if (dealName.indexOf("30% Of House Payments For Both") >= 0) {
-								cardRegularPrice = places_PaymentPrices[playerLocation];
-								places_PaymentPrices[playerLocation] *= (int) .30;
-							} else if (dealName.indexOf("50% Of House Payments For Both") >= 0) {
-								cardRegularPrice = places_PaymentPrices[playerLocation];
-								places_PaymentPrices[playerLocation] /= 2;
-							} else if (dealName.indexOf("75% Of House Payments For Both") >= 0) {
-								cardRegularPrice = places_PaymentPrices[playerLocation];
-								places_PaymentPrices[playerLocation] *= (int) .75;
-							}
-							
-							firstPlayerDeals.remove(j);
-							switch (whichPlayer1) {
-								case 1:
-									player1TotalDeals--;
-									break;
-								case 2:
-									player2TotalDeals--;
-									break;
-								case 3:
-									player3TotalDeals--;
-									break;
-							}
-							dealFrame.dispose();
-							disableButton(playerUsingDeal);
-						}
-					});
-					i++;
-				}
-			}
-		});
 	}
+	
+	public void usingDeal(JFrame dealFrame, JPanel dealPanel, JLabel setDealWithLabel, JLabel useDealLabel, JButton dealWithFirstPlayer, JButton dealWithSecondPlayer,
+			JButton useDealWithFirstPlayer, JButton useDealWithSecondPlayer, int playerLocation, int whichPlayer1, int whichPlayer2, ArrayList<String> firstPlayerDeals,
+			ArrayList<String> player2Deals, String firstPlayerName, String secondPlayerName, JButton playerPaying, JButton playerUsingDeal) {
+		
+		useDealWithFirstPlayer.hide();
+		useDealWithSecondPlayer.hide();
+		dealWithFirstPlayer.hide();
+		dealWithSecondPlayer.hide();
+		setDealWithLabel.hide();
+		dealPanel.remove(setDealWithLabel);
+		dealPanel.remove(useDealLabel);
+		dealPanel.remove(useDealWithFirstPlayer);
+		dealPanel.remove(dealWithFirstPlayer);
+		dealPanel.remove(useDealWithSecondPlayer);
+		dealPanel.remove(dealWithSecondPlayer);
+		
+		dealFrame.setSize(290, 500);
+		int y = 50;
+		int arrayLength = 0;
+		for (int i = 0; i < firstPlayerDeals.size(); i++) {
+			if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
+				arrayLength += 1;
+			}
+		}
+		JButton[] player1Deals = new JButton[arrayLength];
+		for (int i = 0; i < firstPlayerDeals.size(); i++) {
+			if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
+				String dealName = firstPlayerDeals.get(i);
+				String sub_DealName = dealName.substring(secondPlayerName.length() + 1);
+				player1Deals[i] = new JButton(sub_DealName);
+				dealPanel.add(player1Deals[i]);
+				enableButton(player1Deals[i]);
+				player1Deals[i].setBounds(30, y, 200, 25);
+				y += 30;
+			}
+		}
+		
+		int i = 0;
+		while (i < player1Deals.length) {
+			int j = i;
+			player1Deals[i].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					isDeal = true;
+					String dealName = secondPlayerName + firstPlayerDeals.get(j);
+					if (dealName.indexOf("Forgive House Payments For Both") >= 0) {
+						switch (whichPlayer1) {
+							case 1:
+								isPlayer1Pay = false;
+								break;
+							case 2:
+								isPlayer2Pay = false;
+								break;
+							case 3:
+								isPlayer3Pay = false;
+								break;
+						}
+						switch (whichPlayer2) {
+							case 1:
+								isPlayer1Pay = false;
+								break;
+							case 2:
+								isPlayer2Pay = false;
+								break;
+							case 3:
+								isPlayer3Pay = false;
+								break;
+						}
+						disableButton(playerPaying);
+					} else if (dealName.indexOf("30% Of House Payments For Both") >= 0) {
+						cardRegularPrice = places_PaymentPrices[playerLocation];
+						places_PaymentPrices[playerLocation] *= (int) .30;
+					} else if (dealName.indexOf("50% Of House Payments For Both") >= 0) {
+						cardRegularPrice = places_PaymentPrices[playerLocation];
+						places_PaymentPrices[playerLocation] /= 2;
+					} else if (dealName.indexOf("75% Of House Payments For Both") >= 0) {
+						cardRegularPrice = places_PaymentPrices[playerLocation];
+						places_PaymentPrices[playerLocation] *= (int) .75;
+					}
+					
+					firstPlayerDeals.remove(j);
+					switch (whichPlayer1) {
+						case 1:
+							player1TotalDeals--;
+							break;
+						case 2:
+							player2TotalDeals--;
+							break;
+						case 3:
+							player3TotalDeals--;
+							break;
+					}
+					dealFrame.dispose();
+					disableButton(playerUsingDeal);
+				}
+			});
+			i++;
+		}
+	}
+
 }
