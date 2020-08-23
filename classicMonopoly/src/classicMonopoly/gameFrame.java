@@ -3120,7 +3120,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer2 = new JButton(player2);
 				dealPanel.add(useDealOfPlayer2);
-				if (player1TotalDeals > 0 && isPlayer2Pay == true) {
+				if (player1TotalDeals > 0 && isPlayer2Pay == false) {
 					enableButton(useDealOfPlayer2);
 				} else {
 					disableButton(useDealOfPlayer2);
@@ -3129,12 +3129,14 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer3 = new JButton(player3);
 				dealPanel.add(useDealOfPlayer3);
-				if (player1TotalDeals > 0 && isPlayer3Pay == true) {
+				if (player1TotalDeals > 0 && isPlayer3Pay == false) {
 					enableButton(useDealOfPlayer3);
 				} else {
 					disableButton(useDealOfPlayer3);
 				}
 				useDealOfPlayer3.setBounds(120, 200, 80, 30);
+				
+				
 				
 				dealWithPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -3149,6 +3151,8 @@ public class gameFrame {
 						dealPanel.remove(useDealOfPlayer2);
 						dealPanel.remove(useDealOfPlayer3);
 						
+						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player1CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer3, useDealOfPlayer2,
+								useDealOfPlayer3, player1Cards, player2Cards, 145, 345, player1, player2, 1, 2, player1DealList, player2DealList, player1Deal, player1Pay, player1Location);
 						/*int y = 45;
 						JButton[] dealButtons = new JButton[dealOptions.length];
 						for (int i = 0; i < dealOptions.length; i++) {
@@ -3177,7 +3181,6 @@ public class gameFrame {
 							i++;
 						}
 						
-						//dealOptions(dealPanel);
 						
 						int k = 0;
 						while (k < dealButtons.length) {
@@ -3403,7 +3406,7 @@ public class gameFrame {
 								}
 							});
 							k++;
-						}	*/				
+						}*/					
 					}
 				});
 				
@@ -3470,6 +3473,9 @@ public class gameFrame {
 						dealPanel.remove(dealWithPlayer3);
 						dealPanel.remove(useDealOfPlayer2);
 						dealPanel.remove(useDealOfPlayer3);
+						
+						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player1CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer3, useDealOfPlayer2,
+								useDealOfPlayer3, player1Cards, player2Cards, 145, 345, player1, player2, 1, 2, player1DealList, player2DealList, player1Deal, player1Pay, player1Location);
 						
 						dealFrame.setSize(290, 500);
 						int y = 50;
@@ -6230,7 +6236,7 @@ public class gameFrame {
 						monopolyBoardPanel.remove(player1HousesLabel.get(i));
 						player1HousesLabel.remove(i);
 						for (int j = 0; j < coloredCardsName.length; j++) {
-							if (coloredCardsName.equals(cardColor)) {
+							if (coloredCardsName[j].equals(cardColor)) {
 								player1ColorPairCards[j] -= 1;
 							}
 						}
@@ -6251,7 +6257,7 @@ public class gameFrame {
 						monopolyBoardPanel.remove(player2HousesLabel.get(i));
 						player2HousesLabel.remove(i);
 						for (int j = 0; j < coloredCardsName.length; j++) {
-							if (coloredCardsName.equals(cardColor)) {
+							if (coloredCardsName[j].equals(cardColor)) {
 								player2ColorPairCards[j] -= 1;
 							}
 						}
@@ -6272,7 +6278,7 @@ public class gameFrame {
 						monopolyBoardPanel.remove(player3HousesLabel.get(i));
 						player3HousesLabel.remove(i);
 						for (int j = 0; j < coloredCardsName.length; j++) {
-							if (coloredCardsName.equals(cardColor)) {
+							if (coloredCardsName[j].equals(cardColor)) {
 								player3ColorPairCards[j] -= 1;
 							}
 						}
@@ -6327,9 +6333,9 @@ public class gameFrame {
 	}
 
 	public void dealOptions(JFrame dealFrame, JPanel dealPanel, JLabel setDealWithLabel, JLabel useDealLabel, ArrayList<JLabel> firstPlayerCardsLabel, ArrayList<JLabel> secondPlayerCardsLabel,
-			JButton dealWithFirstPlayer, JButton dealWithSecondPlayer, JButton useDealWithFirstPlayer, JButton useDealWithSecondPlayer, ArrayList<String> firstPlayerCards, ArrayList<String> secondPlayerCards, 
-			int firstPlayerCardsLabely, int secondPlayerCardsLabely, String firstPlayerName, String secondPlayerName, int whichPlayer1, int whichPlayer2, ArrayList<String> firstPlayerDeals,
-			ArrayList<String> secondPlayerDeals, int firstPlayerTotalDeals, int secondPlayerTotalDeals, JButton playerUsingDeal, JButton playerPaying, int playerLocation) {
+			JButton dealWithFirstPlayer, JButton dealWithSecondPlayer, JButton useDealWithFirstPlayer, JButton useDealWithSecondPlayer, ArrayList<String> firstPlayerCards,
+			ArrayList<String> secondPlayerCards, int firstPlayerCardsLabely, int secondPlayerCardsLabely, String firstPlayerName, String secondPlayerName,
+			int whichPlayer1, int whichPlayer2, ArrayList<String> firstPlayerDeals, ArrayList<String> secondPlayerDeals, JButton playerUsingDeal, JButton playerPaying, int playerLocation) {
 		int y = 45;
 		JButton[] dealButtons = new JButton[dealOptions.length];
 		for (int i = 0; i < dealOptions.length; i++) {
@@ -6499,7 +6505,7 @@ public class gameFrame {
 										}
 									}
 									firstPlayerCards.remove(firstPlayerCards.get(player1Index_ExchangedCards.get(k)));
-									exchangeCards(1, 2, cardColors[exchangedCardLocation]);
+									exchangeCards(whichPlayer1, whichPlayer2, cardColors[exchangedCardLocation]);
 									player1Index_ExchangedCards.remove(k);
 								}
 								for (int k = player2Index_ExchangedCards.size() - 1; k >= 0; k--) {
@@ -6511,7 +6517,7 @@ public class gameFrame {
 										}
 									}
 									secondPlayerCards.remove(secondPlayerCards.get(player2Index_ExchangedCards.get(k)));
-									exchangeCards(2, 1, cardColors[exchangedCardLocation]);
+									exchangeCards(whichPlayer2, whichPlayer1, cardColors[exchangedCardLocation]);
 									player2Index_ExchangedCards.remove(k);
 								}
 								while (firstPlayerCardsLabel.size() > 0) {
@@ -6608,8 +6614,8 @@ public class gameFrame {
 						dealPanel.add(useDealWithSecondPlayer);
 						dealWithFirstPlayer.show();
 						dealWithSecondPlayer.show();
-						dealWithFirstPlayer.show();
-						dealWithSecondPlayer.show();
+						useDealWithFirstPlayer.show();
+						useDealWithSecondPlayer.show();
 					}
 				}
 			});
@@ -6634,15 +6640,15 @@ public class gameFrame {
 				int y = 50;
 				int arrayLength = 0;
 				for (int i = 0; i < firstPlayerDeals.size(); i++) {
-					if (firstPlayerDeals.get(i).indexOf("Player 2") >= 0) {
+					if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
 						arrayLength += 1;
 					}
 				}
 				JButton[] player1Deals = new JButton[arrayLength];
 				for (int i = 0; i < firstPlayerDeals.size(); i++) {
-					if (firstPlayerDeals.get(i).indexOf("Player 2") >= 0) {
+					if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
 						String dealName = firstPlayerDeals.get(i);
-						String sub_DealName = dealName.substring(9);
+						String sub_DealName = dealName.substring(secondPlayerName.length() + 1);
 						player1Deals[i] = new JButton(sub_DealName);
 						dealPanel.add(player1Deals[i]);
 						enableButton(player1Deals[i]);
