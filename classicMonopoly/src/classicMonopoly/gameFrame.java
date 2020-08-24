@@ -809,7 +809,7 @@ public class gameFrame {
 						}
 
 						if (player1Location > 39 && isJailPlayer1 == false) {
-							moneyDealing(200, 1, 0);
+							moneyData(200, 1, 0);
 							player1Location -= player1PreviousLocation;
 							int num = 0;
 							int num2 = player1PreviousLocation;
@@ -825,13 +825,13 @@ public class gameFrame {
 							switch (chances.get(0)) {
 							case "Advance To Go":
 								player1Location = 0;
-								moneyDealing(200, 1, 0);
+								moneyData(200, 1, 0);
 								player1x = 1122;
 								player1y = 1150;
 								break;
 							case "Advance To St. Charles":
 								if (player1Location > 11 && player1Location < 39) {
-									moneyDealing(200, 1, 0);
+									moneyData(200, 1, 0);
 								}
 								player1Location = 11;
 								player1x = 70;
@@ -839,7 +839,7 @@ public class gameFrame {
 								break;
 							case "Advance To Illinois Ave.":
 								if (player1Location > 24 && player1Location < 39) {
-									moneyDealing(200, 1, 0);
+									moneyData(200, 1, 0);
 								}
 								player1Location = 24;
 								player1x = 493;
@@ -854,7 +854,7 @@ public class gameFrame {
 								isNearestToNonColors = true;
 								if (player1Location == 7 || player1Location == 36) {
 									if (player1Location == 36) {
-										moneyDealing(200, 1, 0);
+										moneyData(200, 1, 0);
 									}
 									player1Location = 12;
 									player1x = 70;
@@ -871,7 +871,7 @@ public class gameFrame {
 									player1Location = 5;
 									player1x = 602;
 									player1y = 1150;
-									moneyDealing(200, 1, 0);
+									moneyData(200, 1, 0);
 								} else if (player1Location == 7) {
 									player1Location = 15;
 									player1x = 70;
@@ -895,7 +895,7 @@ public class gameFrame {
 								player1Location -= 3;
 								break;
 							case "Bank Pays You $50":
-								moneyDealing(50, 1, 0);
+								moneyData(50, 1, 0);
 								break;
 							case "Get Out Of Jail":
 								player1JailFree += 1;
@@ -932,10 +932,10 @@ public class gameFrame {
 								}
 								break;
 							case "Collect $100":
-								moneyDealing(100, 1, 0);
+								moneyData(100, 1, 0);
 								break;
 							case "Collect $150":
-								moneyDealing(150, 1, 0);
+								moneyData(150, 1, 0);
 								break;
 							case "Pay Each Player $50":
 								isPlayer1Pay = true;
@@ -951,7 +951,7 @@ public class gameFrame {
 								}
 								break;
 							case "Go To Reading Railroad":
-								moneyDealing(200, 1, 0);
+								moneyData(200, 1, 0);
 								player1Location = 5;
 								player1x = 602;
 								player1y = 1150;
@@ -968,7 +968,7 @@ public class gameFrame {
 							switch (communityChests.get(0)) {
 							case "Advance To Go":
 								player1Location = 0;
-								moneyDealing(200, 1, 0);
+								moneyData(200, 1, 0);
 								player1x = 1122;
 								player1y = 1150;
 								break;
@@ -980,28 +980,28 @@ public class gameFrame {
 								player1y = 1150;
 								break;
 							case "Bank Pays You $50":
-								moneyDealing(50, 1, 0);
+								moneyData(50, 1, 0);
 								break;
 							case "Collect $10":
-								moneyDealing(10, 1, 0);
+								moneyData(10, 1, 0);
 								break;
 							case "Collect $20":
-								moneyDealing(20, 1, 0);
+								moneyData(20, 1, 0);
 								break;
 							case "Receive $25":
-								moneyDealing(25, 1, 0);
+								moneyData(25, 1, 0);
 								break;
 							case "Collect $100":
-								moneyDealing(100, 1, 0);
+								moneyData(100, 1, 0);
 								break;
 							case "Collect $150":
-								moneyDealing(150, 1, 0);
+								moneyData(150, 1, 0);
 								break;
 							case "Collect $200":
-								moneyDealing(200, 1, 0);
+								moneyData(200, 1, 0);
 								break;
 							case "Inherit $100":
-								moneyDealing(100, 1, 0);
+								moneyData(100, 1, 0);
 								break;
 							case "Collect $50 From Every Player":
 								isCommunityPay = true;
@@ -1010,7 +1010,7 @@ public class gameFrame {
 								enableButton(player2Pay);
 								break;
 							case "Get $50":
-								moneyDealing(50, 1, 0);
+								moneyData(50, 1, 0);
 								break;
 							case "Pay $50":
 								isCommunityPay = true;
@@ -1076,7 +1076,7 @@ public class gameFrame {
 							isPlayer1Pay = true;
 							enableButton(player1Pay);
 						} else if (player1Location == 20) {
-							moneyDealing(500, 1, 0);
+							moneyData(500, 1, 0);
 						}
 
 						glassLabel.setLocation(player1x, player1y);
@@ -1286,7 +1286,7 @@ public class gameFrame {
 						}
 						
 						if (player2Location > 39 && isJailPlayer2 == false) {
-							moneyDealing(200, 2, 0);
+							moneyData(200, 2, 0);
 							player2Location -= player2PreviousLocation;
 							int num = 0;
 							while (player2PreviousLocation <= 39) {
@@ -1301,13 +1301,13 @@ public class gameFrame {
 							switch (chances.get(0)) {
 							case "Advance To Go":
 								player2Location = 0;
-								moneyDealing(200, 2, 0);
+								moneyData(200, 2, 0);
 								player2x = 1122;
 								player2y = 1125;
 								break;
 							case "Advance To St. Charles":
 								if (player2Location > 11 && player2Location < 39) {
-									moneyDealing(200, 2, 0);
+									moneyData(200, 2, 0);
 								}
 								player2Location = 11;
 								player2x = 97;
@@ -1315,7 +1315,7 @@ public class gameFrame {
 								break;
 							case "Advance To Illinois Ave.":
 								if (player2Location > 24 && player2Location < 39) {
-									moneyDealing(200, 2, 0);
+									moneyData(200, 2, 0);
 								}
 								player2Location = 24;
 								player2x = 493;
@@ -1330,7 +1330,7 @@ public class gameFrame {
 								isNearestToNonColors = true;
 								if (player2Location == 7 || player2Location == 36) {
 									if (player2Location == 36) {
-										moneyDealing(200, 2, 0);
+										moneyData(200, 2, 0);
 									}
 									player2Location = 12;
 									player2x = 97;
@@ -1347,7 +1347,7 @@ public class gameFrame {
 									player2Location = 5;
 									player2x = 602;
 									player2y = 1125;
-									moneyDealing(200, 2, 0);
+									moneyData(200, 2, 0);
 								} else if (player2Location == 7) {
 									player2Location = 15;
 									player2x = 97;
@@ -1371,7 +1371,7 @@ public class gameFrame {
 								player2Location -= 3;
 								break;
 							case "Bank Pays You $50":
-								moneyDealing(50, 2, 0);
+								moneyData(50, 2, 0);
 								break;
 							case "Get Out Of Jail":
 								player2JailFree += 1;
@@ -1408,10 +1408,10 @@ public class gameFrame {
 								}
 								break;
 							case "Collect $100":
-								moneyDealing(100, 2, 0);
+								moneyData(100, 2, 0);
 								break;
 							case "Collect $150":
-								moneyDealing(150, 2, 0);
+								moneyData(150, 2, 0);
 								break;
 							case "Pay Each Player $50":
 								isPlayer2Pay = true;
@@ -1425,7 +1425,7 @@ public class gameFrame {
 								}
 								break;
 							case "Go To Reading Railroad":
-								moneyDealing(200, 2, 0);
+								moneyData(200, 2, 0);
 								player2Location = 5;
 								player2x = 602;
 								player2y = 1125;
@@ -1442,7 +1442,7 @@ public class gameFrame {
 							switch (communityChests.get(0)) {
 							case "Advance To Go":
 								player2Location = 0;
-								moneyDealing(200, 2, 0);
+								moneyData(200, 2, 0);
 								player2x = 1122;
 								player2y = 1125;
 								break;
@@ -1454,28 +1454,28 @@ public class gameFrame {
 								player2y = 1125;
 								break;
 							case "Bank Pays You $50":
-								moneyDealing(50, 2, 0);
+								moneyData(50, 2, 0);
 								break;
 							case "Collect $10":
-								moneyDealing(10, 2, 0);
+								moneyData(10, 2, 0);
 								break;
 							case "Collect $20":
-								moneyDealing(20, 2, 0);
+								moneyData(20, 2, 0);
 								break;
 							case "Receive $25":
-								moneyDealing(25, 2, 0);
+								moneyData(25, 2, 0);
 								break;
 							case "Collect $100":
-								moneyDealing(100, 2, 0);
+								moneyData(100, 2, 0);
 								break;
 							case "Collect $150":
-								moneyDealing(150, 2, 0);
+								moneyData(150, 2, 0);
 								break;
 							case "Collect $200":
-								moneyDealing(200, 2, 0);
+								moneyData(200, 2, 0);
 								break;
 							case "Inherit $100":
-								moneyDealing(100, 2, 0);
+								moneyData(100, 2, 0);
 								break;
 							case "Collect $50 From Every Player":
 								isCommunityPay = true;
@@ -1484,7 +1484,7 @@ public class gameFrame {
 								enableButton(player3Pay);
 								break;
 							case "Get $50":
-								moneyDealing(50, 2, 0);
+								moneyData(50, 2, 0);
 								break;
 							case "Pay $50":
 								isCommunityPay = true;
@@ -1551,7 +1551,7 @@ public class gameFrame {
 							isPlayer2Pay = true;
 							enableButton(player2Pay);
 						} else if (player2Location == 20) {
-							moneyDealing(500, 2, 0);
+							moneyData(500, 2, 0);
 						}
 
 						hexagonLabel.setLocation(player2x, player2y);
@@ -1754,7 +1754,7 @@ public class gameFrame {
 						}
 						
 						if (player3Location > 39 & isJailPlayer3 == false) {
-							moneyDealing(200, 3, 0);
+							moneyData(200, 3, 0);
 							player3Location -= player3PreviousLocation;
 							int num = 0;
 							while (player3PreviousLocation <= 39) {
@@ -1769,13 +1769,13 @@ public class gameFrame {
 							switch (chances.get(0)) {
 							case "Advance To Go":
 								player3Location = 0;
-								moneyDealing(200, 3, 0);
+								moneyData(200, 3, 0);
 								player3x = 1122;
 								player3y = 1175;
 								break;
 							case "Advance To St. Charles":
 								if (player3Location > 11 && player3Location < 39) {
-									moneyDealing(200, 3, 0);
+									moneyData(200, 3, 0);
 								}
 								player3Location = 11;
 								player3x = 40;
@@ -1783,7 +1783,7 @@ public class gameFrame {
 								break;
 							case "Advance To Illinois Ave.":
 								if (player3Location > 24 && player3Location < 39) {
-									moneyDealing(200, 3, 0);
+									moneyData(200, 3, 0);
 								}
 								player3Location = 24;
 								player3x = 493;
@@ -1798,7 +1798,7 @@ public class gameFrame {
 								isNearestToNonColors = true;
 								if (player3Location == 7 || player3Location == 36) {
 									if (player3Location == 36) {
-										moneyDealing(200, 3, 0);
+										moneyData(200, 3, 0);
 									}
 									player3Location = 12;
 									player3x = 40;
@@ -1815,7 +1815,7 @@ public class gameFrame {
 									player3Location = 5;
 									player3x = 602;
 									player3y = 1175;
-									moneyDealing(200, 3, 0);
+									moneyData(200, 3, 0);
 								} else if (player3Location == 7) {
 									player3Location = 15;
 									player3x = 40;
@@ -1839,7 +1839,7 @@ public class gameFrame {
 								player3Location -= 3;
 								break;
 							case "Bank Pays You $50":
-								moneyDealing(50, 3, 0);
+								moneyData(50, 3, 0);
 								break;
 							case "Get Out Of Jail":
 								player3JailFree += 1;
@@ -1876,10 +1876,10 @@ public class gameFrame {
 								}
 								break;
 							case "Collect $100":
-								moneyDealing(100, 3, 0);
+								moneyData(100, 3, 0);
 								break;
 							case "Collect $150":
-								moneyDealing(150, 3, 0);
+								moneyData(150, 3, 0);
 								break;
 							case "Pay Each Player $50":
 								isPlayer3Pay = true;
@@ -1893,7 +1893,7 @@ public class gameFrame {
 								}
 								break;
 							case "Go To Reading Railroad":
-								moneyDealing(200, 3, 0);
+								moneyData(200, 3, 0);
 								player3Location = 5;
 								player3x = 602;
 								player3y = 1175;
@@ -1910,7 +1910,7 @@ public class gameFrame {
 							switch (communityChests.get(0)) {
 							case "Advance To Go":
 								player3Location = 0;
-								moneyDealing(200, 3, 0);
+								moneyData(200, 3, 0);
 								player3x = 1122;
 								player3y = 1175;
 								break;
@@ -1922,28 +1922,28 @@ public class gameFrame {
 								player3y = 1175;
 								break;
 							case "Bank Pays You $50":
-								moneyDealing(50, 3, 0);
+								moneyData(50, 3, 0);
 								break;
 							case "Collect $10":
-								moneyDealing(10, 3, 0);
+								moneyData(10, 3, 0);
 								break;
 							case "Collect $20":
-								moneyDealing(20, 3, 0);
+								moneyData(20, 3, 0);
 								break;
 							case "Receive $25":
-								moneyDealing(25, 3, 0);
+								moneyData(25, 3, 0);
 								break;
 							case "Collect $100":
-								moneyDealing(100, 3, 0);
+								moneyData(100, 3, 0);
 								break;
 							case "Collect $150":
-								moneyDealing(150, 3, 0);
+								moneyData(150, 3, 0);
 								break;
 							case "Collect $200":
-								moneyDealing(200, 3, 0);
+								moneyData(200, 3, 0);
 								break;
 							case "Inherit $100":
-								moneyDealing(100, 3, 0);
+								moneyData(100, 3, 0);
 								break;
 							case "Collect $50 From Every Player":
 								isCommunityPay = true;
@@ -1952,7 +1952,7 @@ public class gameFrame {
 								enableButton(player1Pay);
 								break;
 							case "Get $50":
-								moneyDealing(50, 3, 0);
+								moneyData(50, 3, 0);
 								break;
 							case "Pay $50":
 								isPlayer3Pay = true;
@@ -2019,7 +2019,7 @@ public class gameFrame {
 							isPlayer3Pay = true;
 							enableButton(player3Pay);
 						} else if (player3Location == 20) {
-							moneyDealing(500, 3, 0);
+							moneyData(500, 3, 0);
 						}
 
 						starLabel.setLocation(player3x, player3y);
@@ -2109,7 +2109,7 @@ public class gameFrame {
 						monopolyDataPanel.add(player1Housing);
 						monopolyDataPanel.add(player2Housing);
 						monopolyDataPanel.add(player3Housing);
-					}*/				
+					}*/
 				}
 			}
 			
@@ -2124,7 +2124,7 @@ public class gameFrame {
 
 		player1Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				moneyDealing(prices_places[player1Location], 0, 1);
+				moneyData(prices_places[player1Location], 0, 1);
 				player1CoinsLabel.setText("$" + player1Coins);
 				player1Cards.add(arr_places[player1Location]);
 				player1CardsLabel.add(new JLabel(arr_places[player1Location]));
@@ -2285,7 +2285,7 @@ public class gameFrame {
 								public void actionPerformed(ActionEvent e) {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
-									moneyDealing(houseCost, 0, 1);
+									moneyData(houseCost, 0, 1);
 									coinsLabel.setText("$" + player1Coins);
 									int previousHouses = player1ColorPairCardsHousesList.get(j);
 									player1ColorPairCardsHousesList.remove(j);
@@ -2338,7 +2338,7 @@ public class gameFrame {
 								public void actionPerformed(ActionEvent e) {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
-									moneyDealing(houseCost, 1, 0);
+									moneyData(houseCost, 1, 0);
 									coinsLabel.setText("$" + player1Coins);
 									int previousHouses = player1ColorPairCardsHousesList.get(j);
 									player1ColorPairCardsHousesList.remove(j);
@@ -2590,7 +2590,7 @@ public class gameFrame {
 							isPlayer3Pass = true;
 						}
 						if (isPlayer3Pass == true) {
-							moneyDealing(bidPrice, 0, 2);
+							moneyData(bidPrice, 0, 2);
 							player2CoinsLabel.setText("$" + player2Coins);
 							player2Cards.add(arr_places[player1Location]);
 							player2CardsLabel.add(new JLabel(arr_places[player1Location]));
@@ -2652,7 +2652,7 @@ public class gameFrame {
 							isPlayer2Pass = true;
 						}
 						if (isPlayer2Pass == true) {
-							moneyDealing(bidPrice, 0, 3);
+							moneyData(bidPrice, 0, 3);
 							player3CoinsLabel.setText("$" + player3Coins);
 							player3Cards.add(arr_places[player1Location]);
 							player3CardsLabel.add(new JLabel(arr_places[player1Location]));
@@ -2725,8 +2725,8 @@ public class gameFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(isChancePay == true) {
 					if (isPlayer2Pay == true && isPlayer3Pay == true && player1Coins >= cardDrawingPay) {
-						moneyDealing(50, 2, 1);
-						moneyDealing(50, 3, 1);
+						moneyData(50, 2, 1);
+						moneyData(50, 3, 1);
 						isPlayer3Pay = false;
 						isPlayer2Pay = false;
 						isPlayer1Pay = false;
@@ -2734,43 +2734,43 @@ public class gameFrame {
 						disableButton(player1Pay);
 					} else if(player1Coins >= cardDrawingPay) {
 						player1Coins -= cardDrawingPay;
-						moneyDealing(cardDrawingPay, 0, 1);
+						moneyData(cardDrawingPay, 0, 1);
 						isPlayer1Pay = false;
 						isChancePay = false;
 						disableButton(player1Pay);
 					}
 				} else if (isCommunityPay == true) {
 					if (isPlayer2Pay == false && isPlayer3Pay == true && player1Coins >= 50) {
-						moneyDealing(50, 2, 1);
+						moneyData(50, 2, 1);
 						isCommunityPay = false;
 						isPlayer1Pay = false;
 						isPlayer3Pay = false;
 						disableButton(player1Pay);
 					} else if (isPlayer2Pay == true && isPlayer3Pay == false && player1Coins >= 50) {
-						moneyDealing(50, 3, 1);
+						moneyData(50, 3, 1);
 						disableButton(player1Pay);
 						enableButton(player2Pay);
 					} else if (player1Coins >= cardDrawingPay) {
-						moneyDealing(cardDrawingPay, 0, 1);
+						moneyData(cardDrawingPay, 0, 1);
 						isPlayer1Pay = false;
 						isCommunityPay = false;
 						disableButton(player1Pay);
 					}
 				} else if (player1Location == 4) {
 					if(player1Coins >= 200) {
-						moneyDealing(200, 0, 1);
+						moneyData(200, 0, 1);
 						isPlayer1Pay = false;
 						disableButton(player1Pay);
 					}
 				} else if (player1Location == 38) {
 					if(player1Coins >= 75) {
-						moneyDealing(75, 0, 1);
+						moneyData(75, 0, 1);
 						isPlayer1Pay = false;
 						disableButton(player1Pay);
 					}
 				} else if (isJailPlayer1 == true) {
 					if (player1Coins >= 50) {
-						moneyDealing(50, 0, 1);
+						moneyData(50, 0, 1);
 						isJailPlayer1 = false;
 						player1JailCount = 3;
 						disableButton(player1Pay);
@@ -2784,7 +2784,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player1Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 2, 1);
+								moneyData(totalRailroadPayment, 2, 1);
 								disableButton(player1Pay);
 								isPlayer1Pay = false;
 								isPlayer2Pay = false;
@@ -2795,7 +2795,7 @@ public class gameFrame {
 						} else if (isPlayer1AtUtility == true) {
 							if (player2Utilities == 1 && isNearestToNonColors == false) {
 								if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(4 * (currentRollDice1 + currentRollDice2), 2, 1);
+									moneyData(4 * (currentRollDice1 + currentRollDice2), 2, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer2Pay = false;
@@ -2803,7 +2803,7 @@ public class gameFrame {
 								}
 							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
 								if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(10 * (currentRollDice1 + currentRollDice2), 2, 1);
+									moneyData(10 * (currentRollDice1 + currentRollDice2), 2, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer2Pay = false;
@@ -2815,7 +2815,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location]) {
-								moneyDealing(places_PaymentPrices[player1Location], 2, 1);
+								moneyData(places_PaymentPrices[player1Location], 2, 1);
 								if (isDeal == true) {
 									usingDeals(1);
 								}
@@ -2831,7 +2831,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player1Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 2, 1);
+								moneyData(totalRailroadPayment, 2, 1);
 								disableButton(player1Pay);
 								isPlayer1Pay = false;
 								isPlayer2Pay = false;
@@ -2842,7 +2842,7 @@ public class gameFrame {
 						} else if (isPlayer1AtUtility == true) {
 							if (player2Utilities == 1 && isNearestToNonColors == false) {
 								if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
+									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer2Pay = false;
@@ -2850,7 +2850,7 @@ public class gameFrame {
 								}
 							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
 								if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
+									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer2Pay = false;
@@ -2862,7 +2862,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
-								moneyDealing(places_PaymentPrices[player1Location] / 2, 2, 1);
+								moneyData(places_PaymentPrices[player1Location] / 2, 2, 1);
 								if (isDeal == true) {
 									usingDeals(1);
 								}
@@ -2880,7 +2880,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player1Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 3, 1);
+								moneyData(totalRailroadPayment, 3, 1);
 								disableButton(player1Pay);
 								isPlayer1Pay = false;
 								isPlayer3Pay = false;
@@ -2891,7 +2891,7 @@ public class gameFrame {
 						} else if (isPlayer1AtUtility == true) {
 							if (player3Utilities == 1 && isNearestToNonColors == false) {
 								if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(4 * (currentRollDice1 + currentRollDice2), 3, 1);
+									moneyData(4 * (currentRollDice1 + currentRollDice2), 3, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer3Pay = false;
@@ -2899,7 +2899,7 @@ public class gameFrame {
 								}
 							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
 								if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(10 * (currentRollDice1 + currentRollDice2), 3, 1);
+									moneyData(10 * (currentRollDice1 + currentRollDice2), 3, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer3Pay = false;
@@ -2911,7 +2911,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location]) {
-								moneyDealing(places_PaymentPrices[player1Location], 3, 1);
+								moneyData(places_PaymentPrices[player1Location], 3, 1);
 								if (isDeal == true) {
 									usingDeals(1);
 								}
@@ -2927,7 +2927,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player1Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 3, 1);
+								moneyData(totalRailroadPayment, 3, 1);
 								disableButton(player1Pay);
 								isPlayer1Pay = false;
 								isPlayer3Pay = false;
@@ -2938,7 +2938,7 @@ public class gameFrame {
 						} else if (isPlayer1AtUtility == true) {
 							if (player3Utilities == 1 && isNearestToNonColors == false) {
 								if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
+									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer3Pay = false;
@@ -2946,7 +2946,7 @@ public class gameFrame {
 								}
 							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
 								if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
+									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
 									disableButton(player1Pay);
 									isPlayer1Pay = false;
 									isPlayer3Pay = false;
@@ -2958,7 +2958,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
-								moneyDealing(places_PaymentPrices[player1Location] / 2, 3, 1);
+								moneyData(places_PaymentPrices[player1Location] / 2, 3, 1);
 								if (isDeal == true) {
 									usingDeals(1);
 								}
@@ -3057,7 +3057,7 @@ public class gameFrame {
 								player1Utilities--;
 							}
 							
-							moneyDealing(totalMoneyRecieved, 1, 0);
+							moneyData(totalMoneyRecieved, 1, 0);
 							player1CoinsLabel.setText("$" + player1Coins);
 							player1Cards.remove(j);
 							player1CardsLabel.get(j).hide();
@@ -3120,7 +3120,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer2 = new JButton(player2);
 				dealPanel.add(useDealOfPlayer2);
-				if (player1TotalDeals > 0 && isPlayer2Pay == true) {
+				if (player1TotalDeals > 0 && isPlayer2Pay == false) {
 					enableButton(useDealOfPlayer2);
 				} else {
 					disableButton(useDealOfPlayer2);
@@ -3129,7 +3129,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer3 = new JButton(player3);
 				dealPanel.add(useDealOfPlayer3);
-				if (player1TotalDeals > 0 && isPlayer3Pay == true) {
+				if (player1TotalDeals > 0 && isPlayer3Pay == false) {
 					enableButton(useDealOfPlayer3);
 				} else {
 					disableButton(useDealOfPlayer3);
@@ -3138,16 +3138,8 @@ public class gameFrame {
 				
 				dealWithPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dealWithPlayer2.hide();
-						dealWithPlayer3.hide();
-						useDealOfPlayer2.hide();
-						useDealOfPlayer3.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(useDealLabel);
-						dealPanel.remove(dealWithPlayer2);
-						dealPanel.remove(dealWithPlayer3);
-						dealPanel.remove(useDealOfPlayer2);
-						dealPanel.remove(useDealOfPlayer3);
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer3,
+								useDealOfPlayer2, useDealOfPlayer3);
 						
 						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player1CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer3, useDealOfPlayer2,
 								useDealOfPlayer3, player1Cards, player2Cards, 145, 345, player1, player2, 1, 2, player1DealList, player2DealList, player1Deal, player1Pay, player1Location);
@@ -3157,16 +3149,8 @@ public class gameFrame {
 				
 				dealWithPlayer3.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setDealWithLabel.hide();
-						dealWithPlayer2.hide();
-						dealWithPlayer3.hide();
-						useDealOfPlayer2.hide();
-						useDealOfPlayer3.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(dealWithPlayer2);
-						dealPanel.remove(dealWithPlayer3);
-						dealPanel.remove(useDealOfPlayer2);
-						dealPanel.remove(useDealOfPlayer3);
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer3,
+								useDealOfPlayer2, useDealOfPlayer3);
 						
 						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player1CardsLabel, player3CardsLabel, dealWithPlayer3, dealWithPlayer2, useDealOfPlayer3,
 								useDealOfPlayer2, player1Cards, player3Cards, 145, 545, player1, player3, 1, 3, player1DealList, player3DealList, player1Deal, player1Pay, player1Location);
@@ -3193,7 +3177,7 @@ public class gameFrame {
 		
 		player2Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				moneyDealing(prices_places[player2Location], 0, 2);
+				moneyData(prices_places[player2Location], 0, 2);
 				player2CoinsLabel.setText("$" + player2Coins);
 				player2Cards.add(arr_places[player2Location]);
 				player2CardsLabel.add(new JLabel(arr_places[player2Location]));
@@ -3211,6 +3195,8 @@ public class gameFrame {
 				}
 				exchangingCards(2, cardColors[player2Location]);
 				isPlayer2Buy = false;
+				
+				enableButton(player2Deal);
 			}
 		});
 
@@ -3343,7 +3329,7 @@ public class gameFrame {
 								public void actionPerformed(ActionEvent e) {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
-									moneyDealing(houseCost, 0, 2);
+									moneyData(houseCost, 0, 2);
 									coinsLabel.setText("$" + player2Coins);
 									int previousHouses = player2ColorPairCardsHousesList.get(j);
 									player2ColorPairCardsHousesList.remove(j);
@@ -3396,7 +3382,7 @@ public class gameFrame {
 								public void actionPerformed(ActionEvent e) {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
-									moneyDealing(houseCost, 2, 0);
+									moneyData(houseCost, 2, 0);
 									coinsLabel.setText("$" + player2Coins);
 									int previousHouses = player2ColorPairCardsHousesList.get(j);
 									player2ColorPairCardsHousesList.remove(j);
@@ -3648,7 +3634,7 @@ public class gameFrame {
 							isPlayer3Pass = true;
 						}
 						if (isPlayer3Pass == true) {
-							moneyDealing(bidPrice, 0, 1);
+							moneyData(bidPrice, 0, 1);
 							player1CoinsLabel.setText("$" + player1Coins);
 							player1Cards.add(arr_places[player2Location]);
 							player1CardsLabel.add(new JLabel(arr_places[player2Location]));
@@ -3710,7 +3696,7 @@ public class gameFrame {
 							isPlayer1Pass = true;
 						}
 						if (isPlayer1Pass == true) {
-							moneyDealing(bidPrice, 0, 3);
+							moneyData(bidPrice, 0, 3);
 							player3CoinsLabel.setText("$" + player3Coins);
 							player3Cards.add(arr_places[player2Location]);
 							player3CardsLabel.add(new JLabel(arr_places[player2Location]));
@@ -3783,51 +3769,51 @@ public class gameFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(isChancePay == true) {
 					if (isPlayer1Pay == true && isPlayer3Pay == true && player2Coins >= cardDrawingPay) {
-						moneyDealing(50, 1, 2);
-						moneyDealing(50, 3, 2);
+						moneyData(50, 1, 2);
+						moneyData(50, 3, 2);
 						isPlayer3Pay = false;
 						isPlayer2Pay = false;
 						isPlayer1Pay = false;
 						isChancePay = false;
 						disableButton(player2Pay);
 					} else if (player2Coins >= cardDrawingPay) {
-						moneyDealing(cardDrawingPay, 0, 2);
+						moneyData(cardDrawingPay, 0, 2);
 						isPlayer2Pay = false;
 						isChancePay = false;
 						disableButton(player2Pay);
 					}
 				} else if (isCommunityPay == true) {
 					if (isPlayer1Pay == false && isPlayer3Pay == true && player2Coins >= 50) {
-						moneyDealing(50, 1, 2);
+						moneyData(50, 1, 2);
 						disableButton(player2Pay);
 						enableButton(player3Pay);
 					} else if (isPlayer1Pay == true && isPlayer3Pay == false && player2Coins >= 50) {
-						moneyDealing(50, 3, 2);
+						moneyData(50, 3, 2);
 						isPlayer1Pay = false;
 						isPlayer2Pay = false;
 						isCommunityPay = false;
 						disableButton(player2Pay);
 					} else if (player2Coins >= cardDrawingPay) {
-						moneyDealing(cardDrawingPay, 0, 2);
+						moneyData(cardDrawingPay, 0, 2);
 						isPlayer2Pay = false;
 						isCommunityPay = false;
 						disableButton(player2Pay);
 					}
 				} else if (player2Location == 4) {
 					if(player2Coins >= 200) {
-						moneyDealing(200, 0, 2);
+						moneyData(200, 0, 2);
 						isPlayer2Pay = false;
 						disableButton(player2Pay);
 					}
 				} else if (player2Location == 38) {
 					if(player2Coins >= 75) {
-						moneyDealing(75, 0, 2);
+						moneyData(75, 0, 2);
 						isPlayer2Pay = false;
 						disableButton(player2Pay);
 					}
 				} else if (isJailPlayer2 == true) {
 					if (player2Coins >= 50) {
-						moneyDealing(50, 0, 2);
+						moneyData(50, 0, 2);
 						isJailPlayer2 = false;
 						player2JailCount = 3;
 						isPlayer2Pay = false;
@@ -3840,7 +3826,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player2Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 1, 2);
+								moneyData(totalRailroadPayment, 1, 2);
 								disableButton(player2Pay);
 								isPlayer2Pay = false;
 								isPlayer1Pay = false;
@@ -3851,7 +3837,7 @@ public class gameFrame {
 						} else if (isPlayer2AtUtility == true) {
 							if (player1Utilities == 1 && isNearestToNonColors == false) {
 								if (player2Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(4 * (currentRollDice1 + currentRollDice2), 1, 2);
+									moneyData(4 * (currentRollDice1 + currentRollDice2), 1, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer1Pay = false;
@@ -3859,7 +3845,7 @@ public class gameFrame {
 								}
 							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
 								if (player2Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(10 * (currentRollDice1 + currentRollDice2), 1, 2);
+									moneyData(10 * (currentRollDice1 + currentRollDice2), 1, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer1Pay = false;
@@ -3871,7 +3857,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player2Coins >= places_PaymentPrices[player2Location]) {
-								moneyDealing(places_PaymentPrices[player2Location], 1, 2);
+								moneyData(places_PaymentPrices[player2Location], 1, 2);
 								if (isDeal == true) {
 									usingDeals(2);
 								}
@@ -3887,7 +3873,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player2Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 1, 2);
+								moneyData(totalRailroadPayment, 1, 2);
 								disableButton(player2Pay);
 								isPlayer2Pay = false;
 								isPlayer1Pay = false;
@@ -3898,7 +3884,7 @@ public class gameFrame {
 						} else if (isPlayer2AtUtility == true) {
 							if (player1Utilities == 1 && isNearestToNonColors == false) {
 								if (player2Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((4 * (currentRollDice1 + currentRollDice2)) / 2, 1, 2);
+									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 1, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer1Pay = false;
@@ -3906,7 +3892,7 @@ public class gameFrame {
 								}
 							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
 								if (player2Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((10 * (currentRollDice1 + currentRollDice2)) / 2, 1, 2);
+									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 1, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer1Pay = false;
@@ -3918,7 +3904,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player2Coins >= places_PaymentPrices[player2Location] / 2) {
-								moneyDealing(places_PaymentPrices[player2Location] / 2, 1, 2);
+								moneyData(places_PaymentPrices[player2Location] / 2, 1, 2);
 								if (isDeal == true) {
 									usingDeals(2);
 								}
@@ -3936,7 +3922,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player2Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 3, 2);
+								moneyData(totalRailroadPayment, 3, 2);
 								disableButton(player2Pay);
 								isPlayer2Pay = false;
 								isPlayer3Pay = false;
@@ -3947,7 +3933,7 @@ public class gameFrame {
 						} else if (isPlayer2AtUtility == true) {
 							if (player3Utilities == 1 && isNearestToNonColors == false) {
 								if (player2Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(4 * (currentRollDice1 + currentRollDice2), 3, 2);
+									moneyData(4 * (currentRollDice1 + currentRollDice2), 3, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer3Pay = false;
@@ -3955,7 +3941,7 @@ public class gameFrame {
 								}
 							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
 								if (player2Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(10 * (currentRollDice1 + currentRollDice2), 3, 2);
+									moneyData(10 * (currentRollDice1 + currentRollDice2), 3, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer3Pay = false;
@@ -3967,7 +3953,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player2Coins >= places_PaymentPrices[player2Location]) {
-								moneyDealing(places_PaymentPrices[player2Location], 3, 2);
+								moneyData(places_PaymentPrices[player2Location], 3, 2);
 								if (isDeal == true) {
 									usingDeals(2);
 								}
@@ -3983,7 +3969,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player2Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 3, 2);
+								moneyData(totalRailroadPayment, 3, 2);
 								disableButton(player2Pay);
 								isPlayer2Pay = false;
 								isPlayer3Pay = false;
@@ -3994,7 +3980,7 @@ public class gameFrame {
 						} else if (isPlayer2AtUtility == true) {
 							if (player3Utilities == 1 && isNearestToNonColors == false) {
 								if (player2Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 2);
+									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer3Pay = false;
@@ -4002,7 +3988,7 @@ public class gameFrame {
 								}
 							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
 								if (player2Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 2);
+									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 2);
 									disableButton(player2Pay);
 									isPlayer2Pay = false;
 									isPlayer3Pay = false;
@@ -4014,7 +4000,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player2Coins >= places_PaymentPrices[player2Location] / 2) {
-								moneyDealing(places_PaymentPrices[player2Location] / 2, 3, 2);
+								moneyData(places_PaymentPrices[player2Location] / 2, 3, 2);
 								if (isDeal == true) {
 									usingDeals(2);
 								}
@@ -4115,7 +4101,7 @@ public class gameFrame {
 								player2Utilities--;
 							}
 							
-							moneyDealing(totalMoneyRecieved, 2, 0);
+							moneyData(totalMoneyRecieved, 2, 0);
 							player2CoinsLabel.setText("$" + player2Coins);
 							player2Cards.remove(j);
 							player2CardsLabel.get(j).hide();
@@ -4193,16 +4179,8 @@ public class gameFrame {
 				
 				dealWithPlayer1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dealWithPlayer1.hide();
-						dealWithPlayer3.hide();
-						useDealOfPlayer1.hide();
-						useDealOfPlayer3.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(useDealLabel);
-						dealPanel.remove(dealWithPlayer1);
-						dealPanel.remove(dealWithPlayer3);
-						dealPanel.remove(useDealOfPlayer1);
-						dealPanel.remove(useDealOfPlayer3);
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer3,
+								useDealOfPlayer1, useDealOfPlayer3);
 						
 						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player2CardsLabel, player1CardsLabel, dealWithPlayer1, dealWithPlayer3, useDealOfPlayer1,
 								useDealOfPlayer3, player2Cards, player1Cards, 345, 145, player2, player1, 2, 1, player2DealList, player1DealList, player2Deal, player2Pay, player2Location);
@@ -4212,16 +4190,8 @@ public class gameFrame {
 				
 				dealWithPlayer3.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setDealWithLabel.hide();
-						dealWithPlayer1.hide();
-						dealWithPlayer3.hide();
-						useDealOfPlayer1.hide();
-						useDealOfPlayer3.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(dealWithPlayer1);
-						dealPanel.remove(dealWithPlayer3);
-						dealPanel.remove(useDealOfPlayer1);
-						dealPanel.remove(useDealOfPlayer3);
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer3,
+								useDealOfPlayer1, useDealOfPlayer3);
 						
 						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player2CardsLabel, player3CardsLabel, dealWithPlayer3, dealWithPlayer1, useDealOfPlayer3,
 								useDealOfPlayer1, player2Cards, player3Cards, 345, 545, player2, player3, 2, 3, player2DealList, player3DealList, player2Deal, player2Pay, player2Location);
@@ -4248,7 +4218,7 @@ public class gameFrame {
 		
 		player3Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				moneyDealing(prices_places[player3Location], 0, 3);
+				moneyData(prices_places[player3Location], 0, 3);
 				player3CoinsLabel.setText("$" + player3Coins);
 				player3Cards.add(arr_places[player3Location]);
 				player3CardsLabel.add(new JLabel(arr_places[player3Location]));
@@ -4397,7 +4367,7 @@ public class gameFrame {
 								public void actionPerformed(ActionEvent e) {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
-									moneyDealing(houseCost, 0, 3);
+									moneyData(houseCost, 0, 3);
 									coinsLabel.setText("$" + player3Coins);
 									int previousHouses = player3ColorPairCardsHousesList.get(j);
 									player3ColorPairCardsHousesList.remove(j);
@@ -4450,7 +4420,7 @@ public class gameFrame {
 								public void actionPerformed(ActionEvent e) {
 									monopolyBoard.hide();
 									monopolyBoardPanel.remove(monopolyBoard);
-									moneyDealing(houseCost, 3, 0);
+									moneyData(houseCost, 3, 0);
 									coinsLabel.setText("$" + player3Coins);
 									int previousHouses = player3ColorPairCardsHousesList.get(j);
 									player3ColorPairCardsHousesList.remove(j);
@@ -4702,7 +4672,7 @@ public class gameFrame {
 							isPlayer2Pass = true;
 						}
 						if (isPlayer2Pass == true) {
-							moneyDealing(bidPrice, 0, 1);
+							moneyData(bidPrice, 0, 1);
 							player1CoinsLabel.setText("$" + player1Coins);
 							player1Cards.add(arr_places[player3Location]);
 							player1CardsLabel.add(new JLabel(arr_places[player3Location]));
@@ -4764,7 +4734,7 @@ public class gameFrame {
 							isPlayer1Pass = true;
 						}
 						if (isPlayer1Pass == true) {
-							moneyDealing(bidPrice, 0, 2);
+							moneyData(bidPrice, 0, 2);
 							player2CoinsLabel.setText("$" + player2Coins);
 							player2Cards.add(arr_places[player3Location]);
 							player2CardsLabel.add(new JLabel(arr_places[player3Location]));
@@ -4837,51 +4807,51 @@ public class gameFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(isChancePay == true) {
 					if (isPlayer1Pay == true && isPlayer2Pay == true && player3Coins >= cardDrawingPay) {
-						moneyDealing(50, 1, 3);
-						moneyDealing(50, 2, 3);
+						moneyData(50, 1, 3);
+						moneyData(50, 2, 3);
 						isPlayer1Pay = false;
 						isPlayer2Pay = false;
 						isPlayer3Pay = false;
 						isChancePay = false;
 						disableButton(player3Pay);
 					} else if (player3Coins >= cardDrawingPay) {
-						moneyDealing(cardDrawingPay, 0, 3);
+						moneyData(cardDrawingPay, 0, 3);
 						isPlayer3Pay = false;
 						isChancePay = false;
 						disableButton(player3Pay);
 					}
 				} else if (isCommunityPay == true) {
 					if (isPlayer1Pay == false && isPlayer2Pay == true && player3Coins >= 50) {
-						moneyDealing(50, 1, 3);
+						moneyData(50, 1, 3);
 						isPlayer2Pay = false;
 						isPlayer3Pay = false;
 						isCommunityPay = false;
 						disableButton(player3Pay);
 					} else if (isPlayer1Pay == true && isPlayer2Pay == false && player3Coins >= 50) {
-						moneyDealing(50, 2, 3);
+						moneyData(50, 2, 3);
 						disableButton(player3Pay);
 						enableButton(player1Pay);
 					} else if (player3Coins >= cardDrawingPay) {
-						moneyDealing(cardDrawingPay, 0, 3);
+						moneyData(cardDrawingPay, 0, 3);
 						isPlayer3Pay = false;
 						isCommunityPay = false;
 						disableButton(player3Pay);
 					}
 				} else if (player3Location == 4) {
 					if(player3Coins >= 200) {
-						moneyDealing(200, 0, 3);
+						moneyData(200, 0, 3);
 						isPlayer3Pay = false;
 						disableButton(player3Pay);
 					}
 				} else if (player3Location == 38) {
 					if(player3Coins >= 75) {
-						moneyDealing(75, 0, 3);
+						moneyData(75, 0, 3);
 						isPlayer3Pay = false;
 						disableButton(player3Pay);
 					}
 				} else if (isJailPlayer3 == true) {
 					if (player3Coins >= 50) {
-						moneyDealing(50, 0, 3);
+						moneyData(50, 0, 3);
 						isJailPlayer3 = false;
 						player3JailCount = 3;
 						disableButton(player3Pay);
@@ -4895,7 +4865,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player3Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 1, 3);
+								moneyData(totalRailroadPayment, 1, 3);
 								disableButton(player3Pay);
 								isPlayer3Pay = false;
 								isPlayer1Pay = false;
@@ -4906,7 +4876,7 @@ public class gameFrame {
 						} else if (isPlayer3AtUtility == true) {
 							if (player1Utilities == 1 && isNearestToNonColors == false) {
 								if (player3Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(4 * (currentRollDice1 + currentRollDice2), 1, 3);
+									moneyData(4 * (currentRollDice1 + currentRollDice2), 1, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer1Pay = false;
@@ -4914,7 +4884,7 @@ public class gameFrame {
 								}
 							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
 								if (player3Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(10 * (currentRollDice1 + currentRollDice2), 1, 3);
+									moneyData(10 * (currentRollDice1 + currentRollDice2), 1, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer1Pay = false;
@@ -4926,7 +4896,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player3Coins >= places_PaymentPrices[player3Location]) {
-								moneyDealing(places_PaymentPrices[player3Location], 1, 3);
+								moneyData(places_PaymentPrices[player3Location], 1, 3);
 								if (isDeal == true) {
 									usingDeals(3);
 								}
@@ -4942,7 +4912,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player3Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 1, 3);
+								moneyData(totalRailroadPayment, 1, 3);
 								disableButton(player3Pay);
 								isPlayer3Pay = false;
 								isPlayer1Pay = false;
@@ -4953,7 +4923,7 @@ public class gameFrame {
 						} else if (isPlayer3AtUtility == true) {
 							if (player1Utilities == 1 && isNearestToNonColors == false) {
 								if (player3Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((4 * (currentRollDice1 + currentRollDice2)) / 2, 1, 3);
+									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 1, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer1Pay = false;
@@ -4961,7 +4931,7 @@ public class gameFrame {
 								}
 							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
 								if (player3Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((10 * (currentRollDice1 + currentRollDice2)) / 2, 1, 3);
+									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 1, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer1Pay = false;
@@ -4973,7 +4943,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player3Coins >= places_PaymentPrices[player3Location] / 2) {
-								moneyDealing(places_PaymentPrices[player3Location] / 2, 1, 3);
+								moneyData(places_PaymentPrices[player3Location] / 2, 1, 3);
 								if (isDeal == true) {
 									usingDeals(3);
 								}
@@ -4991,7 +4961,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player3Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 2, 3);
+								moneyData(totalRailroadPayment, 2, 3);
 								disableButton(player3Pay);
 								isPlayer3Pay = false;
 								isPlayer2Pay = false;
@@ -5002,7 +4972,7 @@ public class gameFrame {
 						} else if (isPlayer3AtUtility == true) {
 							if (player2Utilities == 1 && isNearestToNonColors == false) {
 								if (player3Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(4 * (currentRollDice1 + currentRollDice2), 2, 3);
+									moneyData(4 * (currentRollDice1 + currentRollDice2), 2, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer2Pay = false;
@@ -5010,7 +4980,7 @@ public class gameFrame {
 								}
 							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
 								if (player3Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyDealing(10 * (currentRollDice1 + currentRollDice2), 2, 3);
+									moneyData(10 * (currentRollDice1 + currentRollDice2), 2, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer2Pay = false;
@@ -5022,7 +4992,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player3Coins >= places_PaymentPrices[player3Location]) {
-								moneyDealing(places_PaymentPrices[player3Location], 2, 3);
+								moneyData(places_PaymentPrices[player3Location], 2, 3);
 								if (isDeal == true) {
 									usingDeals(3);
 								}
@@ -5038,7 +5008,7 @@ public class gameFrame {
 								totalRailroadPayment *= 2;
 							}
 							if (player3Coins >= totalRailroadPayment) {
-								moneyDealing(totalRailroadPayment, 2, 3);
+								moneyData(totalRailroadPayment, 2, 3);
 								disableButton(player3Pay);
 								isPlayer3Pay = false;
 								isPlayer2Pay = false;
@@ -5049,7 +5019,7 @@ public class gameFrame {
 						} else if (isPlayer3AtUtility == true) {
 							if (player2Utilities == 1 && isNearestToNonColors == false) {
 								if (player3Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 3);
+									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer2Pay = false;
@@ -5057,7 +5027,7 @@ public class gameFrame {
 								}
 							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
 								if (player3Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyDealing((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 3);
+									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 3);
 									disableButton(player3Pay);
 									isPlayer3Pay = false;
 									isPlayer2Pay = false;
@@ -5069,7 +5039,7 @@ public class gameFrame {
 							}
 						} else {
 							if (player3Coins >= places_PaymentPrices[player3Location] / 2) {
-								moneyDealing(places_PaymentPrices[player3Location] / 2, 2, 3);
+								moneyData(places_PaymentPrices[player3Location] / 2, 2, 3);
 								if (isDeal == true) {
 									usingDeals(3);
 								}
@@ -5169,7 +5139,7 @@ public class gameFrame {
 								player3Utilities--;
 							}
 							
-							moneyDealing(totalMoneyRecieved, 3, 0);
+							moneyData(totalMoneyRecieved, 3, 0);
 							player3CoinsLabel.setText("$" + player3Coins);
 							player3Cards.remove(j);
 							player3CardsLabel.get(j).hide();
@@ -5247,16 +5217,8 @@ public class gameFrame {
 				
 				dealWithPlayer1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dealWithPlayer1.hide();
-						dealWithPlayer2.hide();
-						useDealOfPlayer1.hide();
-						useDealOfPlayer2.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(useDealLabel);
-						dealPanel.remove(dealWithPlayer1);
-						dealPanel.remove(dealWithPlayer2);
-						dealPanel.remove(useDealOfPlayer1);
-						dealPanel.remove(useDealOfPlayer2);
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
+								useDealOfPlayer1, useDealOfPlayer2);
 						
 						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player1CardsLabel, dealWithPlayer1, dealWithPlayer2, useDealOfPlayer1,
 								useDealOfPlayer2, player3Cards, player1Cards, 545, 145, player3, player1, 3, 1, player3DealList, player1DealList, player3Deal, player3Pay, player3Location);
@@ -5266,16 +5228,8 @@ public class gameFrame {
 				
 				dealWithPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setDealWithLabel.hide();
-						dealWithPlayer1.hide();
-						dealWithPlayer2.hide();
-						useDealOfPlayer1.hide();
-						useDealOfPlayer2.hide();
-						dealPanel.remove(setDealWithLabel);
-						dealPanel.remove(dealWithPlayer1);
-						dealPanel.remove(dealWithPlayer2);
-						dealPanel.remove(useDealOfPlayer1);
-						dealPanel.remove(useDealOfPlayer2);
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
+								useDealOfPlayer1, useDealOfPlayer2);
 						
 						dealOptions(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer1, useDealOfPlayer2,
 								useDealOfPlayer1, player3Cards, player2Cards, 545, 345, player3, player2, 3, 2, player3DealList, player2DealList, player3Deal, player3Pay, player3Location);
@@ -5551,7 +5505,7 @@ public class gameFrame {
 		}
 	}	
 	
-	public void moneyDealing(int howMuch, int playerEarned, int playerPaid) {
+	public void moneyData(int howMuch, int playerEarned, int playerPaid) {
 		switch (playerEarned) {
 			case 1:
 				player1Coins += howMuch;
@@ -5937,7 +5891,7 @@ public class gameFrame {
 						player1ColorPairCardsList.remove(i);
 						player1CardColors.remove(i);
 						int returnHouseCost = getHouseCost(cardColor) * player1ColorPairCardsHousesList.get(i);
-						moneyDealing(returnHouseCost, 1, 0);
+						moneyData(returnHouseCost, 1, 0);
 						player1ColorPairCardsHousesList.remove(i);
 						player1HousesLabel.get(i).hide();
 						monopolyBoardPanel.remove(player1HousesLabel.get(i));
@@ -5958,7 +5912,7 @@ public class gameFrame {
 						player2ColorPairCardsList.remove(i);
 						player2CardColors.remove(i);
 						int returnHouseCost = getHouseCost(cardColor) * player2ColorPairCardsHousesList.get(i);
-						moneyDealing(returnHouseCost, 2, 0);
+						moneyData(returnHouseCost, 2, 0);
 						player2ColorPairCardsHousesList.remove(i);
 						player2HousesLabel.get(i).hide();
 						monopolyBoardPanel.remove(player2HousesLabel.get(i));
@@ -5980,7 +5934,7 @@ public class gameFrame {
 						player3CardColors.remove(i);
 						player3HousesLabel.get(i).hide();
 						int returnHouseCost = getHouseCost(cardColor) * player3ColorPairCardsHousesList.get(i);
-						moneyDealing(returnHouseCost, 3, 0);
+						moneyData(returnHouseCost, 3, 0);
 						player3ColorPairCardsHousesList.remove(i);
 						monopolyBoardPanel.remove(player3HousesLabel.get(i));
 						player3HousesLabel.remove(i);
@@ -6314,16 +6268,8 @@ public class gameFrame {
 							dealButtons[i].hide();
 							dealPanel.remove(dealButtons[i]);
 						}
-						dealPanel.add(setDealWithLabel);
-						dealPanel.add(useDealLabel);
-						dealPanel.add(dealWithFirstPlayer);
-						dealPanel.add(dealWithSecondPlayer);
-						dealPanel.add(useDealWithFirstPlayer);
-						dealPanel.add(useDealWithSecondPlayer);
-						dealWithFirstPlayer.show();
-						dealWithSecondPlayer.show();
-						useDealWithFirstPlayer.show();
-						useDealWithSecondPlayer.show();
+						showOrHideDealButtons(true, dealPanel, setDealWithLabel, useDealLabel, dealWithFirstPlayer, dealWithSecondPlayer,
+								useDealWithFirstPlayer, useDealWithSecondPlayer);
 					}
 				}
 			});
@@ -6335,17 +6281,8 @@ public class gameFrame {
 			JButton useDealWithFirstPlayer, JButton useDealWithSecondPlayer, int playerLocation, int whichPlayer1, int whichPlayer2, ArrayList<String> firstPlayerDeals,
 			ArrayList<String> player2Deals, String firstPlayerName, String secondPlayerName, JButton playerPaying, JButton playerUsingDeal) {
 		
-		useDealWithFirstPlayer.hide();
-		useDealWithSecondPlayer.hide();
-		dealWithFirstPlayer.hide();
-		dealWithSecondPlayer.hide();
-		setDealWithLabel.hide();
-		dealPanel.remove(setDealWithLabel);
-		dealPanel.remove(useDealLabel);
-		dealPanel.remove(useDealWithFirstPlayer);
-		dealPanel.remove(dealWithFirstPlayer);
-		dealPanel.remove(useDealWithSecondPlayer);
-		dealPanel.remove(dealWithSecondPlayer);
+		showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithFirstPlayer, dealWithSecondPlayer,
+				useDealWithFirstPlayer, useDealWithSecondPlayer);
 		
 		dealFrame.setSize(290, 500);
 		int y = 50;
@@ -6430,4 +6367,39 @@ public class gameFrame {
 		}
 	}
 
+	public void showOrHideDealButtons(boolean show, JPanel dealPanel, JLabel setDealWithLabel, JLabel useDealLabel, JButton dealWithPlayer1, JButton dealWithPlayer2,
+			JButton useDealOfPlayer1, JButton useDealOfPlayer2) {
+		if (show == true) {
+			dealPanel.add(setDealWithLabel);
+			dealPanel.add(useDealLabel);
+			dealPanel.add(dealWithPlayer1);
+			dealPanel.add(dealWithPlayer2);
+			dealPanel.add(useDealOfPlayer1);
+			dealPanel.add(useDealOfPlayer2);
+			setDealWithLabel.show();
+			useDealLabel.show();
+			dealWithPlayer1.show();
+			dealWithPlayer2.show();
+			useDealOfPlayer1.show();
+			useDealOfPlayer2.show();
+		} else {
+			dealWithPlayer1.hide();
+			dealWithPlayer2.hide();
+			useDealOfPlayer1.hide();
+			useDealOfPlayer2.hide();
+			setDealWithLabel.hide();
+			dealPanel.remove(useDealLabel);
+			dealPanel.remove(setDealWithLabel);
+			dealPanel.remove(useDealLabel);
+			dealPanel.remove(dealWithPlayer1);
+			dealPanel.remove(dealWithPlayer2);
+			dealPanel.remove(useDealOfPlayer1);
+			dealPanel.remove(useDealOfPlayer2);
+		}
+	}
+
+	public void housing(JPanel housingPanel, JButton[] colorPairCards, ArrayList<String> playerColorPairCardsList, ArrayList<String> playerColorPairCardsHouseList,
+			ArrayList<String> playerCardColors, ArrayList<JLabel> playerHouseLabel,int playerHousing) {
+		
+	}
 }
