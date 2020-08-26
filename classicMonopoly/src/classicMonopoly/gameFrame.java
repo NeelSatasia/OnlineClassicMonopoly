@@ -192,7 +192,6 @@ public class gameFrame {
 	private int previousRollDice2;
 	private int houseCost;
 	private int cardLocation;
-	private int coinCounter;
 	
 	private String[] cardColors;
 
@@ -275,8 +274,6 @@ public class gameFrame {
 			communityChests.add(0, randChest);
 		}
 		
-		chances.add(0, "Collect $150");
-		
 		dealOptions = new String[] {"Forgive House Payments For Both", "50% Of House Payments For Both", "30% Of House Payments For Both",
 				"75% Of House Payments For Both", "Exchange Cards"};
 
@@ -305,12 +302,9 @@ public class gameFrame {
 		player2DealList = new ArrayList<String>();
 		player3DealList = new ArrayList<String>();
 		
-		/*player1Cards.add("Kentucky Ave.");
-		player1Cards.add("Indiana Ave.");
-		player1Cards.add("Illinois Ave.");
-		player2Cards.add("Atlantic Ave.");
-		player2Cards.add("Ventnor Ave.");
-		player2Cards.add("Marvin Gardens");*/
+		for (int i = 0; i < 28; i++) {
+			player1Cards.add("Kentucky Ave.");
+		}
 		
 		player1ColorPairCards = new int[8];
 		player2ColorPairCards = new int[8];
@@ -382,7 +376,6 @@ public class gameFrame {
 		previousRollDice2 = 0;
 		houseCost = 0;
 		cardLocation = 0;
-		coinCounter = 0;
 		cardRegularPrice = 0;
 
 		monopolyFrame = new JFrame("Classic Monopoly");
@@ -2157,271 +2150,7 @@ public class gameFrame {
 				isPlayer1Turn = false;
 				isPlayer2Turn = true;
 				
-				JFrame housingFrame = new JFrame("Housing");
-				JPanel housingPanel = new JPanel();
-				housingPanel.setLayout(null);
-				housingFrame.add(housingPanel);
-				housingFrame.setSize(180, 400);
-				housingFrame.setVisible(true);
-				
-				JButton[] colorPairCards = new JButton[player1ColorPairCardsList.size()];
-				int y = 15;
-				for (int i = 0; i < player1ColorPairCardsList.size(); i++) {
-					colorPairCards[i] = new JButton(player1ColorPairCardsList.get(i));
-					housingPanel.add(colorPairCards[i]);
-					enableButton(colorPairCards[i]);
-					colorPairCards[i].setForeground(Color.BLACK);
-					coloredCardButtons(colorPairCards[i], player1CardColors.get(i));
-					colorPairCards[i].setBounds(15, y, 120, 25);
-					y += 30;
-				}
-				
-				int i = 0;
-				while (i < colorPairCards.length) {
-					int j = i;
-					colorPairCards[i].addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							for (int i = 0; i < colorPairCards.length; i++) {
-								colorPairCards[i].hide();
-								housingPanel.remove(colorPairCards[i]);
-							}
-							housingFrame.setSize(300, 170);
-							
-							JLabel coinsLabel = new JLabel("$" + player1Coins);
-							housingPanel.add(coinsLabel);
-							coinsLabel.show();
-							coinsLabel.setBounds(125, 2, 100, 30);
-							coinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							JLabel houseCountLabel = new JLabel("Houses: " + player1ColorPairCardsHousesList.get(j));
-							housingPanel.add(houseCountLabel);
-							houseCountLabel.show();
-							houseCountLabel.setBounds(112, 15, 100, 30);
-							houseCountLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							JButton buyHouse = new JButton("Buy House");
-							housingPanel.add(buyHouse);
-							buyHouse.show();
-							buyHouse.setBounds(60, 60, 80, 25);
-							
-							JButton sellHouse = new JButton("Sell House");
-							housingPanel.add(sellHouse);
-							enableButton(sellHouse);
-							sellHouse.show();
-							sellHouse.setBounds(145, 60, 80, 25);
-							
-							JButton back = new JButton("Back");
-							housingPanel.add(back);
-							enableButton(back);
-							back.show();
-							back.setBounds(105, 90, 70, 25);
-							
-							String cardColor = "";
-							boolean canBuyHouse = true;
-							boolean canSellHouse = false;
-							
-							for (int i = 0; i < arr_places.length; i++) {
-								if (arr_places[i].equals(player1ColorPairCardsList.get(j))) {
-									cardLocation = i;
-									cardColor = cardColors[i];
-								}
-							}
-							
-							JLabel cardPaymentPriceLabel = new JLabel("Payment Price: $" + places_PaymentPrices[cardLocation]);
-							housingPanel.add(cardPaymentPriceLabel);
-							cardPaymentPriceLabel.show();
-							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
-							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							ArrayList<Integer> colorPairCardsHouses = new ArrayList<Integer>();
-							for (int i = 0; i < player1ColorPairCardsList.size(); i++) {
-								if (player1CardColors.get(i).equals(cardColor) && i != j) {
-									colorPairCardsHouses.add(player1ColorPairCardsHousesList.get(i));
-								}
-							}
-							
-							for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-								if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i)) {
-									canBuyHouse = false;
-								}
-								if (player1ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-									canSellHouse = true;
-								}
-							}
-							
-							houseCost = getHouseCost(cardColor);
-							
-							if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
-								enableButton(buyHouse);
-							} else {
-								disableButton(buyHouse);
-							}
-							
-							if (player1ColorPairCardsHousesList.get(j) > 0 && canSellHouse == true) {
-								enableButton(sellHouse);
-							} else {
-								disableButton(sellHouse);
-							}
-							
-							buyHouse.addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									buyHouse.setText("-$" + houseCost);
-								}
-								public void mouseExited(MouseEvent e) {
-									buyHouse.setText("Buy House");
-								}
-							});
-							
-							sellHouse.addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									sellHouse.setText("+$" + houseCost);
-								}
-								public void mouseExited(MouseEvent e) {
-									sellHouse.setText("Sell House");
-								}
-							});
-							
-							buyHouse.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									monopolyBoard.hide();
-									monopolyBoardPanel.remove(monopolyBoard);
-									moneyData(houseCost, 0, 1);
-									coinsLabel.setText("$" + player1Coins);
-									int previousHouses = player1ColorPairCardsHousesList.get(j);
-									player1ColorPairCardsHousesList.remove(j);
-									player1ColorPairCardsHousesList.add(j, previousHouses + 1);
-									if (player1ColorPairCardsHousesList.get(j) == 5) {
-										player1TotalHouses -= 4;
-										player1TotalHotels += 1;
-									} else {
-										player1TotalHouses += 1;
-									}
-									houseCountLabel.setText("Houses: " + player1ColorPairCardsHousesList.get(j));
-									housePositioning(arr_places[cardLocation], j, 1);
-									monopolyBoardPanel.add(monopolyBoard);
-									monopolyBoard.show();
-									
-									switch (player1ColorPairCardsHousesList.get(j)) {
-										case 1:
-											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
-											break;
-										case 2:
-											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
-											break;
-										case 3:
-											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
-											break;
-										case 4:
-											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
-											break;
-										case 5:
-											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
-											break;
-									}
-									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
-									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5 || player1Coins < houseCost) {
-											disableButton(buyHouse);
-										} else if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
-											enableButton(buyHouse);
-										}
-										if (player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 0) {
-											disableButton(sellHouse);
-										} else if (player1ColorPairCardsHousesList.get(j) > 0 && player1ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-											enableButton(sellHouse);
-										}
-									}
-								}
-							});
-							
-							sellHouse.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									monopolyBoard.hide();
-									monopolyBoardPanel.remove(monopolyBoard);
-									moneyData(houseCost, 1, 0);
-									coinsLabel.setText("$" + player1Coins);
-									int previousHouses = player1ColorPairCardsHousesList.get(j);
-									player1ColorPairCardsHousesList.remove(j);
-									player1ColorPairCardsHousesList.add(j, previousHouses - 1);
-									if (player1ColorPairCardsHousesList.get(j) == 4) {
-										player1TotalHotels -= 1;
-										player1TotalHouses += 4;
-									} else {
-										player1TotalHouses -= 1;
-									}
-									houseCountLabel.setText("Houses: " + player1ColorPairCardsHousesList.get(j));
-									housePositioning(arr_places[cardLocation], j, 1);
-									monopolyBoardPanel.add(monopolyBoard);
-									monopolyBoard.show();
-									
-									switch (player1ColorPairCardsHousesList.get(j)) {
-										case 0:
-											places_PaymentPrices[cardLocation] = places_PaymentPrices2[cardLocation] * 2;
-											break;
-										case 1:
-											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
-											break;
-										case 2:
-											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
-											break;
-										case 3:
-											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
-											break;
-										case 4:
-											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
-											break;
-										case 5:
-											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
-											break;
-									}
-									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
-									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player1ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 0) {
-											disableButton(sellHouse);
-										} else if (player1ColorPairCardsHousesList.get(j) > 0 && player1ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-											enableButton(sellHouse);
-										}
-										if (player1ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player1ColorPairCardsHousesList.get(j) == 5 || player1Coins < houseCost) {
-											disableButton(buyHouse);
-										} else if (player1Coins >= houseCost && player1ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
-											enableButton(buyHouse);
-										}
-									}
-								}
-							});
-							
-							back.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									housingPanel.remove(buyHouse);
-									housingPanel.remove(sellHouse);
-									housingPanel.remove(coinsLabel);
-									housingPanel.remove(houseCountLabel);
-									housingPanel.remove(cardPaymentPriceLabel);
-									housingPanel.remove(back);
-									buyHouse.hide();
-									sellHouse.hide();
-									coinsLabel.hide();
-									houseCountLabel.hide();
-									cardPaymentPriceLabel.hide();
-									back.hide();
-									
-									housingFrame.setSize(165, 400);
-									int y = 15;
-									for (int i = 0; i < player1ColorPairCardsList.size(); i++) {
-										housingPanel.add(colorPairCards[i]);
-										colorPairCards[i].show();
-										enableButton(colorPairCards[i]);
-										colorPairCards[i].setForeground(Color.BLACK);
-										coloredCardButtons(colorPairCards[i], player1CardColors.get(i));
-										colorPairCards[i].setBounds(15, y, 120, 25);
-										y += 30;
-									}
-								}
-							});
-						}
-					});
-					i++;
-				}
+				housing(player1ColorPairCardsList, player1ColorPairCardsHousesList, player1CardColors, 1, player1Coins);
 			}
 		});
 
@@ -2980,20 +2709,21 @@ public class gameFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFrame mortgageFrame = new JFrame("Mortgage Cards");
 				JPanel mortgagePanel = new JPanel();
+				JPanel mortgagePanel2 = new JPanel();
 				mortgagePanel.setLayout(null);
-				mortgageFrame.add(mortgagePanel);
-				mortgageFrame.setSize(165, 400);
+				mortgagePanel2.setLayout(null);
+				mortgagePanel.setPreferredSize(new Dimension(125, 900));
+				mortgageFrame.add(mortgagePanel2);
+				mortgageFrame.setSize(185, 400);
 				mortgageFrame.setVisible(true);
-				JScrollPane mortgageSp = new JScrollPane(mortgagePanel);
-				mortgageFrame.add(mortgageSp);
-				mortgageSp.setSize(165, 400);
+				
 				int y = 15;
 				JButton[] mortgageCardsButtons = new JButton[player1Cards.size()];
 				for (int i = 0; i < mortgageCardsButtons.length; i++) {
 					mortgageCardsButtons[i] = new JButton(player1Cards.get(i));
 					mortgagePanel.add(mortgageCardsButtons[i]);
 					enableButton(mortgageCardsButtons[i]);
-					mortgageCardsButtons[i].setBounds(15, y, 120, 25);
+					mortgageCardsButtons[i].setBounds(5, y, 120, 25);
 					y += 30;
 				}
 
@@ -3078,6 +2808,14 @@ public class gameFrame {
 					});
 					i++;
 				}
+				JScrollPane mortgageSp = new JScrollPane();
+				mortgageSp.add(mortgagePanel);
+				mortgagePanel2.add(mortgageSp);
+				mortgageSp.setBounds(0, 0, 145, 350);
+				mortgageSp.getVerticalScrollBar().setUnitIncrement(25);
+				mortgageSp.getHorizontalScrollBar().setUnitIncrement(30);
+				mortgageSp.setViewportView(mortgagePanel);
+				mortgageSp.validate();
 			}
 		});
 
@@ -3202,270 +2940,7 @@ public class gameFrame {
 
 		player2Housing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame housingFrame = new JFrame("Housing");
-				JPanel housingPanel = new JPanel();
-				housingPanel.setLayout(null);
-				housingFrame.add(housingPanel);
-				housingFrame.setSize(180, 400);
-				housingFrame.setVisible(true);
-				
-				JButton[] colorPairCards = new JButton[player2ColorPairCardsList.size()];
-				int y = 15;
-				for (int i = 0; i < player2ColorPairCardsList.size(); i++) {
-					colorPairCards[i] = new JButton(player2ColorPairCardsList.get(i));
-					housingPanel.add(colorPairCards[i]);
-					enableButton(colorPairCards[i]);
-					colorPairCards[i].setForeground(Color.BLACK);
-					coloredCardButtons(colorPairCards[i], player2CardColors.get(i));
-					colorPairCards[i].setBounds(15, y, 120, 25);
-					y += 30;
-				}
-				
-				int i = 0;
-				while (i < colorPairCards.length) {
-					int j = i;
-					colorPairCards[i].addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							for (int i = 0; i < colorPairCards.length; i++) {
-								colorPairCards[i].hide();
-								housingPanel.remove(colorPairCards[i]);
-							}
-							housingFrame.setSize(300, 170);
-							
-							JLabel coinsLabel = new JLabel("$" + player2Coins);
-							housingPanel.add(coinsLabel);
-							coinsLabel.show();
-							coinsLabel.setBounds(125, 2, 100, 30);
-							coinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							JLabel houseCountLabel = new JLabel("Houses: " + player2ColorPairCardsHousesList.get(j));
-							housingPanel.add(houseCountLabel);
-							houseCountLabel.show();
-							houseCountLabel.setBounds(112, 15, 100, 30);
-							houseCountLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							JButton buyHouse = new JButton("Buy House");
-							housingPanel.add(buyHouse);
-							buyHouse.show();
-							buyHouse.setBounds(60, 60, 80, 25);
-							
-							JButton sellHouse = new JButton("Sell House");
-							housingPanel.add(sellHouse);
-							sellHouse.show();
-							sellHouse.setBounds(145, 60, 80, 25);
-							
-							JButton back = new JButton("Back");
-							housingPanel.add(back);
-							enableButton(back);
-							back.show();
-							back.setBounds(105, 90, 70, 25);
-							
-							String cardColor = "";
-							boolean canBuyHouse = true;
-							boolean canSellHouse = false;
-							
-							for (int i = 0; i < arr_places.length; i++) {
-								if (arr_places[i].equals(player2ColorPairCardsList.get(j))) {
-									cardLocation = i;
-									cardColor = cardColors[i];
-								}
-							}
-							
-							JLabel cardPaymentPriceLabel = new JLabel("Payment Price: $" + places_PaymentPrices[cardLocation]);
-							housingPanel.add(cardPaymentPriceLabel);
-							cardPaymentPriceLabel.show();
-							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
-							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							ArrayList<Integer> colorPairCardsHouses = new ArrayList<Integer>();
-							for (int i = 0; i < player2ColorPairCardsList.size(); i++) {
-								if (player2CardColors.get(i).equals(cardColor) && i != j) {
-									colorPairCardsHouses.add(player2ColorPairCardsHousesList.get(i));
-								}
-							}
-							
-							for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-								if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i)) {
-									canBuyHouse = false;
-								}
-								if (player2ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-									canSellHouse = true;
-								}
-							}
-							
-							houseCost = getHouseCost(cardColor);
-							
-							if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
-								enableButton(buyHouse);
-							} else {
-								disableButton(buyHouse);
-							}
-							
-							if (player2ColorPairCardsHousesList.get(j) > 0 && canSellHouse == true) {
-								enableButton(sellHouse);
-							} else {
-								disableButton(sellHouse);
-							}
-							
-							buyHouse.addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									buyHouse.setText("-$" + houseCost);
-								}
-								public void mouseExited(MouseEvent e) {
-									buyHouse.setText("Buy House");
-								}
-							});
-							
-							sellHouse.addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									sellHouse.setText("+$" + houseCost);
-								}
-								public void mouseExited(MouseEvent e) {
-									sellHouse.setText("Sell House");
-								}
-							});
-							
-							buyHouse.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									monopolyBoard.hide();
-									monopolyBoardPanel.remove(monopolyBoard);
-									moneyData(houseCost, 0, 2);
-									coinsLabel.setText("$" + player2Coins);
-									int previousHouses = player2ColorPairCardsHousesList.get(j);
-									player2ColorPairCardsHousesList.remove(j);
-									player2ColorPairCardsHousesList.add(j, previousHouses + 1);
-									if (player2ColorPairCardsHousesList.get(j) == 5) {
-										player2TotalHouses -= 4;
-										player2TotalHotels += 1;
-									} else {
-										player2TotalHouses += 1;
-									}
-									houseCountLabel.setText("Houses: " + player2ColorPairCardsHousesList.get(j));
-									housePositioning(arr_places[cardLocation], j, 2);
-									monopolyBoard.show();
-									monopolyBoardPanel.add(monopolyBoard);
-									
-									switch (player2ColorPairCardsHousesList.get(j)) {
-										case 1:
-											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
-											break;
-										case 2:
-											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
-											break;
-										case 3:
-											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
-											break;
-										case 4:
-											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
-											break;
-										case 5:
-											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
-											break;
-									}
-									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
-									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5 || player2Coins < houseCost) {
-											disableButton(buyHouse);
-										} else if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) < 5 && player2ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
-											enableButton(buyHouse);
-										}
-										if (player2ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 0) {
-											disableButton(sellHouse);
-										} else if (player2ColorPairCardsHousesList.get(j) > 0 && player2ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-											enableButton(sellHouse);
-										}
-									}
-								}
-							});
-							
-							sellHouse.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									monopolyBoard.hide();
-									monopolyBoardPanel.remove(monopolyBoard);
-									moneyData(houseCost, 2, 0);
-									coinsLabel.setText("$" + player2Coins);
-									int previousHouses = player2ColorPairCardsHousesList.get(j);
-									player2ColorPairCardsHousesList.remove(j);
-									player2ColorPairCardsHousesList.add(j, previousHouses - 1);
-									if (player2ColorPairCardsHousesList.get(j) == 4) {
-										player2TotalHotels -= 1;
-										player2TotalHouses += 4;
-									} else {
-										player2TotalHouses -= 1;
-									}
-									houseCountLabel.setText("Houses: " + player2ColorPairCardsHousesList.get(j));
-									housePositioning(arr_places[cardLocation], j, 2);
-									monopolyBoard.show();
-									monopolyBoardPanel.add(monopolyBoard);
-									
-									switch (player2ColorPairCardsHousesList.get(j)) {
-										case 0:
-											places_PaymentPrices[cardLocation] = places_PaymentPrices2[cardLocation] * 2;
-											break;
-										case 1:
-											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
-											break;
-										case 2:
-											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
-											break;
-										case 3:
-											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
-											break;
-										case 4:
-											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
-											break;
-										case 5:
-											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
-											break;
-									}
-									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
-									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player2ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 0) {
-											disableButton(sellHouse);
-										} else if (player2ColorPairCardsHousesList.get(j) > 0 && player2ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-											enableButton(sellHouse);
-										}
-										if (player2ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player2ColorPairCardsHousesList.get(j) == 5 || player2Coins < houseCost) {
-											disableButton(buyHouse);
-										} else if (player2Coins >= houseCost && player2ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
-											enableButton(buyHouse);
-										}
-									}
-								}
-							});
-							
-							back.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									housingPanel.remove(buyHouse);
-									housingPanel.remove(sellHouse);
-									housingPanel.remove(coinsLabel);
-									housingPanel.remove(houseCountLabel);
-									housingPanel.remove(cardPaymentPriceLabel);
-									housingPanel.remove(back);
-									buyHouse.hide();
-									sellHouse.hide();
-									coinsLabel.hide();
-									houseCountLabel.hide();
-									cardPaymentPriceLabel.hide();
-									back.hide();
-									
-									housingFrame.setSize(165, 400);
-									int y = 15;
-									for (int i = 0; i < player2ColorPairCardsList.size(); i++) {
-										housingPanel.add(colorPairCards[i]);
-										colorPairCards[i].show();
-										enableButton(colorPairCards[i]);
-										colorPairCards[i].setForeground(Color.BLACK);
-										coloredCardButtons(colorPairCards[i], player2CardColors.get(i));
-										colorPairCards[i].setBounds(15, y, 120, 25);
-										y += 30;
-									}
-								}
-							});
-						}
-					});
-					i++;
-				}
+				housing(player2ColorPairCardsList, player2ColorPairCardsHousesList, player2CardColors, 2, player2Coins);
 			}
 		});
 		
@@ -4241,269 +3716,7 @@ public class gameFrame {
 
 		player3Housing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame housingFrame = new JFrame("Housing");
-				JPanel housingPanel = new JPanel();
-				housingPanel.setLayout(null);
-				housingFrame.add(housingPanel);
-				housingFrame.setSize(180, 400);
-				housingFrame.setVisible(true);
-				
-				JButton[] colorPairCards = new JButton[player3ColorPairCardsList.size()];
-				int y = 15;
-				for (int i = 0; i < player3ColorPairCardsList.size(); i++) {
-					colorPairCards[i] = new JButton(player3ColorPairCardsList.get(i));
-					housingPanel.add(colorPairCards[i]);
-					enableButton(colorPairCards[i]);
-					colorPairCards[i].setForeground(Color.BLACK);
-					coloredCardButtons(colorPairCards[i], player3CardColors.get(i));
-					colorPairCards[i].setBounds(15, y, 120, 25);
-					y += 30;
-				}
-				
-				int i = 0;
-				while (i < colorPairCards.length) {
-					int j = i;
-					colorPairCards[i].addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							for (int i = 0; i < colorPairCards.length; i++) {
-								colorPairCards[i].hide();
-								housingPanel.remove(colorPairCards[i]);
-							}
-							housingFrame.setSize(300, 170);
-							
-							JLabel coinsLabel = new JLabel("$" + player3Coins);
-							housingPanel.add(coinsLabel);
-							coinsLabel.show();
-							coinsLabel.setBounds(125, 2, 100, 30);
-							coinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							JLabel houseCountLabel = new JLabel("Houses: " + player3ColorPairCardsHousesList.get(j));
-							housingPanel.add(houseCountLabel);
-							houseCountLabel.show();
-							houseCountLabel.setBounds(112, 15, 100, 30);
-							houseCountLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							JButton buyHouse = new JButton("Buy House");
-							housingPanel.add(buyHouse);
-							buyHouse.show();
-							buyHouse.setBounds(60, 60, 80, 25);
-							
-							JButton sellHouse = new JButton("Sell House");
-							housingPanel.add(sellHouse);
-							sellHouse.show();
-							sellHouse.setBounds(145, 60, 80, 25);
-							
-							JButton back = new JButton("Back");
-							housingPanel.add(back);
-							enableButton(back);
-							back.show();
-							back.setBounds(105, 90, 70, 25);
-							
-							String cardColor = "";
-							boolean canBuyHouse = true;
-							boolean canSellHouse = false;
-							
-							for (int i = 0; i < arr_places.length; i++) {
-								if (arr_places[i].equals(player3ColorPairCardsList.get(j))) {
-									cardLocation = i;
-									cardColor = cardColors[i];
-								}
-							}
-							
-							JLabel cardPaymentPriceLabel = new JLabel("Payment Price: $" + places_PaymentPrices[cardLocation]);
-							housingPanel.add(cardPaymentPriceLabel);
-							cardPaymentPriceLabel.show();
-							cardPaymentPriceLabel.setBounds(90, 30, 150, 30);
-							cardPaymentPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-							
-							ArrayList<Integer> colorPairCardsHouses = new ArrayList<Integer>();
-							for (int i = 0; i < player3ColorPairCardsList.size(); i++) {
-								if (player3CardColors.get(i).equals(cardColor) && i != j) {
-									colorPairCardsHouses.add(player3ColorPairCardsHousesList.get(i));
-								}
-							}
-							
-							for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-								if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i)) {
-									canBuyHouse = false;
-								}
-								if (player3ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-									canSellHouse = true;
-								}
-							}
-							
-							houseCost = getHouseCost(cardColor);
-							
-							if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) < 5 && canBuyHouse == true) {
-								enableButton(buyHouse);
-							} else {
-								disableButton(buyHouse);
-							}
-							if (player3ColorPairCardsHousesList.get(j) > 0 && canSellHouse == true) {
-								enableButton(sellHouse);
-							} else {
-								disableButton(sellHouse);
-							}
-							
-							buyHouse.addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									buyHouse.setText("-$" + houseCost);
-								}
-								public void mouseExited(MouseEvent e) {
-									buyHouse.setText("Buy House");
-								}
-							});
-							
-							sellHouse.addMouseListener(new MouseAdapter() {
-								public void mouseEntered(MouseEvent e) {
-									sellHouse.setText("+$" + houseCost);
-								}
-								public void mouseExited(MouseEvent e) {
-									sellHouse.setText("Sell House");
-								}
-							});
-							
-							buyHouse.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									monopolyBoard.hide();
-									monopolyBoardPanel.remove(monopolyBoard);
-									moneyData(houseCost, 0, 3);
-									coinsLabel.setText("$" + player3Coins);
-									int previousHouses = player3ColorPairCardsHousesList.get(j);
-									player3ColorPairCardsHousesList.remove(j);
-									player3ColorPairCardsHousesList.add(j, previousHouses + 1);
-									if (player3ColorPairCardsHousesList.get(j) == 5) {
-										player3TotalHouses -= 4;
-										player3TotalHotels += 1;
-									} else {
-										player3TotalHouses += 1;
-									}
-									houseCountLabel.setText("Houses: " + player3ColorPairCardsHousesList.get(j));
-									housePositioning(arr_places[cardLocation], j, 3);
-									monopolyBoard.show();
-									monopolyBoardPanel.add(monopolyBoard);
-									
-									switch (player3ColorPairCardsHousesList.get(j)) {
-										case 1:
-											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
-											break;
-										case 2:
-											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
-											break;
-										case 3:
-											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
-											break;
-										case 4:
-											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
-											break;
-										case 5:
-											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
-											break;
-									}
-									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
-									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5 || player3Coins < houseCost) {
-											disableButton(buyHouse);
-										} else if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) < 5 && player3ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i)) {
-											enableButton(buyHouse);
-										}
-										if (player3ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 0) {
-											disableButton(sellHouse);
-										} else if (player3ColorPairCardsHousesList.get(j) > 0 && player3ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-											enableButton(sellHouse);
-										}
-									}
-								}
-							});
-							
-							sellHouse.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									monopolyBoard.hide();
-									monopolyBoardPanel.remove(monopolyBoard);
-									moneyData(houseCost, 3, 0);
-									coinsLabel.setText("$" + player3Coins);
-									int previousHouses = player3ColorPairCardsHousesList.get(j);
-									player3ColorPairCardsHousesList.remove(j);
-									player3ColorPairCardsHousesList.add(j, previousHouses - 1);
-									if (player3ColorPairCardsHousesList.get(j) == 4) {
-										player3TotalHotels -= 1;
-										player3TotalHouses += 4;
-									} else {
-										player3TotalHouses -= 1;
-									}
-									houseCountLabel.setText("Houses: " + player3ColorPairCardsHousesList.get(j));
-									housePositioning(arr_places[cardLocation], j, 3);
-									monopolyBoard.show();
-									monopolyBoardPanel.add(monopolyBoard);
-									
-									switch (player3ColorPairCardsHousesList.get(j)) {
-										case 0:
-											places_PaymentPrices[cardLocation] = places_PaymentPrices2[cardLocation] * 2;
-											break;
-										case 1:
-											places_PaymentPrices[cardLocation] = house1Payment[cardLocation];
-											break;
-										case 2:
-											places_PaymentPrices[cardLocation] = house2Payment[cardLocation];
-											break;
-										case 3:
-											places_PaymentPrices[cardLocation] = house3Payment[cardLocation];
-											break;
-										case 4:
-											places_PaymentPrices[cardLocation] = house4Payment[cardLocation];
-											break;
-										case 5:
-											places_PaymentPrices[cardLocation] = hotelPayment[cardLocation];
-											break;
-									}
-									cardPaymentPriceLabel.setText("Payment Price: $" + places_PaymentPrices[cardLocation]);
-									for (int i = 0; i < colorPairCardsHouses.size(); i++) {
-										if (player3ColorPairCardsHousesList.get(j) < colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 0) {
-											disableButton(sellHouse);
-										} else if (player3ColorPairCardsHousesList.get(j) > 0 && player3ColorPairCardsHousesList.get(j) >= colorPairCardsHouses.get(i)) {
-											enableButton(sellHouse);
-										}
-										if (player3ColorPairCardsHousesList.get(j) > colorPairCardsHouses.get(i) || player3ColorPairCardsHousesList.get(j) == 5 || player3Coins < houseCost) {
-											disableButton(buyHouse);
-										} else if (player3Coins >= houseCost && player3ColorPairCardsHousesList.get(j) <= colorPairCardsHouses.get(i)) {
-											enableButton(buyHouse);
-										}
-									}
-								}
-							});
-							
-							back.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									housingPanel.remove(buyHouse);
-									housingPanel.remove(sellHouse);
-									housingPanel.remove(coinsLabel);
-									housingPanel.remove(houseCountLabel);
-									housingPanel.remove(cardPaymentPriceLabel);
-									housingPanel.remove(back);
-									buyHouse.hide();
-									sellHouse.hide();
-									coinsLabel.hide();
-									houseCountLabel.hide();
-									cardPaymentPriceLabel.hide();
-									back.hide();
-									
-									housingFrame.setSize(165, 400);
-									int y = 15;
-									for (int i = 0; i < player3ColorPairCardsList.size(); i++) {
-										housingPanel.add(colorPairCards[i]);
-										colorPairCards[i].show();
-										enableButton(colorPairCards[i]);
-										colorPairCards[i].setForeground(Color.BLACK);
-										coloredCardButtons(colorPairCards[i], player3CardColors.get(i));
-										colorPairCards[i].setBounds(15, y, 120, 25);
-										y += 30;
-									}
-								}
-							});
-						}
-					});
-					i++;
-				}
+				housing(player3ColorPairCardsList, player3ColorPairCardsHousesList, player3CardColors, 3, player3Coins);
 			}
 		});
 
@@ -6398,8 +5611,8 @@ public class gameFrame {
 		}
 	}
 
-	public void housing(ArrayList<String> playerColorPairCardsList, ArrayList<Integer> playerColorPairCardsHousesList,
-			ArrayList<String> playerCardColors, ArrayList<JLabel> playerHouseLabel, int playerHousing, int playerCoins, int playerTotalHouses, int playerTotalHotels) {
+	public void housing(ArrayList<String> playerColorPairCardsList, ArrayList<Integer> playerColorPairCardsHousesList, ArrayList<String> playerCardColors,
+			int playerHousing, int playerCoins) {
 		JFrame housingFrame = new JFrame("Housing");
 		JPanel housingPanel = new JPanel();
 		housingPanel.setLayout(null);
@@ -6478,7 +5691,7 @@ public class gameFrame {
 					
 					ArrayList<Integer> colorPairCardsHouses = new ArrayList<Integer>();
 					for (int i = 0; i < playerColorPairCardsList.size(); i++) {
-						if (player1CardColors.get(i).equals(cardColor) && i != j) {
+						if (playerCardColors.get(i).equals(cardColor) && i != j) {
 							colorPairCardsHouses.add(playerColorPairCardsHousesList.get(i));
 						}
 					}
@@ -6528,16 +5741,48 @@ public class gameFrame {
 						public void actionPerformed(ActionEvent e) {
 							monopolyBoard.hide();
 							monopolyBoardPanel.remove(monopolyBoard);
-							moneyData(houseCost, 0, 1);
-							coinsLabel.setText("$" + playerCoins);
+							moneyData(houseCost, 0, playerHousing);
 							int previousHouses = playerColorPairCardsHousesList.get(j);
 							playerColorPairCardsHousesList.remove(j);
 							playerColorPairCardsHousesList.add(j, previousHouses + 1);
 							if (playerColorPairCardsHousesList.get(j) == 5) {
-								player1TotalHouses -= 4;
-								player1TotalHotels += 1;
+								switch (playerHousing) {
+									case 1:
+										player1TotalHouses -= 4;
+										player1TotalHotels += 1;
+										break;
+									case 2:
+										player2TotalHouses -= 4;
+										player2TotalHotels += 1;
+										break;
+									case 3:
+										player3TotalHouses -= 4;
+										player3TotalHotels += 1;
+										break;
+								}
 							} else {
-								player1TotalHouses += 1;
+								switch (playerHousing) {
+									case 1:
+										player1TotalHouses += 1;
+										break;
+									case 2:
+										player2TotalHouses += 1;
+										break;
+									case 3:
+										player3TotalHouses += 1;
+										break;
+								}
+							}
+							switch (playerHousing) {
+								case 1:
+									coinsLabel.setText("$" + player1Coins);
+									break;
+								case 2:
+									coinsLabel.setText("$" + player2Coins);
+									break;
+								case 3:
+									coinsLabel.setText("$" + player3Coins);
+									break;
 							}
 							houseCountLabel.setText("Houses: " + playerColorPairCardsHousesList.get(j));
 							housePositioning(arr_places[cardLocation], j, playerHousing);
@@ -6581,16 +5826,48 @@ public class gameFrame {
 						public void actionPerformed(ActionEvent e) {
 							monopolyBoard.hide();
 							monopolyBoardPanel.remove(monopolyBoard);
-							moneyData(houseCost, 1, 0);
-							coinsLabel.setText("$" + playerCoins);
+							moneyData(houseCost, playerHousing, 0);
 							int previousHouses = playerColorPairCardsHousesList.get(j);
 							playerColorPairCardsHousesList.remove(j);
 							playerColorPairCardsHousesList.add(j, previousHouses - 1);
 							if (playerColorPairCardsHousesList.get(j) == 4) {
-								player1TotalHotels -= 1;
-								player1TotalHouses += 4;
+								switch (playerHousing) {
+									case 1:
+										player1TotalHotels -= 1;
+										player1TotalHouses += 4;
+										break;
+									case 2:
+										player2TotalHotels -= 1;
+										player2TotalHouses += 4;
+										break;
+									case 3:
+										player3TotalHotels -= 1;
+										player3TotalHouses += 4;
+										break;
+								}
 							} else {
-								player1TotalHouses -= 1;
+								switch (playerHousing) {
+									case 1:
+										player1TotalHouses -= 1;
+										break;
+									case 2:
+										player2TotalHouses -= 1;
+										break;
+									case 3:
+										player3TotalHouses -= 1;
+										break;
+								}
+							}
+							switch (playerHousing) {
+								case 1:
+									coinsLabel.setText("$" + player1Coins);
+									break;
+								case 2:
+									coinsLabel.setText("$" + player2Coins);
+									break;
+								case 3:
+									coinsLabel.setText("$" + player3Coins);
+									break;
 							}
 							houseCountLabel.setText("Houses: " + playerColorPairCardsHousesList.get(j));
 							housePositioning(arr_places[cardLocation], j, playerHousing);
@@ -6665,5 +5942,158 @@ public class gameFrame {
 			});
 			i++;
 		}
+	}
+
+	public void mortgaging(ArrayList<String> playerMortgageCards, ArrayList<String> playerCards, ArrayList<String> playerColorPairCardsList,
+			ArrayList<Integer> playerColorPairCardsHousesList, ArrayList<String> playerCardColors, ArrayList<JLabel> playerHousesLabel, int playerMortgaging, int playerCardsy,
+			ArrayList<JLabel> playerCardsLabel, JButton playerMortgage, JButton playerHousing) {
+		JFrame mortgageFrame = new JFrame("Mortgage Cards");
+		JPanel mortgagePanel = new JPanel();
+		JPanel mortgagePanel2 = new JPanel();
+		mortgagePanel.setLayout(null);
+		mortgagePanel2.setLayout(null);
+		mortgagePanel.setPreferredSize(new Dimension(125, 900));
+		mortgageFrame.add(mortgagePanel2);
+		mortgageFrame.setSize(185, 400);
+		mortgageFrame.setVisible(true);
+		
+		int y = 15;
+		JButton[] mortgageCardsButtons = new JButton[playerCards.size()];
+		for (int i = 0; i < mortgageCardsButtons.length; i++) {
+			mortgageCardsButtons[i] = new JButton(playerCards.get(i));
+			mortgagePanel.add(mortgageCardsButtons[i]);
+			enableButton(mortgageCardsButtons[i]);
+			mortgageCardsButtons[i].setBounds(5, y, 120, 25);
+			y += 30;
+		}
+
+		int i = 0;
+		while (i < mortgageCardsButtons.length) {
+			int j = i;
+			mortgageCardsButtons[j].addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mortgageFrame.dispose();
+					playerMortgageCards.add(playerCards.get(j));
+					int totalMoneyRecieved = 0;
+					for (int i = 0; i < arr_places.length; i++) {
+						if (playerCards.get(j).equals(arr_places[i])) {
+							totalMoneyRecieved += mortgagePricesPlaces[i];
+						}
+					}
+					
+					for (int i = 0; i < arr_places.length; i++) {
+						if (arr_places[i].equals(playerCards.get(j))) {
+							cardLocation = i;
+						}
+					}
+					
+					if (cardColors[cardLocation].equals("purple") || cardColors[cardLocation].equals("lightblue")) {
+						houseCost = 50;
+					} else if (cardColors[cardLocation].equals("pink") || cardColors[cardLocation].equals("orange")) {
+						houseCost = 100;
+					} else if (cardColors[cardLocation].equals("red") || cardColors[cardLocation].equals("yellow")) {
+						houseCost = 150;
+					} else if (cardColors[cardLocation].equals("green") || cardColors[cardLocation].equals("darkblue")) {
+						houseCost = 200;
+					}
+					
+					String cardColor = cardColors[cardLocation];
+					int k = 0;
+					while (k < playerColorPairCardsList.size()) {
+						if (playerCardColors.get(k).equals(cardColor)) {
+							totalMoneyRecieved += (playerColorPairCardsHousesList.get(k) * houseCost);
+							playerColorPairCardsHousesList.remove(k);
+							playerColorPairCardsList.remove(k);
+							playerCardColors.remove(k);
+							playerHousesLabel.remove(k);
+						} else {
+							k++;
+						}
+					}
+					
+					places_PaymentPrices[cardLocation] = 0;
+					
+					if (cardColor.equals("") == false) {
+						for (int i = 0; i < cardColors.length; i++) {
+							if (playerCards.get(j).equals(arr_places[i]) == false && cardColors[i].equals(cardColor)) {
+								places_PaymentPrices[i] = places_PaymentPrices2[i];
+							}
+						}
+					}
+					
+					if (playerCards.get(j).indexOf("Railroad") >= 0) {
+						switch (playerMortgaging) {
+							case 1:
+								player1Railroads--;
+								break;
+							case 2:
+								player2Railroads--;
+								break;
+							case 3:
+								player3Railroads--;
+								break;
+						}
+					} else if (playerCards.get(j).equals("Water Works") || playerCards.get(j).equals("Electric Company")) {
+						switch (playerMortgaging) {
+							case 1:
+								player1Utilities--;
+								break;
+							case 2:
+								player2Utilities--;
+								break;
+							case 3:
+								player3Utilities--;
+								break;
+						}
+					}
+					
+					moneyData(totalMoneyRecieved, playerMortgaging, 0);
+					playerCards.remove(j);
+					playerCardsLabel.get(j).hide();
+					monopolyDataPanel.remove(playerCardsLabel.get(j));
+					playerCardsLabel.remove(j);
+					int playerCardsy2 = playerCardsy;
+					while (playerCardsLabel.size() > 0) {
+						playerCardsLabel.get(0).hide();
+						monopolyDataPanel.remove(playerCardsLabel.get(0));
+						playerCardsLabel.remove(0);
+					}
+					for (int i = 0; i < playerCardsLabel.size(); i++) {
+						playerCardsLabel.add(new JLabel(playerCards.get(i)));
+						monopolyDataPanel.add(playerCardsLabel.get(i));
+						playerCardsLabel.get(i).show();
+						playerCardsLabel.get(i).setBounds(16, playerCardsy2, 140, 15);
+						playerCardsLabel.get(i).setFont(new Font("Arial", Font.PLAIN, 12));
+						playerCardsy2 += 15;
+					}
+					switch (playerMortgaging) {
+						case 1:
+							player1Cardsy = playerCardsy2;
+							break;
+						case 2:
+							player2Cardsy = playerCardsy2;
+							break;
+						case 3:
+							player3Cardsy = playerCardsy2;
+							break;
+					}
+					if (playerCards.size() == 0) {
+						disableButton(playerMortgage);
+					}
+					if (playerColorPairCardsList.size() == 0) {
+						disableButton(playerHousing);
+					}
+				}
+			});
+			i++;
+		}
+		JScrollPane mortgageSp = new JScrollPane();
+		mortgageSp.add(mortgagePanel);
+		mortgagePanel2.add(mortgageSp);
+		mortgageSp.setBounds(0, 0, 145, 350);
+		mortgageSp.getVerticalScrollBar().setUnitIncrement(25);
+		mortgageSp.getHorizontalScrollBar().setUnitIncrement(30);
+		mortgageSp.setViewportView(mortgagePanel);
+		mortgageSp.validate();
 	}
 }
