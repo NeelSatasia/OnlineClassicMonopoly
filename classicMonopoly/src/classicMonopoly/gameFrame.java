@@ -2152,297 +2152,8 @@ public class gameFrame {
 
 		player1NotBuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				isPlayer2Pass = false;
-				isPlayer3Pass = false;
-				JFrame bidFrame = new JFrame("Bid Time");
-				bidFrame.setSize(300, 200);
-				bidFrame.setVisible(true);
-				JPanel bidPanel = new JPanel();
-				bidPanel.setLayout(null);
-				bidFrame.add(bidPanel);
-				JLabel player2Bidder = new JLabel(player2);
-				bidPanel.add(player2Bidder);
-				player2Bidder.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-				player2Bidder.setBounds(20, 10, 100, 30);
-				JLabel player3Bidder = new JLabel(player3);
-				bidPanel.add(player3Bidder);
-				player3Bidder.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-				player3Bidder.setBounds(200, 10, 100, 30);
-				
-				bidPrice = prices_places[player1Location]/2;
-				
-				JButton player2Bid = new JButton("+10");
-				bidPanel.add(player2Bid);
-				player2Bid.setBounds(20, 40, 50, 20);
-				player2Bid.setFocusable(false);
-				
-				JButton player3Bid = new JButton("+10");
-				bidPanel.add(player3Bid);
-				player3Bid.setBounds(200, 40, 50, 20);
-				disableButton(player3Bid);
-				player3Bid.setFocusable(false);
-				
-				JButton player2Pass = new JButton("Pass");
-				bidPanel.add(player2Pass);
-				player2Pass.setBounds(20, 90, 50, 20);
-				enableButton(player2Pass);
-				player2Pass.setFocusable(false);
-				
-				JButton player3Pass = new JButton("Pass");
-				bidPanel.add(player3Pass);
-				player3Pass.setBounds(200, 90, 50, 20);
-				disableButton(player3Pass);
-				player3Pass.setFocusable(false);
-				
-				JButton player2Ok = new JButton("Ok");
-				bidPanel.add(player2Ok);
-				player2Ok.setBounds(20, 65, 50, 20);
-				player2Ok.setFocusable(false);
-				
-				JButton player3Ok = new JButton("Ok");
-				bidPanel.add(player3Ok);
-				player3Ok.setBounds(200, 65, 50, 20);
-				disableButton(player3Ok);
-				player3Ok.setFocusable(false);
-				
-				JButton allPass = new JButton("All Pass");
-				bidPanel.add(allPass);
-				enableButton(allPass);
-				allPass.setBounds(105, 90, 60, 20);
-				
-				if(player2Coins >= bidPrice) {
-					enableButton(player2Ok);
-				}
-				if (player2Coins >= bidPrice + 10) {
-					if (player3Coins >= bidPrice || player3Coins >= bidPrice + 10) {
-						enableButton(player2Bid);
-					} else {
-						disableButton(player2Bid);
-					}
-				} else {
-					disableButton(player2Bid);
-					disableButton(player2Ok);
-				}
-				
-				JLabel bidPriceLabel = new JLabel("Bid Price: $" + bidPrice);
-				bidPanel.add(bidPriceLabel);
-				bidPriceLabel.setBounds(95, 50, 100, 30);
-				bidPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-				
-				player2Bid.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						disableButton(player2Pass);
-						bidPrice += 10;
-						bidPriceLabel.setText("Bid Price: $" + bidPrice);
-						enableButton(player2Ok);
-						if (player2Coins >= bidPrice + 10) {
-							enableButton(player2Bid);
-						} else {
-							disableButton(player2Bid);
-						}
-					}
-				});
-				
-				player3Bid.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						disableButton(player3Pass);
-						bidPrice += 10;
-						bidPriceLabel.setText("Bid Price: $" + bidPrice);
-						enableButton(player3Ok);
-						if (player3Coins >= bidPrice + 10) {
-							enableButton(player3Bid);
-						} else {
-							disableButton(player3Bid);
-						}
-					}
-				});
-				
-				player2Pass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer2Pass = true;
-						if (isPlayer2Pass == true && isPlayer3Pass == true) {
-							for(int i = 0; i < propertiesNotBought.size(); i++) {
-								if(propertiesNotBought.get(i).equals(arr_places[player1Location])) {
-									propertiesNotBought.remove(i);
-								}
-							}
-							bidFrame.dispose();
-							isPlayer1Buy = false;
-							disableButton(player1NotBuy);
-							disableButton(player1Buy);
-						} else if (isPlayer2Pass == true && isPlayer3Pass == false) {
-							if (player3Coins < bidPrice || player3Coins < bidPrice + 10) {
-								enableButton(player3Pass);
-							} else {
-								enableButton(player3Ok);
-							}
-						}
-						disableButton(player2Bid);
-						disableButton(player2Pass);
-						disableButton(player2Ok);
-					}
-				});
-				
-				player3Pass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer3Pass = true;
-						if (isPlayer2Pass == true && isPlayer3Pass == true) {
-							for(int i = 0; i < propertiesNotBought.size(); i++) {
-								if(propertiesNotBought.get(i).equals(arr_places[player1Location])) {
-									propertiesNotBought.remove(i);
-								}
-							}
-							bidFrame.dispose();
-							isPlayer1Buy = false;
-							disableButton(player1NotBuy);
-							disableButton(player1Buy);
-						} else if (isPlayer3Pass == true && isPlayer2Pass == false) {
-							if (player2Coins < bidPrice || player2Coins < bidPrice + 10) {
-								enableButton(player2Pass);
-							} else {
-								enableButton(player2Ok);
-							}
-						}
-						disableButton(player3Bid);
-						disableButton(player3Pass);
-						disableButton(player3Ok);
-					}
-				});
-				
-				player2Ok.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (player3Coins < bidPrice || player3Coins < bidPrice + 10) {
-							isPlayer3Pass = true;
-						}
-						if (isPlayer3Pass == true) {
-							moneyData(bidPrice, 0, 2);
-							player2CoinsLabel.setText("$" + player2Coins);
-							player2Cards.add(arr_places[player1Location]);
-							player2CardsLabel.add(new JLabel(arr_places[player1Location]));
-							player2CardsLabel.get(player2Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-							monopolyDataPanel.add(player2CardsLabel.get(player2Cards.size() - 1));
-							player2CardsLabel.get(player2Cards.size() - 1).setBounds(16, player2Cardsy + 15, 140, 15);
-							player2Cardsy += 15;
-							propertiesNotBought.remove(arr_places[player1Location]);
-							disableButton(player1Buy);
-							disableButton(player1NotBuy);
-							if (arr_places[player1Location].indexOf("Railroad") > 0) {
-								player2Railroads += 1;
-							} else if (arr_places[player1Location].equals("Electric Company") || arr_places[player1Location].equals("Water Works")) {
-								player2Utilities += 1;
-							}
-							switch(cardColors[player1Location]) {
-								case "purple":
-									player2ColorPairCards[0] += 1;
-									break;
-								case "lightblue":
-									player2ColorPairCards[1] += 1;
-									break;
-								case "pink":
-									player2ColorPairCards[2] += 1;
-									break;
-								case "orange":
-									player2ColorPairCards[3] += 1;
-									break;
-								case "red":
-									player2ColorPairCards[4] += 1;
-									break;
-								case "yellow":
-									player2ColorPairCards[5] += 1;
-									break;
-								case "green":
-									player2ColorPairCards[6] += 1;
-									break;
-								case "darkblue":
-									player2ColorPairCards[7] += 1;
-									break;
-							}
-							isPlayer1Buy = false;
-							bidFrame.dispose();
-						} else {
-							disableButton(player2Bid);
-							disableButton(player2Pass);
-							disableButton(player2Ok);
-							if (player3Coins >= bidPrice + 10) {
-								enableButton(player3Bid);
-							}
-							enableButton(player3Pass);
-						}
-					}
-				});
-				
-				player3Ok.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (player2Coins < bidPrice || player2Coins < bidPrice + 10) {
-							isPlayer2Pass = true;
-						}
-						if (isPlayer2Pass == true) {
-							moneyData(bidPrice, 0, 3);
-							player3CoinsLabel.setText("$" + player3Coins);
-							player3Cards.add(arr_places[player1Location]);
-							player3CardsLabel.add(new JLabel(arr_places[player1Location]));
-							player3CardsLabel.get(player3Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-							monopolyDataPanel.add(player3CardsLabel.get(player3Cards.size() - 1));
-							player3CardsLabel.get(player3Cards.size() - 1).setBounds(16, player3Cardsy + 15, 140, 15);
-							player3Cardsy += 15;
-							propertiesNotBought.remove(arr_places[player1Location]);
-							disableButton(player1Buy);
-							disableButton(player1NotBuy);
-							if (arr_places[player1Location].indexOf("Railroad") > 0) {
-								player3Railroads += 1;
-							} else if (arr_places[player1Location].equals("Electric Company") || arr_places[player1Location].equals("Water Works")) {
-								player3Utilities += 1;
-							}
-							switch(cardColors[player1Location]) {
-								case "purple":
-									player3ColorPairCards[0] += 1;
-									break;
-								case "lightblue":
-									player3ColorPairCards[1] += 1;
-									break;
-								case "pink":
-									player3ColorPairCards[2] += 1;
-									break;
-								case "orange":
-									player3ColorPairCards[3] += 1;
-									break;
-								case "red":
-									player3ColorPairCards[4] += 1;
-									break;
-								case "yellow":
-									player3ColorPairCards[5] += 1;
-									break;
-								case "green":
-									player3ColorPairCards[6] += 1;
-									break;
-								case "darkblue":
-									player3ColorPairCards[7] += 1;
-									break;
-							}
-							isPlayer1Buy = false;
-							bidFrame.dispose();
-						} else {
-							disableButton(player3Bid);
-							disableButton(player3Pass);
-							disableButton(player3Ok);
-							if (player2Coins >= bidPrice + 10) {
-								enableButton(player2Bid);
-							}
-							enableButton(player2Pass);
-						}
-					}
-				});
-				
-				allPass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer2Pass = true;
-						isPlayer3Pass = true;
-						bidFrame.dispose();
-						disableButton(player1Buy);
-						disableButton(player1NotBuy);
-						isPlayer1Buy = false;
-					}
-				});
+				bidding(player1Location, 1, 2, 3, player2, player3, player2Coins, player3Coins, player2Cards, player3Cards, player2CardsLabel,
+						player3CardsLabel, player1Buy, player1NotBuy, player2CoinsLabel, player3CoinsLabel);
 			}
 		});
 
@@ -2835,297 +2546,8 @@ public class gameFrame {
 		
 		player2NotBuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				isPlayer1Pass = false;
-				isPlayer3Pass = false;
-				JFrame bidFrame = new JFrame("Bid Time");
-				bidFrame.setSize(300, 200);
-				bidFrame.setVisible(true);
-				JPanel bidPanel = new JPanel();
-				bidPanel.setLayout(null);
-				bidFrame.add(bidPanel);
-				JLabel player1Bidder = new JLabel(player1);
-				bidPanel.add(player1Bidder);
-				player1Bidder.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-				player1Bidder.setBounds(20, 10, 100, 30);
-				JLabel player3Bidder = new JLabel(player3);
-				bidPanel.add(player3Bidder);
-				player3Bidder.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-				player3Bidder.setBounds(200, 10, 100, 30);
-				
-				bidPrice = prices_places[player2Location]/2;
-				
-				JButton player1Bid = new JButton("+10");
-				bidPanel.add(player1Bid);
-				disableButton(player1Bid);
-				player1Bid.setBounds(20, 40, 50, 20);
-				player1Bid.setFocusable(false);
-				
-				JButton player3Bid = new JButton("+10");
-				bidPanel.add(player3Bid);
-				player3Bid.setBounds(200, 40, 50, 20);
-				player3Bid.setFocusable(false);
-				
-				JButton player1Pass = new JButton("Pass");
-				bidPanel.add(player1Pass);
-				player1Pass.setBounds(20, 90, 50, 20);
-				disableButton(player1Pass);
-				player1Pass.setFocusable(false);
-				
-				JButton player3Pass = new JButton("Pass");
-				bidPanel.add(player3Pass);
-				player3Pass.setBounds(200, 90, 50, 20);
-				enableButton(player3Pass);
-				player3Pass.setFocusable(false);
-				
-				JButton player1Ok = new JButton("Ok");
-				bidPanel.add(player1Ok);
-				player1Ok.setBounds(20, 65, 50, 20);
-				disableButton(player1Ok);
-				player1Ok.setFocusable(false);
-				
-				JButton player3Ok = new JButton("Ok");
-				bidPanel.add(player3Ok);
-				player3Ok.setBounds(200, 65, 50, 20);
-				player3Ok.setFocusable(false);
-				
-				JButton allPass = new JButton("All Pass");
-				bidPanel.add(allPass);
-				enableButton(allPass);
-				allPass.setBounds(105, 90, 60, 20);
-				
-				if(player3Coins >= bidPrice) {
-					enableButton(player3Ok);
-				}
-				if (player3Coins >= bidPrice + 10) {
-					if (player1Coins >= bidPrice || player1Coins >= bidPrice + 10) {
-						enableButton(player3Bid);
-					} else {
-						disableButton(player3Bid);
-					}
-				} else {
-					disableButton(player3Bid);
-					disableButton(player3Ok);
-				}
-				
-				JLabel bidPriceLabel = new JLabel("Bid Price: $" + bidPrice);
-				bidPanel.add(bidPriceLabel);
-				bidPriceLabel.setBounds(95, 50, 100, 30);
-				bidPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-				
-				player1Bid.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						disableButton(player1Pass);
-						bidPrice += 10;
-						bidPriceLabel.setText("Bid Price: $" + bidPrice);
-						enableButton(player1Ok);
-						if (player1Coins >= bidPrice + 10) {
-							enableButton(player1Bid);
-						} else {
-							disableButton(player1Bid);
-						}
-					}
-				});
-				
-				player3Bid.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						disableButton(player3Pass);
-						bidPrice += 10;
-						bidPriceLabel.setText("Bid Price: $" + bidPrice);
-						enableButton(player3Ok);
-						if (player3Coins >= bidPrice + 10) {
-							enableButton(player3Bid);
-						} else {
-							disableButton(player3Bid);
-						}
-					}
-				});
-				
-				player1Pass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer1Pass = true;
-						if (isPlayer1Pass == true && isPlayer3Pass == true) {
-							for(int i = 0; i < propertiesNotBought.size(); i++) {
-								if(propertiesNotBought.get(i).equals(arr_places[player2Location])) {
-									propertiesNotBought.remove(i);
-								}
-							}
-							bidFrame.dispose();
-							isPlayer2Buy = false;
-							disableButton(player2NotBuy);
-							disableButton(player2Buy);
-						} else if (isPlayer1Pass == true && isPlayer3Pass == false) {
-							if (player3Coins < bidPrice || player3Coins < bidPrice + 10) {
-								enableButton(player3Pass);
-							} else {
-								enableButton(player3Ok);
-							}
-						}
-						disableButton(player1Bid);
-						disableButton(player1Pass);
-						disableButton(player1Ok);
-					}
-				});
-				
-				player3Pass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer3Pass = true;
-						if (isPlayer1Pass == true && isPlayer3Pass == true) {
-							for(int i = 0; i < propertiesNotBought.size(); i++) {
-								if(propertiesNotBought.get(i).equals(arr_places[player2Location])) {
-									propertiesNotBought.remove(i);
-								}
-							}
-							bidFrame.dispose();
-							isPlayer2Buy = false;
-							disableButton(player2NotBuy);
-							disableButton(player2Buy);
-						} else if (isPlayer3Pass == true && isPlayer1Pass == false) {
-							if (player1Coins < bidPrice || player1Coins < bidPrice + 10) {
-								enableButton(player1Pass);
-							} else {
-								enableButton(player1Ok);
-							}
-						}
-						disableButton(player3Bid);
-						disableButton(player3Pass);
-						disableButton(player3Ok);
-					}
-				});
-				
-				player1Ok.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (player3Coins < bidPrice || player3Coins < bidPrice + 10) {
-							isPlayer3Pass = true;
-						}
-						if (isPlayer3Pass == true) {
-							moneyData(bidPrice, 0, 1);
-							player1CoinsLabel.setText("$" + player1Coins);
-							player1Cards.add(arr_places[player2Location]);
-							player1CardsLabel.add(new JLabel(arr_places[player2Location]));
-							player1CardsLabel.get(player1Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-							monopolyDataPanel.add(player1CardsLabel.get(player1Cards.size() - 1));
-							player1CardsLabel.get(player1Cards.size() - 1).setBounds(16, player1Cardsy + 15, 140, 15);
-							player1Cardsy += 15;
-							propertiesNotBought.remove(arr_places[player2Location]);
-							disableButton(player2Buy);
-							disableButton(player2NotBuy);
-							if (arr_places[player2Location].indexOf("Railroad") > 0) {
-								player1Railroads += 1;
-							} else if (arr_places[player2Location].equals("Electric Company") || arr_places[player2Location].equals("Water Works")) {
-								player1Utilities += 1;
-							}
-							switch(cardColors[player2Location]) {
-								case "purple":
-									player1ColorPairCards[0] += 1;
-									break;
-								case "lightblue":
-									player1ColorPairCards[1] += 1;
-									break;
-								case "pink":
-									player1ColorPairCards[2] += 1;
-									break;
-								case "orange":
-									player1ColorPairCards[3] += 1;
-									break;
-								case "red":
-									player1ColorPairCards[4] += 1;
-									break;
-								case "yellow":
-									player1ColorPairCards[5] += 1;
-									break;
-								case "green":
-									player1ColorPairCards[6] += 1;
-									break;
-								case "darkblue":
-									player1ColorPairCards[7] += 1;
-									break;
-							}
-							isPlayer2Buy = false;
-							bidFrame.dispose();
-						} else {
-							disableButton(player1Bid);
-							disableButton(player1Pass);
-							disableButton(player1Ok);
-							if (player3Coins >= bidPrice + 10) {
-								enableButton(player3Bid);
-							}
-							enableButton(player3Pass);
-						}
-					}
-				});
-				
-				player3Ok.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (player1Coins < bidPrice || player1Coins < bidPrice + 10) {
-							isPlayer1Pass = true;
-						}
-						if (isPlayer1Pass == true) {
-							moneyData(bidPrice, 0, 3);
-							player3CoinsLabel.setText("$" + player3Coins);
-							player3Cards.add(arr_places[player2Location]);
-							player3CardsLabel.add(new JLabel(arr_places[player2Location]));
-							player3CardsLabel.get(player3Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-							monopolyDataPanel.add(player3CardsLabel.get(player3Cards.size() - 1));
-							player3CardsLabel.get(player3Cards.size() - 1).setBounds(16, player3Cardsy + 15, 140, 15);
-							player3Cardsy += 15;
-							propertiesNotBought.remove(arr_places[player2Location]);
-							disableButton(player2Buy);
-							disableButton(player2NotBuy);
-							if (arr_places[player2Location].indexOf("Railroad") > 0) {
-								player3Railroads += 1;
-							} else if (arr_places[player2Location].equals("Electric Company") || arr_places[player2Location].equals("Water Works")) {
-								player3Utilities += 1;
-							}
-							switch(cardColors[player2Location]) {
-								case "purple":
-									player3ColorPairCards[0] += 1;
-									break;
-								case "lightblue":
-									player3ColorPairCards[1] += 1;
-									break;
-								case "pink":
-									player3ColorPairCards[2] += 1;
-									break;
-								case "orange":
-									player3ColorPairCards[3] += 1;
-									break;
-								case "red":
-									player3ColorPairCards[4] += 1;
-									break;
-								case "yellow":
-									player3ColorPairCards[5] += 1;
-									break;
-								case "green":
-									player3ColorPairCards[6] += 1;
-									break;
-								case "darkblue":
-									player3ColorPairCards[7] += 1;
-									break;
-							}
-							isPlayer2Buy = false;
-							bidFrame.dispose();
-						} else {
-							disableButton(player3Bid);
-							disableButton(player3Pass);
-							disableButton(player3Ok);
-							if (player1Coins >= bidPrice + 10) {
-								enableButton(player1Bid);
-							}
-							enableButton(player1Pass);
-						}
-					}
-				});
-				
-				allPass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer1Pass = true;
-						isPlayer3Pass = true;
-						bidFrame.dispose();
-						disableButton(player2Buy);
-						disableButton(player2NotBuy);
-						isPlayer2Buy = false;
-					}
-				});
+				bidding(player2Location, 2, 1, 3, player1, player3, player1Coins, player3Coins, player1Cards, player3Cards, player1CardsLabel,
+						player3CardsLabel, player2Buy, player2NotBuy, player1CoinsLabel, player3CoinsLabel);
 			}
 		});
 
@@ -3514,247 +2936,8 @@ public class gameFrame {
 
 		player3NotBuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				isPlayer1Pass = false;
-				isPlayer2Pass = false;
-				JFrame bidFrame = new JFrame("Bid Time");
-				bidFrame.setSize(300, 200);
-				bidFrame.setVisible(true);
-				JPanel bidPanel = new JPanel();
-				bidPanel.setLayout(null);
-				bidFrame.add(bidPanel);
-				JLabel player1Bidder = new JLabel(player1);
-				bidPanel.add(player1Bidder);
-				player1Bidder.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-				player1Bidder.setBounds(20, 10, 100, 30);
-				JLabel player2Bidder = new JLabel(player2);
-				bidPanel.add(player2Bidder);
-				player2Bidder.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-				player2Bidder.setBounds(200, 10, 100, 30);
-				
-				bidPrice = prices_places[player3Location]/2;
-				
-				JButton player1Bid = new JButton("+10");
-				bidPanel.add(player1Bid);
-				player1Bid.setBounds(20, 40, 50, 20);
-				player1Bid.setFocusable(false);
-				
-				JButton player2Bid = new JButton("+10");
-				bidPanel.add(player2Bid);
-				player2Bid.setBounds(200, 40, 50, 20);
-				disableButton(player2Bid);
-				player2Bid.setFocusable(false);
-				
-				JButton player1Pass = new JButton("Pass");
-				bidPanel.add(player1Pass);
-				player1Pass.setBounds(20, 90, 50, 20);
-				enableButton(player1Pass);
-				player1Pass.setFocusable(false);
-				
-				JButton player2Pass = new JButton("Pass");
-				bidPanel.add(player2Pass);
-				player2Pass.setBounds(200, 90, 50, 20);
-				disableButton(player2Pass);
-				player2Pass.setFocusable(false);
-				
-				JButton player1Ok = new JButton("Ok");
-				bidPanel.add(player1Ok);
-				player1Ok.setBounds(20, 65, 50, 20);
-				player1Ok.setFocusable(false);
-				
-				JButton player2Ok = new JButton("Ok");
-				bidPanel.add(player2Ok);
-				disableButton(player2Ok);
-				player2Ok.setBounds(200, 65, 50, 20);
-				player2Ok.setFocusable(false);
-				
-				JButton allPass = new JButton("All Pass");
-				bidPanel.add(allPass);
-				enableButton(allPass);
-				allPass.setBounds(105, 90, 60, 20);
-				
-				if(player1Coins >= bidPrice) {
-					enableButton(player1Ok);
-				}
-				if (player1Coins >= bidPrice + 10) {
-					if (player2Coins >= bidPrice || player2Coins >= bidPrice + 10) {
-						enableButton(player1Bid);
-					} else {
-						disableButton(player1Bid);
-					}
-				} else {
-					disableButton(player1Bid);
-					disableButton(player1Ok);
-				}
-				
-				JLabel bidPriceLabel = new JLabel("Bid Price: $" + bidPrice);
-				bidPanel.add(bidPriceLabel);
-				bidPriceLabel.setBounds(95, 50, 100, 30);
-				bidPriceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-				
-				player1Bid.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						disableButton(player1Pass);
-						bidPrice += 10;
-						bidPriceLabel.setText("Bid Price: $" + bidPrice);
-						enableButton(player1Ok);
-						if (player1Coins >= bidPrice + 10) {
-							enableButton(player1Bid);
-						} else {
-							disableButton(player1Bid);
-						}
-					}
-				});
-				
-				player2Bid.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						disableButton(player2Pass);
-						bidPrice += 10;
-						bidPriceLabel.setText("Bid Price: $" + bidPrice);
-						enableButton(player2Ok);
-						if (player2Coins >= bidPrice + 10) {
-							enableButton(player2Bid);
-						} else {
-							disableButton(player2Bid);
-						}
-					}
-				});
-				
-				player1Pass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer1Pass = true;
-						if (isPlayer1Pass == true && isPlayer2Pass == true) {
-							for(int i = 0; i < propertiesNotBought.size(); i++) {
-								if(propertiesNotBought.get(i).equals(arr_places[player3Location])) {
-									propertiesNotBought.remove(i);
-								}
-							}
-							bidFrame.dispose();
-							isPlayer3Buy = false;
-							disableButton(player3NotBuy);
-							disableButton(player3Buy);
-						} else if (isPlayer1Pass == true && isPlayer2Pass == false) {
-							if (player2Coins < bidPrice || player2Coins < bidPrice + 10) {
-								enableButton(player2Pass);
-							} else {
-								enableButton(player2Ok);
-							}
-						}
-						disableButton(player1Bid);
-						disableButton(player1Pass);
-						disableButton(player1Ok);
-					}
-				});
-				
-				player2Pass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer2Pass = true;
-						if (isPlayer1Pass == true && isPlayer2Pass == true) {
-							for(int i = 0; i < propertiesNotBought.size(); i++) {
-								if(propertiesNotBought.get(i).equals(arr_places[player3Location])) {
-									propertiesNotBought.remove(i);
-								}
-							}
-							bidFrame.dispose();
-							isPlayer3Buy = false;
-							disableButton(player3NotBuy);
-							disableButton(player3Buy);
-						} else if (isPlayer2Pass == true && isPlayer1Pass == false) {
-							if (player1Coins < bidPrice || player1Coins < bidPrice + 10) {
-								enableButton(player1Pass);
-							} else {
-								enableButton(player1Ok);
-							}
-						}
-						disableButton(player2Bid);
-						disableButton(player2Pass);
-						disableButton(player2Ok);
-					}
-				});
-				
-				player1Ok.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (player2Coins < bidPrice || player2Coins < bidPrice + 10) {
-							isPlayer2Pass = true;
-						}
-						if (isPlayer2Pass == true) {
-							moneyData(bidPrice, 0, 1);
-							player1CoinsLabel.setText("$" + player1Coins);
-							player1Cards.add(arr_places[player3Location]);
-							player1CardsLabel.add(new JLabel(arr_places[player3Location]));
-							player1CardsLabel.get(player1Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-							monopolyDataPanel.add(player1CardsLabel.get(player1Cards.size() - 1));
-							player1CardsLabel.get(player1Cards.size() - 1).setBounds(16, player1Cardsy + 15, 140, 15);
-							player1Cardsy += 15;
-							propertiesNotBought.remove(arr_places[player3Location]);
-							disableButton(player3Buy);
-							disableButton(player3NotBuy);
-							if (arr_places[player3Location].indexOf("Railroad") > 0) {
-								player1Railroads += 1;
-							} else if (arr_places[player3Location].equals("Electric Company") || arr_places[player3Location].equals("Water Works")) {
-								player1Utilities += 1;
-							}
-							pairCards(1, cardColors[player3Location]);
-							isPlayer3Buy = false;
-							bidFrame.dispose();
-						} else {
-							disableButton(player1Bid);
-							disableButton(player1Pass);
-							disableButton(player1Ok);
-							if (player2Coins >= bidPrice + 10) {
-								enableButton(player2Bid);
-							}
-							enableButton(player2Pass);
-						}
-					}
-				});
-				
-				player2Ok.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (player1Coins < bidPrice || player1Coins < bidPrice + 10) {
-							isPlayer1Pass = true;
-						}
-						if (isPlayer1Pass == true) {
-							moneyData(bidPrice, 0, 2);
-							player2CoinsLabel.setText("$" + player2Coins);
-							player2Cards.add(arr_places[player3Location]);
-							player2CardsLabel.add(new JLabel(arr_places[player3Location]));
-							player2CardsLabel.get(player2Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-							monopolyDataPanel.add(player2CardsLabel.get(player2Cards.size() - 1));
-							player2CardsLabel.get(player2Cards.size() - 1).setBounds(16, player2Cardsy + 15, 140, 15);
-							player2Cardsy += 15;
-							propertiesNotBought.remove(arr_places[player3Location]);
-							disableButton(player3Buy);
-							disableButton(player3NotBuy);
-							if (arr_places[player3Location].indexOf("Railroad") > 0) {
-								player2Railroads += 1;
-							} else if (arr_places[player3Location].equals("Electric Company") || arr_places[player3Location].equals("Water Works")) {
-								player2Utilities += 1;
-							}
-							pairCards(2, cardColors[player3Location]);
-							isPlayer3Buy = false;
-							bidFrame.dispose();
-						} else {
-							disableButton(player2Bid);
-							disableButton(player2Pass);
-							disableButton(player2Ok);
-							if (player1Coins >= bidPrice + 10) {
-								enableButton(player1Bid);
-							}
-							enableButton(player1Pass);
-						}
-					}
-				});
-				
-				allPass.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						isPlayer1Pass = true;
-						isPlayer2Pass = true;
-						bidFrame.dispose();
-						disableButton(player3Buy);
-						disableButton(player3NotBuy);
-						isPlayer3Buy = false;
-					}
-				});
+				bidding(player3Location, 3, 1, 2, player1, player2, player1Coins, player2Coins, player1Cards, player2Cards, player1CardsLabel,
+						player2CardsLabel, player3Buy, player3NotBuy, player1CoinsLabel, player2CoinsLabel);
 			}
 		});
 
@@ -5742,8 +4925,9 @@ public class gameFrame {
 		mortgageSp.validate();
 	}
 
-	public void bidding(int playerLocation, int notBuyer, int player1Bidder, int player2Bidder, boolean player1Passed, boolean player2Passed, boolean isPlayerBuy, String player1Name,
-			String player2Name, int firstBidderCoins, int secondBidderCoins, ArrayList<String> firstPlayerCards, ArrayList<String> secondPlayerCards, JButton playerBuy, JButton playerNotBuy) {
+	public void bidding(int playerLocation, int notBuyer, int player1Bidder, int player2Bidder, String player1Name, String player2Name,
+			int firstBidderCoins, int secondBidderCoins, ArrayList<String> firstPlayerCards, ArrayList<String> secondPlayerCards, ArrayList<JLabel> firstPlayerCardsLabel,
+			ArrayList<JLabel> secondPlayerCardsLabel, JButton playerBuy, JButton playerNotBuy, JLabel firstPlayerCoinsLabel, JLabel secondPlayerCoinsLabel) {
 		isPlayer1Pass = false;
 		isPlayer2Pass = false;
 		isPlayer3Pass = false;
@@ -5863,17 +5047,13 @@ public class gameFrame {
 						isPlayer3Pass = true;
 						break;
 				}
-				if (isPlayer1Pass == true && isPlayer2Pass == true) {
-					for(int i = 0; i < propertiesNotBought.size(); i++) {
-						if(propertiesNotBought.get(i).equals(arr_places[playerLocation])) {
-							propertiesNotBought.remove(i);
-						}
-					}
+				if (bidPass(player1Bidder) == true && bidPass(player2Bidder) == true) {
+					propertiesNotBought.remove(arr_places[playerLocation]);
 					bidFrame.dispose();
-					isPlayer3Buy = false;
+					isPlayerBuy(notBuyer);
 					disableButton(playerNotBuy);
 					disableButton(playerBuy);
-				} else if (isPlayer1Pass == true && isPlayer2Pass == false) {
+				} else if (bidPass(player1Bidder) == true && bidPass(player2Bidder) == false) {
 					if (secondBidderCoins < bidPrice || secondBidderCoins < bidPrice + 10) {
 						enableButton(player2Pass);
 					} else {
@@ -5899,17 +5079,13 @@ public class gameFrame {
 						isPlayer3Pass = true;
 						break;
 				}
-				if (isPlayer1Pass == true && isPlayer2Pass == true) {
-					for(int i = 0; i < propertiesNotBought.size(); i++) {
-						if(propertiesNotBought.get(i).equals(arr_places[playerLocation])) {
-							propertiesNotBought.remove(i);
-						}
-					}
+				if (bidPass(player1Bidder) == true && bidPass(player2Bidder) == true) {
+					propertiesNotBought.remove(arr_places[playerLocation]);
 					bidFrame.dispose();
-					isPlayer3Buy = false;
+					isPlayerBuy(notBuyer);
 					disableButton(playerNotBuy);
 					disableButton(playerBuy);
-				} else if (isPlayer2Pass == true && isPlayer1Pass == false) {
+				} else if (bidPass(player2Bidder) == true && bidPass(player1Bidder) == false) {
 					if (firstBidderCoins < bidPrice || firstBidderCoins < bidPrice + 10) {
 						enableButton(player1Pass);
 					} else {
@@ -5924,28 +5100,82 @@ public class gameFrame {
 		
 		player1Ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				disableButton(allPass);
 				if (secondBidderCoins < bidPrice || secondBidderCoins < bidPrice + 10) {
-					isPlayer2Pass = true;
+					switch (player2Bidder) {
+						case 1:
+							isPlayer1Pass = true;
+							break;
+						case 2:
+							isPlayer2Pass = true;
+							break;
+						case 3:
+							isPlayer3Pass = true;
+							break;
+					}
 				}
-				if (isPlayer2Pass == true) {
-					moneyData(bidPrice, 0, 1);
-					player1CoinsLabel.setText("$" + firstBidderCoins);
+				if (bidPass(player2Bidder) == true) {
+					moneyData(bidPrice, 0, player1Bidder);
+					firstPlayerCoinsLabel.setText("$" + firstBidderCoins);
+					int playerCardsy = 0;
+					switch (player1Bidder) {
+						case 1:
+							playerCardsy = player1Cardsy;
+							break;
+						case 2:
+							playerCardsy = player2Cardsy;
+							break;
+						case 3:
+							playerCardsy = player3Cardsy;
+							break;
+					}
 					firstPlayerCards.add(arr_places[playerLocation]);
-					player1CardsLabel.add(new JLabel(arr_places[playerLocation]));
-					player1CardsLabel.get(player1Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-					monopolyDataPanel.add(player1CardsLabel.get(player1Cards.size() - 1));
-					player1CardsLabel.get(player1Cards.size() - 1).setBounds(16, player1Cardsy, 140, 15);
-					player1Cardsy += 15;
+					firstPlayerCardsLabel.add(new JLabel(arr_places[playerLocation]));
+					firstPlayerCardsLabel.get(firstPlayerCards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
+					monopolyDataPanel.add(firstPlayerCardsLabel.get(firstPlayerCards.size() - 1));
+					firstPlayerCardsLabel.get(firstPlayerCards.size() - 1).setBounds(16, playerCardsy, 140, 15);
+					playerCardsy += 15;
+					switch (player1Bidder) {
+						case 1:
+							player1Cardsy = playerCardsy;
+							break;
+						case 2:
+							player2Cardsy = playerCardsy;
+							break;
+						case 3:
+							player3Cardsy = playerCardsy;
+							break;
+					}
 					propertiesNotBought.remove(arr_places[playerLocation]);
 					disableButton(playerBuy);
 					disableButton(playerNotBuy);
 					if (arr_places[playerLocation].indexOf("Railroad") > 0) {
-						player1Railroads += 1;
+						switch (player1Bidder) {
+							case 1:
+								player1Railroads += 1;
+								break;
+							case 2:
+								player2Railroads += 1;
+								break;
+							case 3:
+								player3Railroads += 1;
+								break;
+						}
 					} else if (arr_places[playerLocation].equals("Electric Company") || arr_places[playerLocation].equals("Water Works")) {
-						player1Utilities += 1;
+						switch (player1Bidder) {
+							case 1:
+								player1Utilities += 1;
+								break;
+							case 2:
+								player2Utilities += 1;
+								break;
+							case 3:
+								player3Utilities += 1;
+								break;
+						}
 					}
 					pairCards(player1Bidder, cardColors[playerLocation]);
-					isPlayer3Buy = false;
+					isPlayerBuy(notBuyer);
 					bidFrame.dispose();
 				} else {
 					disableButton(player1Bid);
@@ -5962,27 +5192,80 @@ public class gameFrame {
 		player2Ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (firstBidderCoins < bidPrice || firstBidderCoins < bidPrice + 10) {
-					isPlayer1Pass = true;
+					switch (player1Bidder) {
+						case 1:
+							isPlayer1Pass = true;
+							break;
+						case 2:
+							isPlayer2Pass = true;
+							break;
+						case 3:
+							isPlayer3Pass = true;
+							break;
+					}
 				}
-				if (isPlayer1Pass == true) {
+				if (bidPass(player1Bidder) == true) {
 					moneyData(bidPrice, 0, player2Bidder);
-					player2CoinsLabel.setText("$" + secondBidderCoins);
-					player2Cards.add(arr_places[playerLocation]);
-					player2CardsLabel.add(new JLabel(arr_places[playerLocation]));
-					player2CardsLabel.get(player2Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-					monopolyDataPanel.add(player2CardsLabel.get(player2Cards.size() - 1));
-					player2CardsLabel.get(player2Cards.size() - 1).setBounds(16, player2Cardsy + 15, 140, 15);
-					player2Cardsy += 15;
+					secondPlayerCoinsLabel.setText("$" + secondBidderCoins);
+					int playerCardsy = 0;
+					switch (player2Bidder) {
+						case 1:
+							playerCardsy = player1Cardsy;
+							break;
+						case 2:
+							playerCardsy = player2Cardsy;
+							break;
+						case 3:
+							playerCardsy = player3Cardsy;
+							break;
+					}
+					secondPlayerCards.add(arr_places[playerLocation]);
+					secondPlayerCardsLabel.add(new JLabel(arr_places[playerLocation]));
+					secondPlayerCardsLabel.get(secondPlayerCards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
+					monopolyDataPanel.add(secondPlayerCardsLabel.get(secondPlayerCards.size() - 1));
+					secondPlayerCardsLabel.get(secondPlayerCards.size() - 1).setBounds(16, playerCardsy, 140, 15);
+					playerCardsy += 15;
+					switch (player2Bidder) {
+						case 1:
+							player1Cardsy = playerCardsy;
+							break;
+						case 2:
+							player2Cardsy = playerCardsy;
+							break;
+						case 3:
+							player3Cardsy = playerCardsy;
+							break;
+					}
 					propertiesNotBought.remove(arr_places[playerLocation]);
 					disableButton(playerBuy);
 					disableButton(playerNotBuy);
 					if (arr_places[playerLocation].indexOf("Railroad") > 0) {
-						player2Railroads += 1;
+						switch (player2Bidder) {
+							case 1:
+								player1Railroads += 1;
+								break;
+							case 2:
+								player2Railroads += 1;
+								break;
+							case 3:
+								player3Railroads += 1;
+								break;
+						}
 					} else if (arr_places[playerLocation].equals("Electric Company") || arr_places[playerLocation].equals("Water Works")) {
-						player2Utilities += 1;
+						switch (player2Bidder) {
+							case 1:
+								player1Utilities += 1;
+								break;
+							case 2:
+								player2Utilities += 1;
+								break;
+							case 3:
+								player3Utilities += 1;
+								break;
+						}
 					}
 					pairCards(player2Bidder, cardColors[playerLocation]);
-					isPlayer3Buy = false;
+					isPlayerBuy(notBuyer);
 					bidFrame.dispose();
 				} else {
 					disableButton(player2Bid);
@@ -5998,13 +5281,295 @@ public class gameFrame {
 		
 		allPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				isPlayer1Pass = true;
-				isPlayer2Pass = true;
 				bidFrame.dispose();
 				disableButton(playerBuy);
 				disableButton(playerNotBuy);
-				isPlayer3Buy = false;
+				isPlayerBuy(notBuyer);
+				propertiesNotBought.remove(arr_places[playerLocation]);
 			}
 		});
+	}
+
+	public boolean bidPass(int player) {
+		boolean isPlayerPass = false;
+		switch (player) {
+			case 1:
+				isPlayerPass = isPlayer1Pass;
+				break;
+			case 2:
+				isPlayerPass = isPlayer2Pass;
+				break;
+			case 3:
+				isPlayerPass = isPlayer3Pass;
+				break;
+		}
+		return isPlayerPass;
+	}
+
+	public void isPlayerBuy(int player) {
+		switch (player) {
+			case 1:
+				isPlayer1Buy = false;
+				break;
+			case 2:
+				isPlayer2Buy = false;
+				break;
+			case 3:
+				isPlayer3Buy = false;
+				break;
+		}
+	}
+
+	public void playerPay(int playerLocation, int playerPaying, int firstPlayerEarn, int secondPlayerEarn) {
+		if(isChancePay == true) {
+			if (isPlayer2Pay == true && isPlayer3Pay == true && player1Coins >= cardDrawingPay) {
+				moneyData(50, 2, 1);
+				moneyData(50, 3, 1);
+				isPlayer3Pay = false;
+				isPlayer2Pay = false;
+				isPlayer1Pay = false;
+				isChancePay = false;
+				disableButton(player1Pay);
+			} else if(player1Coins >= cardDrawingPay) {
+				player1Coins -= cardDrawingPay;
+				moneyData(cardDrawingPay, 0, 1);
+				isPlayer1Pay = false;
+				isChancePay = false;
+				disableButton(player1Pay);
+			}
+		} else if (isCommunityPay == true) {
+			if (isPlayer2Pay == false && isPlayer3Pay == true && player1Coins >= 50) {
+				moneyData(50, 2, 1);
+				isCommunityPay = false;
+				isPlayer1Pay = false;
+				isPlayer3Pay = false;
+				disableButton(player1Pay);
+			} else if (isPlayer2Pay == true && isPlayer3Pay == false && player1Coins >= 50) {
+				moneyData(50, 3, 1);
+				disableButton(player1Pay);
+				enableButton(player2Pay);
+			} else if (player1Coins >= cardDrawingPay) {
+				moneyData(cardDrawingPay, 0, 1);
+				isPlayer1Pay = false;
+				isCommunityPay = false;
+				disableButton(player1Pay);
+			}
+		} else if (player1Location == 4) {
+			if(player1Coins >= 200) {
+				moneyData(200, 0, 1);
+				isPlayer1Pay = false;
+				disableButton(player1Pay);
+			}
+		} else if (player1Location == 38) {
+			if(player1Coins >= 75) {
+				moneyData(75, 0, 1);
+				isPlayer1Pay = false;
+				disableButton(player1Pay);
+			}
+		} else if (isJailPlayer1 == true) {
+			if (player1Coins >= 50) {
+				moneyData(50, 0, 1);
+				isJailPlayer1 = false;
+				player1JailCount = 3;
+				disableButton(player1Pay);
+				isPlayer1Pay = false;
+			}
+		} else if (isPlayer2Pay == true) {
+			if (isJailPlayer2 == false) {
+				if (arr_places[player1Location].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(2);
+					if (isNearestToNonColors == true) {
+						totalRailroadPayment *= 2;
+					}
+					if (player1Coins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, 2, 1);
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer2Pay = false;
+						if (isNearestToNonColors == true) {
+							isNearestToNonColors = false;
+						}
+					}
+				} else if (isPlayer1AtUtility == true) {
+					if (player2Utilities == 1 && isNearestToNonColors == false) {
+						if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(4 * (currentRollDice1 + currentRollDice2), 2, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer2Pay = false;
+							isPlayer1AtUtility = false;
+						}
+					} else if (player2Utilities > 1 || isNearestToNonColors == true) {
+						if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(10 * (currentRollDice1 + currentRollDice2), 2, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer2Pay = false;
+							isPlayer1AtUtility = false;
+							if (isNearestToNonColors == true) {
+								isNearestToNonColors = false;
+							}
+						}
+					}
+				} else {
+					if (player1Coins >= places_PaymentPrices[player1Location]) {
+						moneyData(places_PaymentPrices[player1Location], 2, 1);
+						if (isDeal == true) {
+							usingDeals(1);
+						}
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer2Pay = false;
+					}
+				}
+			} else if (isJailPlayer2 == true) {
+				if (arr_places[player1Location].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(2)/2;
+					if (isNearestToNonColors == true) {
+						totalRailroadPayment *= 2;
+					}
+					if (player1Coins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, 2, 1);
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer2Pay = false;
+						if (isNearestToNonColors == true) {
+							isNearestToNonColors = false;
+						}
+					}
+				} else if (isPlayer1AtUtility == true) {
+					if (player2Utilities == 1 && isNearestToNonColors == false) {
+						if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer2Pay = false;
+							isPlayer1AtUtility = false;
+						}
+					} else if (player2Utilities > 1 || isNearestToNonColors == true) {
+						if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer2Pay = false;
+							isPlayer1AtUtility = false;
+							if (isNearestToNonColors == true) {
+								isNearestToNonColors = false;
+							}
+						}
+					}
+				} else {
+					if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
+						moneyData(places_PaymentPrices[player1Location] / 2, 2, 1);
+						if (isDeal == true) {
+							usingDeals(1);
+						}
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer2Pay = false;
+					}
+				}
+			}
+		} else if (isPlayer3Pay == true) {
+			if (isJailPlayer3 == false) {
+				if (arr_places[player1Location].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(3);
+					if (isNearestToNonColors == true) {
+						totalRailroadPayment *= 2;
+					}
+					if (player1Coins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, 3, 1);
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer3Pay = false;
+						if (isNearestToNonColors == true) {
+							isNearestToNonColors = false;
+						}
+					}
+				} else if (isPlayer1AtUtility == true) {
+					if (player3Utilities == 1 && isNearestToNonColors == false) {
+						if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(4 * (currentRollDice1 + currentRollDice2), 3, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer3Pay = false;
+							isPlayer1AtUtility = false;
+						}
+					} else if (player3Utilities > 1 || isNearestToNonColors == true) {
+						if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(10 * (currentRollDice1 + currentRollDice2), 3, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer3Pay = false;
+							isPlayer1AtUtility = false;
+							if (isNearestToNonColors == true) {
+								isNearestToNonColors = false;
+							}
+						}
+					}
+				} else {
+					if (player1Coins >= places_PaymentPrices[player1Location]) {
+						moneyData(places_PaymentPrices[player1Location], 3, 1);
+						if (isDeal == true) {
+							usingDeals(1);
+						}
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer3Pay = false;
+					}
+				}
+			} else if (isJailPlayer3 == true) {
+				if (arr_places[player1Location].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(3)/2;
+					if (isNearestToNonColors == true) {
+						totalRailroadPayment *= 2;
+					}
+					if (player1Coins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, 3, 1);
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer3Pay = false;
+						if (isNearestToNonColors == true) {
+							isNearestToNonColors = false;
+						}
+					}
+				} else if (isPlayer1AtUtility == true) {
+					if (player3Utilities == 1 && isNearestToNonColors == false) {
+						if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer3Pay = false;
+							isPlayer1AtUtility = false;
+						}
+					} else if (player3Utilities > 1 || isNearestToNonColors == true) {
+						if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
+							disableButton(player1Pay);
+							isPlayer1Pay = false;
+							isPlayer3Pay = false;
+							isPlayer1AtUtility = false;
+							if (isNearestToNonColors == true) {
+								isNearestToNonColors = false;
+							}
+						}
+					}
+				} else {
+					if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
+						moneyData(places_PaymentPrices[player1Location] / 2, 3, 1);
+						if (isDeal == true) {
+							usingDeals(1);
+						}
+						disableButton(player1Pay);
+						isPlayer1Pay = false;
+						isPlayer3Pay = false;
+					}
+				}
+			}
+		}
+		
+		player1CoinsLabel.setText("$" + player1Coins);
+		player2CoinsLabel.setText("$" + player2Coins);
+		player3CoinsLabel.setText("$" + player3Coins);
 	}
 }
