@@ -274,6 +274,8 @@ public class gameFrame {
 			communityChests.add(0, randChest);
 		}
 		
+		chances.add(0, "Pay Each Player $50");
+		
 		dealOptions = new String[] {"Forgive House Payments For Both", "50% Of House Payments For Both", "30% Of House Payments For Both",
 				"75% Of House Payments For Both", "Exchange Cards"};
 
@@ -639,10 +641,12 @@ public class gameFrame {
 
 				if (e.getKeyCode() == KeyEvent.VK_R) {
 					if (isPlayer1Buy == false && isPlayer2Buy == false && isPlayer3Buy == false && isPlayer1Pay == false && isPlayer2Pay == false && isPlayer3Pay == false) {
-						currentRollDice1 = (int) (Math.random() * 6) + 1;
+						//currentRollDice1 = (int) (Math.random() * 6) + 1;
 						currentRollDice2 = (int) (Math.random() * 6) + 1;
 						rollDice1Label.setText("Dice One: Rolling...");
 						rollDice2Label.setText("Dice Two: Rolling...");
+						isPlayer1Turn = false;
+						isPlayer2Turn = true;
 					}
 				}
 			}
@@ -665,7 +669,7 @@ public class gameFrame {
 							//player1Location += currentRollDice1 + currentRollDice2;
 							if (player1Location == 0) {
 								player1Location += 21;
-							} else if (player1Location == 21) {
+							} else if (player1Location == 21 || player1Location == 24 || player1Location == 27) {
 								player1Location += 2;
 							} else {
 								player1Location += 1;
@@ -1140,11 +1144,13 @@ public class gameFrame {
 						if (isJailPlayer2 == false && isPlayer2AtUtility == false) {
 							//player2Location += currentRollDice1 + currentRollDice2;
 							if (player2Location == 0) {
-								player2Location += 26;
+								player2Location += 7;
 							} else if (player2Location == 26) {
 								player2Location += 1;
 							} else {
 								player2Location += 2;
+								isPlayer2Turn = false;
+								isPlayer1Turn = true;
 								enableButton(player1Deal);
 							}
 						} else if (isJailPlayer2 == true) {
@@ -1403,7 +1409,9 @@ public class gameFrame {
 								moneyData(150, 2, 0);
 								break;
 							case "Pay Each Player $50":
+								isPlayer1Pay = true;
 								isPlayer2Pay = true;
+								isPlayer3Pay = true;
 								isChancePay = true;
 								cardDrawingPay = 100;
 								enableButton(player2Pay);
@@ -1871,6 +1879,8 @@ public class gameFrame {
 								moneyData(150, 3, 0);
 								break;
 							case "Pay Each Player $50":
+								isPlayer1Pay = true;
+								isPlayer2Pay = true;
 								isPlayer3Pay = true;
 								isChancePay = true;
 								cardDrawingPay = 100;
@@ -2132,11 +2142,15 @@ public class gameFrame {
 				pairCards(1, cardColors[player1Location]);
 				isPlayer1Buy = false;
 				
-				if (player1Location == 24) {
+				/*if (player1Location == 24) {
 					player1Buy.hide();
 					monopolyDataPanel.remove(player1Buy);
 					monopolyDataPanel.add(player1Housing);
 					enableButton(player1Housing);
+				}*/
+				if (player1Location == 29) {
+					isPlayer1Turn = false;
+					isPlayer2Turn = true;
 				}
 			}
 		});
@@ -2159,256 +2173,9 @@ public class gameFrame {
 
 		player1Pay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(isChancePay == true) {
-					if (isPlayer2Pay == true && isPlayer3Pay == true && player1Coins >= cardDrawingPay) {
-						moneyData(50, 2, 1);
-						moneyData(50, 3, 1);
-						isPlayer3Pay = false;
-						isPlayer2Pay = false;
-						isPlayer1Pay = false;
-						isChancePay = false;
-						disableButton(player1Pay);
-					} else if(player1Coins >= cardDrawingPay) {
-						player1Coins -= cardDrawingPay;
-						moneyData(cardDrawingPay, 0, 1);
-						isPlayer1Pay = false;
-						isChancePay = false;
-						disableButton(player1Pay);
-					}
-				} else if (isCommunityPay == true) {
-					if (isPlayer2Pay == false && isPlayer3Pay == true && player1Coins >= 50) {
-						moneyData(50, 2, 1);
-						isCommunityPay = false;
-						isPlayer1Pay = false;
-						isPlayer3Pay = false;
-						disableButton(player1Pay);
-					} else if (isPlayer2Pay == true && isPlayer3Pay == false && player1Coins >= 50) {
-						moneyData(50, 3, 1);
-						disableButton(player1Pay);
-						enableButton(player2Pay);
-					} else if (player1Coins >= cardDrawingPay) {
-						moneyData(cardDrawingPay, 0, 1);
-						isPlayer1Pay = false;
-						isCommunityPay = false;
-						disableButton(player1Pay);
-					}
-				} else if (player1Location == 4) {
-					if(player1Coins >= 200) {
-						moneyData(200, 0, 1);
-						isPlayer1Pay = false;
-						disableButton(player1Pay);
-					}
-				} else if (player1Location == 38) {
-					if(player1Coins >= 75) {
-						moneyData(75, 0, 1);
-						isPlayer1Pay = false;
-						disableButton(player1Pay);
-					}
-				} else if (isJailPlayer1 == true) {
-					if (player1Coins >= 50) {
-						moneyData(50, 0, 1);
-						isJailPlayer1 = false;
-						player1JailCount = 3;
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-					}
-				} else if (isPlayer2Pay == true) {
-					if (isJailPlayer2 == false) {
-						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(2);
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player1Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 2, 1);
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer2Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer1AtUtility == true) {
-							if (player2Utilities == 1 && isNearestToNonColors == false) {
-								if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(4 * (currentRollDice1 + currentRollDice2), 2, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer2Pay = false;
-									isPlayer1AtUtility = false;
-								}
-							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
-								if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(10 * (currentRollDice1 + currentRollDice2), 2, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer2Pay = false;
-									isPlayer1AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player1Coins >= places_PaymentPrices[player1Location]) {
-								moneyData(places_PaymentPrices[player1Location], 2, 1);
-								if (isDeal == true) {
-									usingDeals(1);
-								}
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer2Pay = false;
-							}
-						}
-					} else if (isJailPlayer2 == true) {
-						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(2)/2;
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player1Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 2, 1);
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer2Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer1AtUtility == true) {
-							if (player2Utilities == 1 && isNearestToNonColors == false) {
-								if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer2Pay = false;
-									isPlayer1AtUtility = false;
-								}
-							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
-								if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer2Pay = false;
-									isPlayer1AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
-								moneyData(places_PaymentPrices[player1Location] / 2, 2, 1);
-								if (isDeal == true) {
-									usingDeals(1);
-								}
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer2Pay = false;
-							}
-						}
-					}
-				} else if (isPlayer3Pay == true) {
-					if (isJailPlayer3 == false) {
-						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(3);
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player1Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 3, 1);
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer3Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer1AtUtility == true) {
-							if (player3Utilities == 1 && isNearestToNonColors == false) {
-								if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(4 * (currentRollDice1 + currentRollDice2), 3, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer3Pay = false;
-									isPlayer1AtUtility = false;
-								}
-							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
-								if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(10 * (currentRollDice1 + currentRollDice2), 3, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer3Pay = false;
-									isPlayer1AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player1Coins >= places_PaymentPrices[player1Location]) {
-								moneyData(places_PaymentPrices[player1Location], 3, 1);
-								if (isDeal == true) {
-									usingDeals(1);
-								}
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer3Pay = false;
-							}
-						}
-					} else if (isJailPlayer3 == true) {
-						if (arr_places[player1Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(3)/2;
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player1Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 3, 1);
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer3Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer1AtUtility == true) {
-							if (player3Utilities == 1 && isNearestToNonColors == false) {
-								if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer3Pay = false;
-									isPlayer1AtUtility = false;
-								}
-							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
-								if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
-									disableButton(player1Pay);
-									isPlayer1Pay = false;
-									isPlayer3Pay = false;
-									isPlayer1AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
-								moneyData(places_PaymentPrices[player1Location] / 2, 3, 1);
-								if (isDeal == true) {
-									usingDeals(1);
-								}
-								disableButton(player1Pay);
-								isPlayer1Pay = false;
-								isPlayer3Pay = false;
-							}
-						}
-					}
-				}
-				
-				player1CoinsLabel.setText("$" + player1Coins);
-				player2CoinsLabel.setText("$" + player2Coins);
-				player3CoinsLabel.setText("$" + player3Coins);
+				playerPay(player1Location, 1, 2, 3, player1Coins, player2Coins, player3Coins,
+						isPlayer1AtUtility, isPlayer2Pay, isPlayer3Pay, player1Pay, player2Pay, player3Pay,
+						player2Utilities, player3Utilities, isJailPlayer1, isJailPlayer2, isJailPlayer3);
 			}
 		});
 
@@ -2553,254 +2320,9 @@ public class gameFrame {
 
 		player2Pay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(isChancePay == true) {
-					if (isPlayer1Pay == true && isPlayer3Pay == true && player2Coins >= cardDrawingPay) {
-						moneyData(50, 1, 2);
-						moneyData(50, 3, 2);
-						isPlayer3Pay = false;
-						isPlayer2Pay = false;
-						isPlayer1Pay = false;
-						isChancePay = false;
-						disableButton(player2Pay);
-					} else if (player2Coins >= cardDrawingPay) {
-						moneyData(cardDrawingPay, 0, 2);
-						isPlayer2Pay = false;
-						isChancePay = false;
-						disableButton(player2Pay);
-					}
-				} else if (isCommunityPay == true) {
-					if (isPlayer1Pay == false && isPlayer3Pay == true && player2Coins >= 50) {
-						moneyData(50, 1, 2);
-						disableButton(player2Pay);
-						enableButton(player3Pay);
-					} else if (isPlayer1Pay == true && isPlayer3Pay == false && player2Coins >= 50) {
-						moneyData(50, 3, 2);
-						isPlayer1Pay = false;
-						isPlayer2Pay = false;
-						isCommunityPay = false;
-						disableButton(player2Pay);
-					} else if (player2Coins >= cardDrawingPay) {
-						moneyData(cardDrawingPay, 0, 2);
-						isPlayer2Pay = false;
-						isCommunityPay = false;
-						disableButton(player2Pay);
-					}
-				} else if (player2Location == 4) {
-					if(player2Coins >= 200) {
-						moneyData(200, 0, 2);
-						isPlayer2Pay = false;
-						disableButton(player2Pay);
-					}
-				} else if (player2Location == 38) {
-					if(player2Coins >= 75) {
-						moneyData(75, 0, 2);
-						isPlayer2Pay = false;
-						disableButton(player2Pay);
-					}
-				} else if (isJailPlayer2 == true) {
-					if (player2Coins >= 50) {
-						moneyData(50, 0, 2);
-						isJailPlayer2 = false;
-						player2JailCount = 3;
-						isPlayer2Pay = false;
-					}
-				} else if (isPlayer1Pay == true) {
-					if (isJailPlayer1 == false) {
-						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(1);
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player2Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 1, 2);
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer1Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer2AtUtility == true) {
-							if (player1Utilities == 1 && isNearestToNonColors == false) {
-								if (player2Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(4 * (currentRollDice1 + currentRollDice2), 1, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer1Pay = false;
-									isPlayer2AtUtility = false;
-								}
-							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
-								if (player2Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(10 * (currentRollDice1 + currentRollDice2), 1, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer1Pay = false;
-									isPlayer2AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player2Coins >= places_PaymentPrices[player2Location]) {
-								moneyData(places_PaymentPrices[player2Location], 1, 2);
-								if (isDeal == true) {
-									usingDeals(2);
-								}
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer1Pay = false;
-							}
-						}
-					} else if (isJailPlayer1 == true) {
-						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(1)/2;
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player2Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 1, 2);
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer1Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer2AtUtility == true) {
-							if (player1Utilities == 1 && isNearestToNonColors == false) {
-								if (player2Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 1, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer1Pay = false;
-									isPlayer2AtUtility = false;
-								}
-							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
-								if (player2Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 1, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer1Pay = false;
-									isPlayer2AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player2Coins >= places_PaymentPrices[player2Location] / 2) {
-								moneyData(places_PaymentPrices[player2Location] / 2, 1, 2);
-								if (isDeal == true) {
-									usingDeals(2);
-								}
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer1Pay = false;
-							}
-						}
-					}
-				} else if (isPlayer3Pay == true) {
-					if (isJailPlayer3 == false) {
-						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(3);
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player2Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 3, 2);
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer3Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer2AtUtility == true) {
-							if (player3Utilities == 1 && isNearestToNonColors == false) {
-								if (player2Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(4 * (currentRollDice1 + currentRollDice2), 3, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer3Pay = false;
-									isPlayer2AtUtility = false;
-								}
-							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
-								if (player2Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(10 * (currentRollDice1 + currentRollDice2), 3, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer3Pay = false;
-									isPlayer2AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player2Coins >= places_PaymentPrices[player2Location]) {
-								moneyData(places_PaymentPrices[player2Location], 3, 2);
-								if (isDeal == true) {
-									usingDeals(2);
-								}
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer3Pay = false;
-							}
-						}
-					} else if (isJailPlayer3 == true) {
-						if (arr_places[player2Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(3)/2;
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player2Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 3, 2);
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer3Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer2AtUtility == true) {
-							if (player3Utilities == 1 && isNearestToNonColors == false) {
-								if (player2Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer3Pay = false;
-									isPlayer2AtUtility = false;
-								}
-							} else if (player3Utilities > 1 || isNearestToNonColors == true) {
-								if (player2Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 2);
-									disableButton(player2Pay);
-									isPlayer2Pay = false;
-									isPlayer3Pay = false;
-									isPlayer2AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player2Coins >= places_PaymentPrices[player2Location] / 2) {
-								moneyData(places_PaymentPrices[player2Location] / 2, 3, 2);
-								if (isDeal == true) {
-									usingDeals(2);
-								}
-								disableButton(player2Pay);
-								isPlayer2Pay = false;
-								isPlayer3Pay = false;
-							}
-						}
-					}
-				}
-				
-				player1CoinsLabel.setText("$" + player1Coins);
-				player2CoinsLabel.setText("$" + player2Coins);
-				player3CoinsLabel.setText("$" + player3Coins);
+				playerPay(player2Location, 2, 3, 1, player2Coins, player3Coins, player1Coins,
+						isPlayer2AtUtility, isPlayer3Pay, isPlayer1Pay, player2Pay, player3Pay, player1Pay,
+						player3Utilities, player1Utilities, isJailPlayer2, isJailPlayer3, isJailPlayer1);
 			}
 		});
 
@@ -2943,254 +2465,9 @@ public class gameFrame {
 
 		player3Pay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(isChancePay == true) {
-					if (isPlayer1Pay == true && isPlayer2Pay == true && player3Coins >= cardDrawingPay) {
-						moneyData(50, 1, 3);
-						moneyData(50, 2, 3);
-						isPlayer1Pay = false;
-						isPlayer2Pay = false;
-						isPlayer3Pay = false;
-						isChancePay = false;
-						disableButton(player3Pay);
-					} else if (player3Coins >= cardDrawingPay) {
-						moneyData(cardDrawingPay, 0, 3);
-						isPlayer3Pay = false;
-						isChancePay = false;
-						disableButton(player3Pay);
-					}
-				} else if (isCommunityPay == true) {
-					if (isPlayer1Pay == false && isPlayer2Pay == true && player3Coins >= 50) {
-						moneyData(50, 1, 3);
-						isPlayer2Pay = false;
-						isPlayer3Pay = false;
-						isCommunityPay = false;
-						disableButton(player3Pay);
-					} else if (isPlayer1Pay == true && isPlayer2Pay == false && player3Coins >= 50) {
-						moneyData(50, 2, 3);
-						disableButton(player3Pay);
-						enableButton(player1Pay);
-					} else if (player3Coins >= cardDrawingPay) {
-						moneyData(cardDrawingPay, 0, 3);
-						isPlayer3Pay = false;
-						isCommunityPay = false;
-						disableButton(player3Pay);
-					}
-				} else if (player3Location == 4) {
-					if(player3Coins >= 200) {
-						moneyData(200, 0, 3);
-						isPlayer3Pay = false;
-						disableButton(player3Pay);
-					}
-				} else if (player3Location == 38) {
-					if(player3Coins >= 75) {
-						moneyData(75, 0, 3);
-						isPlayer3Pay = false;
-						disableButton(player3Pay);
-					}
-				} else if (isJailPlayer3 == true) {
-					if (player3Coins >= 50) {
-						moneyData(50, 0, 3);
-						isJailPlayer3 = false;
-						player3JailCount = 3;
-						disableButton(player3Pay);
-						isPlayer3Pay = false;
-					}
-				} else if (isPlayer1Pay == true) {
-					if (isJailPlayer1 == false) {
-						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(1);
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player3Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 1, 3);
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer1Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer3AtUtility == true) {
-							if (player1Utilities == 1 && isNearestToNonColors == false) {
-								if (player3Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(4 * (currentRollDice1 + currentRollDice2), 1, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer1Pay = false;
-									isPlayer3AtUtility = false;
-								}
-							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
-								if (player3Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(10 * (currentRollDice1 + currentRollDice2), 1, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer1Pay = false;
-									isPlayer3AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player3Coins >= places_PaymentPrices[player3Location]) {
-								moneyData(places_PaymentPrices[player3Location], 1, 3);
-								if (isDeal == true) {
-									usingDeals(3);
-								}
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer1Pay = false;
-							}
-						}
-					} else if (isJailPlayer1 == true) {
-						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(1)/2;
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player3Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 1, 3);
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer1Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer3AtUtility == true) {
-							if (player1Utilities == 1 && isNearestToNonColors == false) {
-								if (player3Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 1, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer1Pay = false;
-									isPlayer3AtUtility = false;
-								}
-							} else if (player1Utilities > 1 || isNearestToNonColors == true) {
-								if (player3Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 1, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer1Pay = false;
-									isPlayer3AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player3Coins >= places_PaymentPrices[player3Location] / 2) {
-								moneyData(places_PaymentPrices[player3Location] / 2, 1, 3);
-								if (isDeal == true) {
-									usingDeals(3);
-								}
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer1Pay = false;
-							}
-						}
-					}
-				} else if (isPlayer2Pay == true) {
-					if (isJailPlayer2 == false) {
-						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(2);
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player3Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 2, 3);
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer2Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer3AtUtility == true) {
-							if (player2Utilities == 1 && isNearestToNonColors == false) {
-								if (player3Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(4 * (currentRollDice1 + currentRollDice2), 2, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer2Pay = false;
-									isPlayer3AtUtility = false;
-								}
-							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
-								if (player3Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-									moneyData(10 * (currentRollDice1 + currentRollDice2), 2, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer2Pay = false;
-									isPlayer3AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player3Coins >= places_PaymentPrices[player3Location]) {
-								moneyData(places_PaymentPrices[player3Location], 2, 3);
-								if (isDeal == true) {
-									usingDeals(3);
-								}
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer2Pay = false;
-							}
-						}
-					} else if (isJailPlayer2 == true) {
-						if (arr_places[player3Location].indexOf("Railroad") > 0) {
-							int totalRailroadPayment = getRailroadPayment(2)/2;
-							if (isNearestToNonColors == true) {
-								totalRailroadPayment *= 2;
-							}
-							if (player3Coins >= totalRailroadPayment) {
-								moneyData(totalRailroadPayment, 2, 3);
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer2Pay = false;
-								if (isNearestToNonColors == true) {
-									isNearestToNonColors = false;
-								}
-							}
-						} else if (isPlayer3AtUtility == true) {
-							if (player2Utilities == 1 && isNearestToNonColors == false) {
-								if (player3Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer2Pay = false;
-									isPlayer3AtUtility = false;
-								}
-							} else if (player2Utilities > 1 || isNearestToNonColors == true) {
-								if (player3Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-									moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 3);
-									disableButton(player3Pay);
-									isPlayer3Pay = false;
-									isPlayer2Pay = false;
-									isPlayer3AtUtility = false;
-									if (isNearestToNonColors == true) {
-										isNearestToNonColors = false;
-									}
-								}
-							}
-						} else {
-							if (player3Coins >= places_PaymentPrices[player3Location] / 2) {
-								moneyData(places_PaymentPrices[player3Location] / 2, 2, 3);
-								if (isDeal == true) {
-									usingDeals(3);
-								}
-								disableButton(player3Pay);
-								isPlayer3Pay = false;
-								isPlayer2Pay = false;
-							}
-						}
-					}
-				}
-				player1CoinsLabel.setText("$" + player1Coins);
-				player2CoinsLabel.setText("$" + player2Coins);
-				player3CoinsLabel.setText("$" + player3Coins);
+				playerPay(player3Location, 3, 1, 2, player3Coins, player1Coins, player2Coins,
+						isPlayer3AtUtility, isPlayer1Pay, isPlayer2Pay, player3Pay, player1Pay, player2Pay,
+						player1Utilities, player2Utilities, isJailPlayer3, isJailPlayer1, isJailPlayer2);
 			}
 		});
 
@@ -5320,249 +4597,261 @@ public class gameFrame {
 		}
 	}
 
-	public void playerPay(int playerLocation, int playerPaying, int firstPlayerEarn, int secondPlayerEarn) {
+	public void playerPay(int playerLocation, int playerPaying, int firstPlayerEarn, int secondPlayerEarn, int playerPayingCoins, int firstPlayerCoins, int secondPlayerCoins,
+			boolean isPlayerAtUtility, boolean isFirstPlayerPay, boolean isSecondPlayerPay, JButton playerPay, JButton firstPlayerPay, JButton secondPlayerPay,
+			int firstPlayerUtilities, int secondPlayerUtilities, boolean isJailPlayerPaying, boolean isJailFirstPlayer, boolean isJailSecondPlayer) {
 		if(isChancePay == true) {
-			if (isPlayer2Pay == true && isPlayer3Pay == true && player1Coins >= cardDrawingPay) {
-				moneyData(50, 2, 1);
-				moneyData(50, 3, 1);
-				isPlayer3Pay = false;
-				isPlayer2Pay = false;
-				isPlayer1Pay = false;
+			if (isFirstPlayerPay == true && isSecondPlayerPay == true && playerPayingCoins >= cardDrawingPay) {
+				moneyData(50, firstPlayerEarn, playerPaying);
+				moneyData(50, secondPlayerEarn, playerPaying);
+				isPay(1);
+				isPay(2);
+				isPay(3);
 				isChancePay = false;
-				disableButton(player1Pay);
-			} else if(player1Coins >= cardDrawingPay) {
-				player1Coins -= cardDrawingPay;
-				moneyData(cardDrawingPay, 0, 1);
-				isPlayer1Pay = false;
+				disableButton(playerPay);
+			} else if(playerPayingCoins >= cardDrawingPay) {
+				playerPayingCoins -= cardDrawingPay;
+				moneyData(cardDrawingPay, 0, playerPaying);
+				isPay(playerPaying);
 				isChancePay = false;
-				disableButton(player1Pay);
+				disableButton(playerPay);
 			}
 		} else if (isCommunityPay == true) {
-			if (isPlayer2Pay == false && isPlayer3Pay == true && player1Coins >= 50) {
-				moneyData(50, 2, 1);
+			if (isFirstPlayerPay == false && isSecondPlayerPay == true && playerPayingCoins >= 50) {
+				moneyData(50, firstPlayerEarn, playerPaying);
 				isCommunityPay = false;
-				isPlayer1Pay = false;
-				isPlayer3Pay = false;
-				disableButton(player1Pay);
-			} else if (isPlayer2Pay == true && isPlayer3Pay == false && player1Coins >= 50) {
-				moneyData(50, 3, 1);
-				disableButton(player1Pay);
-				enableButton(player2Pay);
-			} else if (player1Coins >= cardDrawingPay) {
-				moneyData(cardDrawingPay, 0, 1);
-				isPlayer1Pay = false;
+				isPay(playerPaying);
+				isPay(secondPlayerEarn);
+				disableButton(playerPay);
+			} else if (isFirstPlayerPay == true && isSecondPlayerPay == false && playerPayingCoins >= 50) {
+				moneyData(50, secondPlayerEarn, playerPaying);
+				disableButton(playerPay);
+				enableButton(firstPlayerPay);
+			} else if (playerPayingCoins >= cardDrawingPay) {
+				moneyData(cardDrawingPay, 0, playerPaying);
+				isPay(playerPaying);
 				isCommunityPay = false;
-				disableButton(player1Pay);
+				disableButton(playerPay);
 			}
-		} else if (player1Location == 4) {
-			if(player1Coins >= 200) {
-				moneyData(200, 0, 1);
-				isPlayer1Pay = false;
-				disableButton(player1Pay);
+		} else if (playerLocation == 4) {
+			if(playerPayingCoins >= 200) {
+				moneyData(200, 0, playerPaying);
+				isPay(playerPaying);
+				disableButton(playerPay);
 			}
-		} else if (player1Location == 38) {
-			if(player1Coins >= 75) {
-				moneyData(75, 0, 1);
-				isPlayer1Pay = false;
-				disableButton(player1Pay);
+		} else if (playerLocation == 38) {
+			if(playerPayingCoins >= 75) {
+				moneyData(75, 0, playerPaying);
+				isPay(playerPaying);
+				disableButton(playerPay);
 			}
-		} else if (isJailPlayer1 == true) {
-			if (player1Coins >= 50) {
-				moneyData(50, 0, 1);
-				isJailPlayer1 = false;
-				player1JailCount = 3;
-				disableButton(player1Pay);
-				isPlayer1Pay = false;
+		} else if (isJailPlayerPaying == true) {
+			if (playerPayingCoins >= 50) {
+				moneyData(50, 0, playerPaying);
+				isJailPlayerPaying = false;
+				switch (playerPaying) {
+					case 1:
+						player1JailCount = 3;
+						break;
+					case 2:
+						player2JailCount = 3;
+						break;
+					case 3:
+						player3JailCount = 3;
+						break;
+				}
+				disableButton(playerPay);
+				isPay(playerPaying);
 			}
-		} else if (isPlayer2Pay == true) {
-			if (isJailPlayer2 == false) {
-				if (arr_places[player1Location].indexOf("Railroad") > 0) {
-					int totalRailroadPayment = getRailroadPayment(2);
+		} else if (isFirstPlayerPay == true) {
+			if (isJailFirstPlayer == false) {
+				if (arr_places[playerLocation].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(firstPlayerEarn);
 					if (isNearestToNonColors == true) {
 						totalRailroadPayment *= 2;
 					}
-					if (player1Coins >= totalRailroadPayment) {
-						moneyData(totalRailroadPayment, 2, 1);
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer2Pay = false;
+					if (playerPayingCoins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, firstPlayerEarn, playerPaying);
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(firstPlayerEarn);
 						if (isNearestToNonColors == true) {
 							isNearestToNonColors = false;
 						}
 					}
-				} else if (isPlayer1AtUtility == true) {
-					if (player2Utilities == 1 && isNearestToNonColors == false) {
-						if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-							moneyData(4 * (currentRollDice1 + currentRollDice2), 2, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer2Pay = false;
-							isPlayer1AtUtility = false;
+				} else if (isPlayerAtUtility == true) {
+					if (firstPlayerUtilities == 1 && isNearestToNonColors == false) {
+						if (playerPayingCoins >= 4 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(4 * (currentRollDice1 + currentRollDice2), firstPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(firstPlayerEarn);
+							isPlayerAtUtility = false;
 						}
-					} else if (player2Utilities > 1 || isNearestToNonColors == true) {
-						if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-							moneyData(10 * (currentRollDice1 + currentRollDice2), 2, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer2Pay = false;
-							isPlayer1AtUtility = false;
+					} else if (firstPlayerUtilities > 1 || isNearestToNonColors == true) {
+						if (playerPayingCoins >= 10 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(10 * (currentRollDice1 + currentRollDice2), firstPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(firstPlayerEarn);
+							isPlayerAtUtility = false;
 							if (isNearestToNonColors == true) {
 								isNearestToNonColors = false;
 							}
 						}
 					}
 				} else {
-					if (player1Coins >= places_PaymentPrices[player1Location]) {
-						moneyData(places_PaymentPrices[player1Location], 2, 1);
+					if (playerPayingCoins >= places_PaymentPrices[playerLocation]) {
+						moneyData(places_PaymentPrices[playerLocation], firstPlayerEarn, playerPaying);
 						if (isDeal == true) {
-							usingDeals(1);
+							usingDeals(playerPaying);
 						}
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer2Pay = false;
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(firstPlayerEarn);
 					}
 				}
-			} else if (isJailPlayer2 == true) {
-				if (arr_places[player1Location].indexOf("Railroad") > 0) {
-					int totalRailroadPayment = getRailroadPayment(2)/2;
+			} else if (isJailFirstPlayer == true) {
+				if (arr_places[playerLocation].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(firstPlayerEarn)/2;
 					if (isNearestToNonColors == true) {
 						totalRailroadPayment *= 2;
 					}
-					if (player1Coins >= totalRailroadPayment) {
-						moneyData(totalRailroadPayment, 2, 1);
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer2Pay = false;
+					if (playerPayingCoins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, firstPlayerEarn, playerPaying);
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(firstPlayerEarn);
 						if (isNearestToNonColors == true) {
 							isNearestToNonColors = false;
 						}
 					}
-				} else if (isPlayer1AtUtility == true) {
-					if (player2Utilities == 1 && isNearestToNonColors == false) {
-						if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-							moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer2Pay = false;
-							isPlayer1AtUtility = false;
+				} else if (isPlayerAtUtility == true) {
+					if (firstPlayerUtilities == 1 && isNearestToNonColors == false) {
+						if (playerPayingCoins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, firstPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(firstPlayerEarn);
+							isPlayerAtUtility = false;
 						}
-					} else if (player2Utilities > 1 || isNearestToNonColors == true) {
-						if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-							moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 2, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer2Pay = false;
-							isPlayer1AtUtility = false;
+					} else if (firstPlayerUtilities > 1 || isNearestToNonColors == true) {
+						if (playerPayingCoins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, firstPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(firstPlayerEarn);
+							isPlayerAtUtility = false;
 							if (isNearestToNonColors == true) {
 								isNearestToNonColors = false;
 							}
 						}
 					}
 				} else {
-					if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
-						moneyData(places_PaymentPrices[player1Location] / 2, 2, 1);
+					if (playerPayingCoins >= places_PaymentPrices[playerLocation] / 2) {
+						moneyData(places_PaymentPrices[playerLocation] / 2, firstPlayerEarn, playerPaying);
 						if (isDeal == true) {
-							usingDeals(1);
+							usingDeals(playerPaying);
 						}
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer2Pay = false;
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(firstPlayerEarn);
 					}
 				}
 			}
-		} else if (isPlayer3Pay == true) {
-			if (isJailPlayer3 == false) {
-				if (arr_places[player1Location].indexOf("Railroad") > 0) {
-					int totalRailroadPayment = getRailroadPayment(3);
+		} else if (isSecondPlayerPay == true) {
+			if (isJailSecondPlayer == false) {
+				if (arr_places[playerLocation].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(secondPlayerEarn);
 					if (isNearestToNonColors == true) {
 						totalRailroadPayment *= 2;
 					}
-					if (player1Coins >= totalRailroadPayment) {
-						moneyData(totalRailroadPayment, 3, 1);
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer3Pay = false;
+					if (playerPayingCoins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, secondPlayerEarn, playerPaying);
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(secondPlayerEarn);
 						if (isNearestToNonColors == true) {
 							isNearestToNonColors = false;
 						}
 					}
-				} else if (isPlayer1AtUtility == true) {
-					if (player3Utilities == 1 && isNearestToNonColors == false) {
-						if (player1Coins >= 4 * (currentRollDice1 + currentRollDice2)) {
-							moneyData(4 * (currentRollDice1 + currentRollDice2), 3, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer3Pay = false;
-							isPlayer1AtUtility = false;
+				} else if (isPlayerAtUtility == true) {
+					if (secondPlayerUtilities == 1 && isNearestToNonColors == false) {
+						if (playerPayingCoins >= 4 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(4 * (currentRollDice1 + currentRollDice2), secondPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(secondPlayerEarn);
+							isPlayerAtUtility = false;
 						}
-					} else if (player3Utilities > 1 || isNearestToNonColors == true) {
-						if (player1Coins >= 10 * (currentRollDice1 + currentRollDice2)) {
-							moneyData(10 * (currentRollDice1 + currentRollDice2), 3, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer3Pay = false;
-							isPlayer1AtUtility = false;
+					} else if (secondPlayerUtilities > 1 || isNearestToNonColors == true) {
+						if (playerPayingCoins >= 10 * (currentRollDice1 + currentRollDice2)) {
+							moneyData(10 * (currentRollDice1 + currentRollDice2), secondPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(secondPlayerEarn);
+							isPlayerAtUtility = false;
 							if (isNearestToNonColors == true) {
 								isNearestToNonColors = false;
 							}
 						}
 					}
 				} else {
-					if (player1Coins >= places_PaymentPrices[player1Location]) {
-						moneyData(places_PaymentPrices[player1Location], 3, 1);
+					if (playerPayingCoins >= places_PaymentPrices[playerLocation]) {
+						moneyData(places_PaymentPrices[playerLocation], secondPlayerEarn, playerPaying);
 						if (isDeal == true) {
-							usingDeals(1);
+							usingDeals(playerPaying);
 						}
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer3Pay = false;
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(secondPlayerEarn);
 					}
 				}
-			} else if (isJailPlayer3 == true) {
-				if (arr_places[player1Location].indexOf("Railroad") > 0) {
-					int totalRailroadPayment = getRailroadPayment(3)/2;
+			} else if (isJailSecondPlayer == true) {
+				if (arr_places[playerLocation].indexOf("Railroad") > 0) {
+					int totalRailroadPayment = getRailroadPayment(secondPlayerEarn)/2;
 					if (isNearestToNonColors == true) {
 						totalRailroadPayment *= 2;
 					}
-					if (player1Coins >= totalRailroadPayment) {
-						moneyData(totalRailroadPayment, 3, 1);
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer3Pay = false;
+					if (playerPayingCoins >= totalRailroadPayment) {
+						moneyData(totalRailroadPayment, secondPlayerEarn, playerPaying);
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(secondPlayerEarn);
 						if (isNearestToNonColors == true) {
 							isNearestToNonColors = false;
 						}
 					}
-				} else if (isPlayer1AtUtility == true) {
-					if (player3Utilities == 1 && isNearestToNonColors == false) {
-						if (player1Coins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
-							moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer3Pay = false;
-							isPlayer1AtUtility = false;
+				} else if (isPlayerAtUtility == true) {
+					if (secondPlayerUtilities == 1 && isNearestToNonColors == false) {
+						if (playerPayingCoins >= (4 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((4 * (currentRollDice1 + currentRollDice2)) / 2, secondPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(secondPlayerEarn);
+							isPlayerAtUtility = false;
 						}
-					} else if (player3Utilities > 1 || isNearestToNonColors == true) {
-						if (player1Coins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
-							moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, 3, 1);
-							disableButton(player1Pay);
-							isPlayer1Pay = false;
-							isPlayer3Pay = false;
-							isPlayer1AtUtility = false;
+					} else if (secondPlayerUtilities > 1 || isNearestToNonColors == true) {
+						if (playerPayingCoins >= (10 * (currentRollDice1 + currentRollDice2)) / 2) {
+							moneyData((10 * (currentRollDice1 + currentRollDice2)) / 2, secondPlayerEarn, playerPaying);
+							disableButton(playerPay);
+							isPay(playerPaying);
+							isPay(secondPlayerEarn);
+							isPlayerAtUtility = false;
 							if (isNearestToNonColors == true) {
 								isNearestToNonColors = false;
 							}
 						}
 					}
 				} else {
-					if (player1Coins >= places_PaymentPrices[player1Location] / 2) {
-						moneyData(places_PaymentPrices[player1Location] / 2, 3, 1);
+					if (playerPayingCoins >= places_PaymentPrices[playerLocation] / 2) {
+						moneyData(places_PaymentPrices[playerLocation] / 2, secondPlayerEarn, playerPaying);
 						if (isDeal == true) {
-							usingDeals(1);
+							usingDeals(playerPaying);
 						}
-						disableButton(player1Pay);
-						isPlayer1Pay = false;
-						isPlayer3Pay = false;
+						disableButton(playerPay);
+						isPay(playerPaying);
+						isPay(secondPlayerEarn);
 					}
 				}
 			}
@@ -5571,5 +4860,19 @@ public class gameFrame {
 		player1CoinsLabel.setText("$" + player1Coins);
 		player2CoinsLabel.setText("$" + player2Coins);
 		player3CoinsLabel.setText("$" + player3Coins);
+	}
+	
+	public void isPay(int playerPay) {
+		switch (playerPay) {
+			case 1:
+				isPlayer1Pay = false;
+				break;
+			case 2:
+				isPlayer2Pay = false;
+				break;
+			case 3:
+				isPlayer3Pay = false;
+				break;
+		}
 	}
 }
