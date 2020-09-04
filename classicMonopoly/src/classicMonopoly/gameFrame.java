@@ -54,19 +54,19 @@ public class gameFrame {
 	private JButton player1Housing;
 	private JButton player1NotBuy;
 	private JButton player1Pay;
-	private JButton player1Mortgage;
+	private JButton player1Mortgaging;
 	private JButton player1Deal;
 	private JButton player2Buy;
 	private JButton player2Housing;
 	private JButton player2NotBuy;
 	private JButton player2Pay;
-	private JButton player2Mortgage;
+	private JButton player2Mortgaging;
 	private JButton player2Deal;
 	private JButton player3Buy;
 	private JButton player3Housing;
 	private JButton player3NotBuy;
 	private JButton player3Pay;
-	private JButton player3Mortgage;
+	private JButton player3Mortgaging;
 	private JButton player3Deal;
 	private JScrollPane monopolyBoardSp;
 	private KeyListener monopolyKeys;
@@ -544,13 +544,13 @@ public class gameFrame {
 		monopolyDataPanel.add(player1Deal);
 		player1Deal.setBounds(145, 240, 60, 30);
 		player1Deal.setFocusable(false);
-		enableButton(player1Deal);
+		disableButton(player1Deal);
 
-		player1Mortgage = new JButton("Mortgage");
-		monopolyDataPanel.add(player1Mortgage);
-		player1Mortgage.setBounds(215, 200, 60, 30);
-		player1Mortgage.setFocusable(false);
-		enableButton(player1Mortgage);
+		player1Mortgaging = new JButton("Mortgaging");
+		monopolyDataPanel.add(player1Mortgaging);
+		player1Mortgaging.setBounds(213, 200, 70, 30);
+		player1Mortgaging.setFocusable(false);
+		enableButton(player1Mortgaging);
 
 		player2Buy = new JButton("Buy");
 		monopolyDataPanel.add(player2Buy);
@@ -581,11 +581,11 @@ public class gameFrame {
 		player2Deal.setFocusable(false);
 		disableButton(player2Deal);
 
-		player2Mortgage = new JButton("Mortgage");
-		monopolyDataPanel.add(player2Mortgage);
-		player2Mortgage.setBounds(215, 400, 60, 30);
-		player2Mortgage.setFocusable(false);
-		disableButton(player2Mortgage);
+		player2Mortgaging = new JButton("Mortgaging");
+		monopolyDataPanel.add(player2Mortgaging);
+		player2Mortgaging.setBounds(213, 400, 70, 30);
+		player2Mortgaging.setFocusable(false);
+		disableButton(player2Mortgaging);
 
 		player3Buy = new JButton("Buy");
 		monopolyDataPanel.add(player3Buy);
@@ -616,11 +616,11 @@ public class gameFrame {
 		player3Deal.setFocusable(false);
 		disableButton(player3Deal);
 
-		player3Mortgage = new JButton("Mortgage");
-		monopolyDataPanel.add(player3Mortgage);
-		player3Mortgage.setBounds(215, 600, 60, 30);
-		player3Mortgage.setFocusable(false);
-		disableButton(player3Mortgage);
+		player3Mortgaging = new JButton("Mortgaging");
+		monopolyDataPanel.add(player3Mortgaging);
+		player3Mortgaging.setBounds(213, 600, 70, 30);
+		player3Mortgaging.setFocusable(false);
+		disableButton(player3Mortgaging);
 
 		monopolyKeys = new KeyListener() {
 
@@ -641,12 +641,10 @@ public class gameFrame {
 
 				if (e.getKeyCode() == KeyEvent.VK_R) {
 					if (isPlayer1Buy == false && isPlayer2Buy == false && isPlayer3Buy == false && isPlayer1Pay == false && isPlayer2Pay == false && isPlayer3Pay == false) {
-						//currentRollDice1 = (int) (Math.random() * 6) + 1;
+						currentRollDice1 = (int) (Math.random() * 6) + 1;
 						currentRollDice2 = (int) (Math.random() * 6) + 1;
 						rollDice1Label.setText("Dice One: Rolling...");
 						rollDice2Label.setText("Dice Two: Rolling...");
-						isPlayer1Turn = false;
-						isPlayer2Turn = true;
 					}
 				}
 			}
@@ -666,15 +664,7 @@ public class gameFrame {
 						int player1PreviousLocation = player1Location;
 
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
-							//player1Location += currentRollDice1 + currentRollDice2;
-							if (player1Location == 0) {
-								player1Location += 21;
-							} else if (player1Location == 21 || player1Location == 24 || player1Location == 27) {
-								player1Location += 2;
-							} else {
-								player1Location += 1;
-							}
-							//player1Location += 2;
+							player1Location += currentRollDice1 + currentRollDice2;
 						} else if (isJailPlayer1 == true) {
 							if (currentRollDice1 != currentRollDice2) {
 								disableButton(player1Pay);
@@ -712,15 +702,15 @@ public class gameFrame {
 							}
 							enableButton(player1Pay);
 							if (player1Cards.size() > 0) {
-								enableButton(player1Mortgage);
+								enableButton(player1Mortgaging);
 							}
-						} /*else if (currentRollDice1 != currentRollDice2) {
+						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer1Turn = false;
 							isPlayer2Turn = true;
 							if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
 								enableButton(player2Pay);
 							}
-						}*/
+						}
 
 						for (int i = player1PreviousLocation; i < player1Location; i++) {
 							if (i >= 0 && i < 10) {
@@ -908,7 +898,7 @@ public class gameFrame {
 									enableButton(player1Pay);
 									if (player1Coins < cardDrawingPay) {
 										if (player1Cards.size() > 0) {
-											enableButton(player1Mortgage);
+											enableButton(player1Mortgaging);
 										}
 									}
 								}
@@ -920,7 +910,7 @@ public class gameFrame {
 								enableButton(player1Pay);
 								if (player1Coins < cardDrawingPay) {
 									if (player1Cards.size() > 0) {
-										enableButton(player1Mortgage);
+										enableButton(player1Mortgaging);
 									}
 								}
 								break;
@@ -939,7 +929,7 @@ public class gameFrame {
 								enableButton(player1Pay);
 								if (player1Coins < cardDrawingPay) {
 									if (player1Cards.size() > 0) {
-										enableButton(player1Mortgage);
+										enableButton(player1Mortgaging);
 									}
 								}
 								break;
@@ -1012,7 +1002,7 @@ public class gameFrame {
 								enableButton(player1Pay);
 								if (player1Coins < cardDrawingPay) {
 									if (player1Cards.size() > 0) {
-										enableButton(player1Mortgage);
+										enableButton(player1Mortgaging);
 									}
 								}
 								break;
@@ -1023,7 +1013,7 @@ public class gameFrame {
 								enableButton(player1Pay);
 								if (player1Coins < cardDrawingPay) {
 									if (player1Cards.size() > 0) {
-										enableButton(player1Mortgage);
+										enableButton(player1Mortgaging);
 									}
 								}
 								break;
@@ -1034,7 +1024,7 @@ public class gameFrame {
 								enableButton(player1Pay);
 								if (player1Coins < cardDrawingPay) {
 									if (player1Cards.size() > 0) {
-										enableButton(player1Mortgage);
+										enableButton(player1Mortgaging);
 									}
 								}
 								break;
@@ -1046,7 +1036,7 @@ public class gameFrame {
 									enableButton(player1Pay);
 									if (player1Coins < cardDrawingPay) {
 										if (player1Cards.size() > 0) {
-											enableButton(player1Mortgage);
+											enableButton(player1Mortgaging);
 										}
 									}
 								}
@@ -1094,7 +1084,10 @@ public class gameFrame {
 									isPlayer2Pay = true;
 									if (player1Coins < cardDrawingPay) {
 										if (player1Cards.size() > 0) {
-											enableButton(player1Mortgage);
+											enableButton(player1Mortgaging);
+										}
+										if (player1TotalHouses > 0 || player1TotalHotels > 0) {
+											enableButton(player1Housing);
 										}
 									}
 								} else {
@@ -1116,7 +1109,10 @@ public class gameFrame {
 									isPlayer3Pay = true;
 									if (player1Coins < cardDrawingPay) {
 										if (player1Cards.size() > 0) {
-											enableButton(player1Mortgage);
+											enableButton(player1Mortgaging);
+										}
+										if (player1TotalHouses > 0 || player1TotalHotels > 0) {
+											enableButton(player1Housing);
 										}
 									}
 								} else {
@@ -1142,17 +1138,7 @@ public class gameFrame {
 						int player2PreviousLocation = player2Location;
 
 						if (isJailPlayer2 == false && isPlayer2AtUtility == false) {
-							//player2Location += currentRollDice1 + currentRollDice2;
-							if (player2Location == 0) {
-								player2Location += 7;
-							} else if (player2Location == 26) {
-								player2Location += 1;
-							} else {
-								player2Location += 2;
-								isPlayer2Turn = false;
-								isPlayer1Turn = true;
-								enableButton(player1Deal);
-							}
+							player2Location += currentRollDice1 + currentRollDice2;
 						} else if (isJailPlayer2 == true) {
 							if (currentRollDice1 != currentRollDice2) {
 								disableButton(player2Pay);
@@ -1190,15 +1176,15 @@ public class gameFrame {
 							}
 							enableButton(player2Pay);
 							if(player2Cards.size() > 0) {
-								enableButton(player2Mortgage);
+								enableButton(player2Mortgaging);
 							}
-						} /*else if (currentRollDice1 != currentRollDice2) {
+						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer2Turn = false;
 							isPlayer3Turn = true;
 							if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 								enableButton(player3Pay);
 							}
-						}*/
+						}
 
 						for (int i = player2PreviousLocation; i < player2Location; i++) {
 							if (i >= 0 && i < 10) {
@@ -1386,7 +1372,7 @@ public class gameFrame {
 									enableButton(player2Pay);
 									if (player2Coins < cardDrawingPay) {
 										if (player2Cards.size() > 0) {
-											enableButton(player2Mortgage);
+											enableButton(player2Mortgaging);
 										}
 									}
 								}
@@ -1398,7 +1384,7 @@ public class gameFrame {
 								enableButton(player2Pay);
 								if (player2Coins < cardDrawingPay) {
 									if (player2Cards.size() > 0) {
-										enableButton(player2Mortgage);
+										enableButton(player2Mortgaging);
 									}
 								}
 								break;
@@ -1417,7 +1403,7 @@ public class gameFrame {
 								enableButton(player2Pay);
 								if (player2Coins < cardDrawingPay) {
 									if (player2Cards.size() > 0) {
-										enableButton(player2Mortgage);
+										enableButton(player2Mortgaging);
 									}
 								}
 								break;
@@ -1490,7 +1476,7 @@ public class gameFrame {
 								enableButton(player2Pay);
 								if (player2Coins < cardDrawingPay) {
 									if (player2Cards.size() > 0) {
-										enableButton(player2Mortgage);
+										enableButton(player2Mortgaging);
 									}
 								}
 								break;
@@ -1501,7 +1487,7 @@ public class gameFrame {
 								enableButton(player2Pay);
 								if (player2Coins < cardDrawingPay) {
 									if (player2Cards.size() > 0) {
-										enableButton(player2Mortgage);
+										enableButton(player2Mortgaging);
 									}
 								}
 								break;
@@ -1512,7 +1498,7 @@ public class gameFrame {
 								enableButton(player2Pay);
 								if (player2Coins < cardDrawingPay) {
 									if (player2Cards.size() > 0) {
-										enableButton(player2Mortgage);
+										enableButton(player2Mortgaging);
 									}
 								}
 								break;
@@ -1524,7 +1510,7 @@ public class gameFrame {
 									enableButton(player2Pay);
 									if (player2Coins < cardDrawingPay) {
 										if (player2Cards.size() > 0) {
-											enableButton(player2Mortgage);
+											enableButton(player2Mortgaging);
 										}
 									}
 								}
@@ -1573,7 +1559,10 @@ public class gameFrame {
 									isPlayer1Pay = true;
 									if (player2Coins < cardDrawingPay) {
 										if (player2Cards.size() > 0) {
-											enableButton(player2Mortgage);
+											enableButton(player2Mortgaging);
+										}
+										if (player2TotalHouses > 0 || player2TotalHotels > 0) {
+											enableButton(player2Housing);
 										}
 									}
 								} else {
@@ -1595,7 +1584,10 @@ public class gameFrame {
 									isPlayer3Pay = true;
 									if (player2Coins < cardDrawingPay) {
 										if (player2Cards.size() > 0) {
-											enableButton(player2Mortgage);
+											enableButton(player2Mortgaging);
+										}
+										if (player2TotalHouses > 0 || player2TotalHotels > 0) {
+											enableButton(player2Housing);
 										}
 									}
 								} else {
@@ -1621,8 +1613,7 @@ public class gameFrame {
 						int player3PreviousLocation = player3Location;
 
 						if (isJailPlayer3 == false && isPlayer3AtUtility == false) {
-							//player3Location += currentRollDice1 + currentRollDice2;
-							player3Location += 11;
+							player3Location += currentRollDice1 + currentRollDice2;
 						} else if (isJailPlayer3 == true) {
 							if (currentRollDice1 != currentRollDice2) {
 								disableButton(player3Pay);
@@ -1660,7 +1651,7 @@ public class gameFrame {
 							}
 							enableButton(player3Pay);
 							if(player3Cards.size() > 0) {
-								enableButton(player3Mortgage);
+								enableButton(player3Mortgaging);
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer3Turn = false;
@@ -1856,7 +1847,7 @@ public class gameFrame {
 									enableButton(player3Pay);
 									if (player3Coins < cardDrawingPay) {
 										if (player3Cards.size() > 0) {
-											enableButton(player3Mortgage);
+											enableButton(player3Mortgaging);
 										}
 									}
 								}
@@ -1868,7 +1859,7 @@ public class gameFrame {
 								enableButton(player3Pay);
 								if (player3Coins < cardDrawingPay) {
 									if (player3Cards.size() > 0) {
-										enableButton(player3Mortgage);
+										enableButton(player3Mortgaging);
 									}
 								}
 								break;
@@ -1887,7 +1878,7 @@ public class gameFrame {
 								enableButton(player3Pay);
 								if (player3Coins < cardDrawingPay) {
 									if (player3Cards.size() > 0) {
-										enableButton(player3Mortgage);
+										enableButton(player3Mortgaging);
 									}
 								}
 								break;
@@ -1960,7 +1951,7 @@ public class gameFrame {
 								enableButton(player3Pay);
 								if (player3Coins < cardDrawingPay) {
 									if (player3Cards.size() > 0) {
-										enableButton(player3Mortgage);
+										enableButton(player3Mortgaging);
 									}
 								}
 								break;
@@ -1971,7 +1962,7 @@ public class gameFrame {
 								enableButton(player3Pay);
 								if (player3Coins < cardDrawingPay) {
 									if (player3Cards.size() > 0) {
-										enableButton(player3Mortgage);
+										enableButton(player3Mortgaging);
 									}
 								}
 								break;
@@ -1982,7 +1973,7 @@ public class gameFrame {
 								enableButton(player3Pay);
 								if (player3Coins < cardDrawingPay) {
 									if (player3Cards.size() > 0) {
-										enableButton(player3Mortgage);
+										enableButton(player3Mortgaging);
 									}
 								}
 								break;
@@ -1994,7 +1985,7 @@ public class gameFrame {
 									enableButton(player3Pay);
 									if (player3Coins < cardDrawingPay) {
 										if (player3Cards.size() > 0) {
-											enableButton(player3Mortgage);
+											enableButton(player3Mortgaging);
 										}
 									}
 								}
@@ -2043,7 +2034,10 @@ public class gameFrame {
 									isPlayer1Pay = true;
 									if (player3Coins < cardDrawingPay) {
 										if (player3Cards.size() > 0) {
-											enableButton(player3Mortgage);
+											enableButton(player3Mortgaging);
+										}
+										if (player3TotalHouses > 0 || player3TotalHotels > 0) {
+											enableButton(player3Housing);
 										}
 									}
 								} else {
@@ -2065,7 +2059,10 @@ public class gameFrame {
 									isPlayer2Pay = true;
 									if (player3Coins < cardDrawingPay) {
 										if (player3Cards.size() > 0) {
-											enableButton(player3Mortgage);
+											enableButton(player3Mortgaging);
+										}
+										if (player3TotalHouses > 0 || player3TotalHotels > 0) {
+											enableButton(player3Housing);
 										}
 									}
 								} else {
@@ -2141,17 +2138,6 @@ public class gameFrame {
 				}
 				pairCards(1, cardColors[player1Location]);
 				isPlayer1Buy = false;
-				
-				/*if (player1Location == 24) {
-					player1Buy.hide();
-					monopolyDataPanel.remove(player1Buy);
-					monopolyDataPanel.add(player1Housing);
-					enableButton(player1Housing);
-				}*/
-				if (player1Location == 29) {
-					isPlayer1Turn = false;
-					isPlayer2Turn = true;
-				}
 			}
 		});
 
@@ -2179,10 +2165,10 @@ public class gameFrame {
 			}
 		});
 
-		player1Mortgage.addActionListener(new ActionListener() {
+		player1Mortgaging.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mortgaging(player1MortgageCards, player1Cards, player1ColorPairCardsList, player1ColorPairCardsHousesList, player1CardColors, player1HousesLabel, 1, 145,
-						player1CardsLabel, player1Mortgage, player1Housing);
+						player1CardsLabel, player1Mortgaging, player1Housing);
 			}
 		});
 
@@ -2264,17 +2250,21 @@ public class gameFrame {
 				
 				useDealOfPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer3,
+								useDealOfPlayer2, useDealOfPlayer3);
+						
 						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer3,
-								useDealOfPlayer2, useDealOfPlayer3, player1Location, 1, 2, player1DealList,
-								player2DealList, player1, player2, player1Pay, player1Deal);
+								useDealOfPlayer2, useDealOfPlayer3, player1Location, 1, 2, player1DealList, player2, player1Pay, player1Deal);
 					}
 				});
 				
 				useDealOfPlayer3.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer3, dealWithPlayer2,
-								useDealOfPlayer3, useDealOfPlayer2, player1Location, 1, 3, player1DealList,
-								player3DealList, player1, player3, player1Pay, player1Deal);
+						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer3,
+								useDealOfPlayer2, useDealOfPlayer3);
+						
+						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer3,
+								useDealOfPlayer2, useDealOfPlayer3, player1Location, 1, 3, player1DealList, player3, player1Pay, player1Deal);
 					}
 				});
 			}
@@ -2326,10 +2316,10 @@ public class gameFrame {
 			}
 		});
 
-		player2Mortgage.addActionListener(new ActionListener() {
+		player2Mortgaging.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mortgaging(player2MortgageCards, player2Cards, player2ColorPairCardsList, player2ColorPairCardsHousesList, player2CardColors, player2HousesLabel, 2, 345,
-						player2CardsLabel, player2Mortgage, player2Housing);
+						player2CardsLabel, player2Mortgaging, player2Housing);
 			}
 		});
 
@@ -2412,16 +2402,14 @@ public class gameFrame {
 				useDealOfPlayer1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer3,
-								useDealOfPlayer1, useDealOfPlayer3, player2Location, 2, 1, player2DealList,
-								player1DealList, player2, player1, player2Pay, player2Deal);
+								useDealOfPlayer1, useDealOfPlayer3, player2Location, 2, 1, player2DealList, player1, player2Pay, player2Deal);
 					}
 				});
 				
 				useDealOfPlayer3.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer3, dealWithPlayer1,
-								useDealOfPlayer3, useDealOfPlayer1, player2Location, 2, 3, player2DealList,
-								player3DealList, player2, player3, player2Pay, player2Deal);
+								useDealOfPlayer3, useDealOfPlayer1, player2Location, 2, 3, player2DealList, player3, player2Pay, player2Deal);
 					}
 				});
 			}
@@ -2471,10 +2459,10 @@ public class gameFrame {
 			}
 		});
 
-		player3Mortgage.addActionListener(new ActionListener() {
+		player3Mortgaging.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mortgaging(player3MortgageCards, player3Cards, player3ColorPairCardsList, player3ColorPairCardsHousesList, player3CardColors, player3HousesLabel, 3, 545,
-						player3CardsLabel, player3Mortgage, player3Housing);
+						player3CardsLabel, player3Mortgaging, player3Housing);
 			}
 		});
 	
@@ -2557,16 +2545,14 @@ public class gameFrame {
 				useDealOfPlayer1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
-								useDealOfPlayer1, useDealOfPlayer2, player3Location, 3, 1, player3DealList,
-								player1DealList, player3, player1, player3Pay, player3Deal);
+								useDealOfPlayer1, useDealOfPlayer2, player3Location, 3, 1, player3DealList, player1, player3Pay, player3Deal);
 					}
 				});
 				
 				useDealOfPlayer2.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer1,
-								useDealOfPlayer2, useDealOfPlayer1, player3Location, 3, 2, player3DealList,
-								player2DealList, player3, player2, player3Pay, player3Deal);
+								useDealOfPlayer2, useDealOfPlayer1, player3Location, 3, 2, player3DealList, player2, player3Pay, player3Deal);
 					}
 				});
 			}
@@ -3597,30 +3583,26 @@ public class gameFrame {
 	
 	public void usingDeal(JFrame dealFrame, JPanel dealPanel, JLabel setDealWithLabel, JLabel useDealLabel, JButton dealWithFirstPlayer, JButton dealWithSecondPlayer,
 			JButton useDealWithFirstPlayer, JButton useDealWithSecondPlayer, int playerLocation, int whichPlayer1, int whichPlayer2, ArrayList<String> firstPlayerDeals,
-			ArrayList<String> player2Deals, String firstPlayerName, String secondPlayerName, JButton playerPaying, JButton playerUsingDeal) {
-		
-		showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithFirstPlayer, dealWithSecondPlayer,
-				useDealWithFirstPlayer, useDealWithSecondPlayer);
+			String secondPlayerName, JButton playerPaying, JButton playerUsingDeal) {
 		
 		dealFrame.setSize(290, 500);
 		int y = 50;
-		int arrayLength = 0;
+		ArrayList<String> partnerDeals = new ArrayList<String>();
 		for (int i = 0; i < firstPlayerDeals.size(); i++) {
 			if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
-				arrayLength += 1;
+				partnerDeals.add(firstPlayerDeals.get(i));
 			}
 		}
-		JButton[] player1Deals = new JButton[arrayLength];
-		for (int i = 0; i < firstPlayerDeals.size(); i++) {
-			if (firstPlayerDeals.get(i).indexOf(secondPlayerName) >= 0) {
-				String dealName = firstPlayerDeals.get(i);
-				String sub_DealName = dealName.substring(secondPlayerName.length() + 1);
-				player1Deals[i] = new JButton(sub_DealName);
-				dealPanel.add(player1Deals[i]);
-				enableButton(player1Deals[i]);
-				player1Deals[i].setBounds(30, y, 200, 25);
-				y += 30;
-			}
+		JButton[] player1Deals = new JButton[partnerDeals.size()];
+		for (int i = 0; i < partnerDeals.size(); i++) {
+			String dealName = partnerDeals.get(i);
+			String sub_DealName = dealName.substring(secondPlayerName.length() + 1);
+			player1Deals[i] = new JButton(sub_DealName);
+			dealPanel.add(player1Deals[i]);
+			player1Deals[i].show();
+			enableButton(player1Deals[i]);
+			player1Deals[i].setBounds(30, y, 200, 25);
+			y += 30;
 		}
 		
 		int i = 0;
@@ -4873,6 +4855,482 @@ public class gameFrame {
 			case 3:
 				isPlayer3Pay = false;
 				break;
+		}
+	}
+
+	public void playerTakeTurn(int playerLocation) {
+		if (isPlayer1Turn == true && isPlayer1Buy == false && isPlayer3Buy == false && isPlayer1Pay == false && isPlayer2Pay == false && isPlayer3Pay == false) {
+			player3SameDiceNumCount = 0;
+			chanceLabel.setText("Chance: ");
+			communityChestLabel.setText("Community Chest: ");
+			
+			int player1PreviousLocation = playerLocation;
+
+			if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
+				playerLocation += currentRollDice1 + currentRollDice2;
+			} else if (isJailPlayer1 == true) {
+				if (currentRollDice1 != currentRollDice2) {
+					disableButton(player1Pay);
+					player1JailCount--;
+					if (player1JailCount == 0) {
+						enableButton(player1Pay);
+						isPlayer1Pay = true;
+					}
+				} else if (currentRollDice1 == currentRollDice2) {
+					disableButton(player1Pay);
+					isJailPlayer1 = false;
+					player1JailCount = 3;
+					playerLocation += currentRollDice1 + currentRollDice2;
+				}
+			}
+
+			if (isPlayer1AtUtility == true) {
+				if (previousRollDice1 != previousRollDice2) {
+					isPlayer1Turn = false;
+					isPlayer2Turn = true;
+					if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
+						enableButton(player2Pay);
+					}
+				}
+				isPlayer1Pay = true;
+				for (int i = 0; i < player2Cards.size(); i++) {
+					if (player2Cards.get(i).equals(arr_places[playerLocation])) {
+						isPlayer2Pay = true;
+					}
+				}
+				for (int i = 0; i < player3Cards.size(); i++) {
+					if (player3Cards.get(i).equals(arr_places[playerLocation])) {
+						isPlayer3Pay = true;
+					}
+				}
+				enableButton(player1Pay);
+				if (player1Cards.size() > 0) {
+					enableButton(player1Mortgaging);
+				}
+			} else if (currentRollDice1 != currentRollDice2) {
+				isPlayer1Turn = false;
+				isPlayer2Turn = true;
+				if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
+					enableButton(player2Pay);
+				}
+			}
+
+			for (int i = player1PreviousLocation; i < playerLocation; i++) {
+				if (i >= 0 && i < 10) {
+					if (i == 9) {
+						player1x = 2;
+					} else if (i == 4) {
+						player1x -= 112;
+					} else if (i == 5) {
+						player1x -= 109;
+					} else {
+						player1x -= 102;
+					}
+				}
+				if (i >= 10 && i < 20) {
+					player1x = 70;
+					if (i == 10) {
+						player1y -= 130;
+					} else if (i == 14 || i == 15) {
+						player1y -= 115;
+					} else if (i == 19) {
+						player1x = 85;
+						player1y = 65;
+					} else {
+						player1y -= 100;
+					}
+				}
+				if (i >= 20 && i < 30) {
+					if (i == 24) {
+						player1x += 112;
+					} else if (i == 25) {
+						player1x += 109;
+					} else {
+						player1x += 102;
+					}
+				}
+				if (i >= 30 && i < 39) {
+					player1x = 1140;
+					if (i == 30) {
+						player1y = 190;
+					} else if (i == 39) {
+						player1x = 1122;
+						player1y = 1150;
+					} else if (i == 34) {
+						player1y += 115;
+					} else if (i == 35) {
+						player1y += 113;
+					} else {
+						player1y += 100;
+					}
+				}
+				if (i >= 39 && i < 50) {
+					if (i == 39) {
+						player1x = 1122;
+						player1y = 1150;
+					} else if (i == 49) {
+						player1x = 2;
+					} else if (i == 44) {
+						player1x -= 112;
+					} else if (i == 45) {
+						player1x -= 109;
+					} else if (i == 50) {
+						player1y -= 130;
+					} else {
+						player1x -= 102;
+					}
+				}
+			}
+			
+			if (currentRollDice1 == currentRollDice2 && isPlayer1AtUtility == false) {
+				player1SameDiceNumCount++;
+				if(player1SameDiceNumCount == 2) {
+					player1SameDiceNumCount = 0;
+					isJailPlayer1 = true;
+					player1JailCount = 3;
+					playerLocation = 10;
+					player1x = 75;
+					player1y = 1150;
+				}
+			}
+
+			if (playerLocation > 39 && isJailPlayer1 == false) {
+				moneyData(200, 1, 0);
+				playerLocation -= player1PreviousLocation;
+				int num = 0;
+				int num2 = player1PreviousLocation;
+				while (num2 <= 39) {
+					num++;
+					num2++;
+				}
+				playerLocation -= num;
+			}
+
+			if (playerLocation == 7 || playerLocation == 22 || playerLocation == 36) {
+				chanceLabel.setText("Chance: " + chances.get(0));
+				switch (chances.get(0)) {
+				case "Advance To Go":
+					playerLocation = 0;
+					moneyData(200, 1, 0);
+					player1x = 1122;
+					player1y = 1150;
+					break;
+				case "Advance To St. Charles":
+					if (playerLocation > 11 && playerLocation < 39) {
+						moneyData(200, 1, 0);
+					}
+					playerLocation = 11;
+					player1x = 70;
+					player1y = 1020;
+					break;
+				case "Advance To Illinois Ave.":
+					if (playerLocation > 24 && playerLocation < 39) {
+						moneyData(200, 1, 0);
+					}
+					playerLocation = 24;
+					player1x = 493;
+					player1y = 65;
+					break;
+				case "Advance To Boardwalk":
+					playerLocation = 39;
+					player1x = 1140;
+					player1y = 1018;
+					break;
+				case "Advance To Nearest Utility":
+					isNearestToNonColors = true;
+					if (playerLocation == 7 || playerLocation == 36) {
+						if (playerLocation == 36) {
+							moneyData(200, 1, 0);
+						}
+						playerLocation = 12;
+						player1x = 70;
+						player1y = 920;
+					} else {
+						playerLocation = 28;
+						player1x = 918;
+						player1y = 65;
+					}
+					break;
+				case "Advance To Nearest Railroad":
+					isNearestToNonColors = true;
+					if (playerLocation == 36) {
+						playerLocation = 5;
+						player1x = 602;
+						player1y = 1150;
+						moneyData(200, 1, 0);
+					} else if (playerLocation == 7) {
+						playerLocation = 15;
+						player1x = 70;
+						player1y = 605;
+					} else if (playerLocation == 22) {
+						playerLocation = 25;
+						player1x = 605;
+						player1y = 65;
+					}
+					break;
+				case "Go Back 3 Spaces":
+					if (playerLocation == 7) {
+						player1x = 714;
+					} else if (playerLocation == 22) {
+						player1x = 70;
+						player1y = 190;
+					} else {
+						player1y = 390;
+					}
+
+					playerLocation -= 3;
+					break;
+				case "Bank Pays You $50":
+					moneyData(50, 1, 0);
+					break;
+				case "Get Out Of Jail":
+					player1JailFree += 1;
+					break;
+				case "Go To Jail":
+					playerLocation = 10;
+					isJailPlayer1 = true;
+					player1JailCount = 3;
+					player1x = 75;
+					player1y = 1150;
+					break;
+				case "$25 Per House & $100 Per Hotel":
+					if (player1TotalHouses > 0 || player1TotalHotels > 0) {
+						isPlayer1Pay = true;
+						isChancePay = true;
+						cardDrawingPay = ((25 * player1TotalHouses) + (100 * player1TotalHotels));
+						enableButton(player1Pay);
+						if (player1Coins < cardDrawingPay) {
+							if (player1Cards.size() > 0) {
+								enableButton(player1Mortgaging);
+							}
+						}
+					}
+					break;
+				case "Pay Tax $15":
+					isPlayer1Pay = true;
+					isChancePay = true;
+					cardDrawingPay = 15;
+					enableButton(player1Pay);
+					if (player1Coins < cardDrawingPay) {
+						if (player1Cards.size() > 0) {
+							enableButton(player1Mortgaging);
+						}
+					}
+					break;
+				case "Collect $100":
+					moneyData(100, 1, 0);
+					break;
+				case "Collect $150":
+					moneyData(150, 1, 0);
+					break;
+				case "Pay Each Player $50":
+					isPlayer1Pay = true;
+					isPlayer2Pay = true;
+					isPlayer3Pay = true;
+					isChancePay = true;
+					cardDrawingPay = 100;
+					enableButton(player1Pay);
+					if (player1Coins < cardDrawingPay) {
+						if (player1Cards.size() > 0) {
+							enableButton(player1Mortgaging);
+						}
+					}
+					break;
+				case "Go To Reading Railroad":
+					moneyData(200, 1, 0);
+					playerLocation = 5;
+					player1x = 602;
+					player1y = 1150;
+					break;
+				}
+
+				String firstChance = chances.get(0);
+				chances.remove(0);
+				chances.add(firstChance);
+			}
+
+			if (playerLocation == 2 || playerLocation == 17 || playerLocation == 33) {
+				communityChestLabel.setText("Community Chest: " + communityChests.get(0));
+				switch (communityChests.get(0)) {
+				case "Advance To Go":
+					playerLocation = 0;
+					moneyData(200, 1, 0);
+					player1x = 1122;
+					player1y = 1150;
+					break;
+				case "Go To Jail":
+					isJailPlayer1 = true;
+					player1JailCount = 3;
+					playerLocation = 10;
+					player1x = 75;
+					player1y = 1150;
+					break;
+				case "Bank Pays You $50":
+					moneyData(50, 1, 0);
+					break;
+				case "Collect $10":
+					moneyData(10, 1, 0);
+					break;
+				case "Collect $20":
+					moneyData(20, 1, 0);
+					break;
+				case "Receive $25":
+					moneyData(25, 1, 0);
+					break;
+				case "Collect $100":
+					moneyData(100, 1, 0);
+					break;
+				case "Collect $150":
+					moneyData(150, 1, 0);
+					break;
+				case "Collect $200":
+					moneyData(200, 1, 0);
+					break;
+				case "Inherit $100":
+					moneyData(100, 1, 0);
+					break;
+				case "Collect $50 From Every Player":
+					isCommunityPay = true;
+					isPlayer2Pay = true;
+					isPlayer3Pay = true;
+					enableButton(player2Pay);
+					break;
+				case "Get $50":
+					moneyData(50, 1, 0);
+					break;
+				case "Pay $50":
+					isCommunityPay = true;
+					isPlayer1Pay = true;
+					cardDrawingPay = 50;
+					enableButton(player1Pay);
+					if (player1Coins < cardDrawingPay) {
+						if (player1Cards.size() > 0) {
+							enableButton(player1Mortgaging);
+						}
+					}
+					break;
+				case "Pay $100":
+					isCommunityPay = true;
+					isPlayer1Pay = true;
+					cardDrawingPay = 100;
+					enableButton(player1Pay);
+					if (player1Coins < cardDrawingPay) {
+						if (player1Cards.size() > 0) {
+							enableButton(player1Mortgaging);
+						}
+					}
+					break;
+				case "Pay $150":
+					isCommunityPay = true;
+					isPlayer1Pay = true;
+					cardDrawingPay = 150;
+					enableButton(player1Pay);
+					if (player1Coins < cardDrawingPay) {
+						if (player1Cards.size() > 0) {
+							enableButton(player1Mortgaging);
+						}
+					}
+					break;
+				case "$40 Per House & $115 Per Hotel":
+					if (player1TotalHouses > 0 || player1TotalHotels > 0) {
+						isPlayer1Pay = true;
+						isCommunityPay = true;
+						cardDrawingPay = ((40 * player1TotalHouses) + (115 * player1TotalHotels));
+						enableButton(player1Pay);
+						if (player1Coins < cardDrawingPay) {
+							if (player1Cards.size() > 0) {
+								enableButton(player1Mortgaging);
+							}
+						}
+					}
+					break;
+				case "Get Out Of Jail Free":
+					player1JailFree += 1;
+					break;
+				}
+				String firstChest = communityChests.get(0);
+				communityChests.remove(0);
+				communityChests.add(firstChest);
+			}
+			if (playerLocation == 30) {
+				isJailPlayer1 = true;
+				player1JailCount = 3;
+				playerLocation = 10;
+				player1x = 75;
+				player1y = 1150;
+			} else if (playerLocation == 4) {
+				isPlayer1Pay = true;
+				enableButton(player1Pay);
+			} else if (playerLocation == 20) {
+				moneyData(500, 1, 0);
+			}
+
+			glassLabel.setLocation(player1x, player1y);
+
+			for (int i = 0; i < propertiesNotBought.size(); i++) {
+				if (arr_places[playerLocation].equals(propertiesNotBought.get(i))) {
+					if (player1Coins >= prices_places[playerLocation]) {
+						enableButton(player1Buy);
+					}
+					enableButton(player1NotBuy);
+					isPlayer1Buy = true;
+					if (isNearestToNonColors == true) {
+						isNearestToNonColors = false;
+					}
+				}
+			}
+			for (int i = 0; i < player2Cards.size(); i++) {
+				if (arr_places[playerLocation].equals(player2Cards.get(i))) {
+					if (playerLocation != 12 && playerLocation != 28) {
+						enableButton(player1Pay);
+						isPlayer1Pay = true;
+						isPlayer2Pay = true;
+						if (player1Coins < cardDrawingPay) {
+							if (player1Cards.size() > 0) {
+								enableButton(player1Mortgaging);
+							}
+							if (player1TotalHouses > 0 || player1TotalHotels > 0) {
+								enableButton(player1Housing);
+							}
+						}
+					} else {
+						if (isPlayer1AtUtility == false) {
+							isPlayer1AtUtility = true;
+							isPlayer1Turn = true;
+							isPlayer2Turn = false;
+							previousRollDice1 = currentRollDice1;
+							previousRollDice2 = currentRollDice2;
+						}
+					}
+				}
+			}
+			for (int i = 0; i < player3Cards.size(); i++) {
+				if (arr_places[playerLocation].equals(player3Cards.get(i))) {
+					if (playerLocation != 12 && playerLocation != 28) {
+						enableButton(player1Pay);
+						isPlayer1Pay = true;
+						isPlayer3Pay = true;
+						if (player1Coins < cardDrawingPay) {
+							if (player1Cards.size() > 0) {
+								enableButton(player1Mortgaging);
+							}
+							if (player1TotalHouses > 0 || player1TotalHotels > 0) {
+								enableButton(player1Housing);
+							}
+						}
+					} else {
+						if (isPlayer1AtUtility == false) {
+							isPlayer1AtUtility = true;
+							isPlayer1Turn = true;
+							isPlayer2Turn = false;
+							previousRollDice1 = currentRollDice1;
+							previousRollDice2 = currentRollDice2;
+						}
+					}
+				}
+			}
+
+			player1CoinsLabel.setText("$" + player1Coins);
 		}
 	}
 }
