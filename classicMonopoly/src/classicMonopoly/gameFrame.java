@@ -664,7 +664,8 @@ public class gameFrame {
 						int player1PreviousLocation = player1Location;
 
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
-							player1Location += currentRollDice1 + currentRollDice2;
+							//player1Location += currentRollDice1 + currentRollDice2;
+							player1Location += 8;
 						} else if (isJailPlayer1 == true) {
 							if (currentRollDice1 != currentRollDice2) {
 								disableButton(player1Pay);
@@ -2168,7 +2169,7 @@ public class gameFrame {
 		player1Mortgaging.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mortgaging(player1MortgageCards, player1Cards, player1ColorPairCardsList, player1ColorPairCardsHousesList, player1CardColors, player1HousesLabel, 1, 145,
-						player1CardsLabel, player1Mortgaging, player1Housing);
+						player1CardsLabel, player1Mortgaging, player1Housing, player1Coins);
 			}
 		});
 
@@ -2319,7 +2320,7 @@ public class gameFrame {
 		player2Mortgaging.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mortgaging(player2MortgageCards, player2Cards, player2ColorPairCardsList, player2ColorPairCardsHousesList, player2CardColors, player2HousesLabel, 2, 345,
-						player2CardsLabel, player2Mortgaging, player2Housing);
+						player2CardsLabel, player2Mortgaging, player2Housing, player2Coins);
 			}
 		});
 
@@ -2462,7 +2463,7 @@ public class gameFrame {
 		player3Mortgaging.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mortgaging(player3MortgageCards, player3Cards, player3ColorPairCardsList, player3ColorPairCardsHousesList, player3CardColors, player3HousesLabel, 3, 545,
-						player3CardsLabel, player3Mortgaging, player3Housing);
+						player3CardsLabel, player3Mortgaging, player3Housing, player3Coins);
 			}
 		});
 	
@@ -4033,24 +4034,49 @@ public class gameFrame {
 
 	public void mortgaging(ArrayList<String> playerMortgageCards, ArrayList<String> playerCards, ArrayList<String> playerColorPairCardsList,
 			ArrayList<Integer> playerColorPairCardsHousesList, ArrayList<String> playerCardColors, ArrayList<JLabel> playerHousesLabel, int playerMortgaging, int playerCardsy,
-			ArrayList<JLabel> playerCardsLabel, JButton playerMortgage, JButton playerHousing) {
+			ArrayList<JLabel> playerCardsLabel, JButton playerMortgage, JButton playerHousing, int playerCoins) {
 		JFrame mortgageFrame = new JFrame("Mortgage Cards");
 		JPanel mortgagePanel = new JPanel();
 		JPanel mortgagePanel2 = new JPanel();
 		mortgagePanel.setLayout(null);
 		mortgagePanel2.setLayout(null);
-		mortgagePanel.setPreferredSize(new Dimension(125, 900));
+		mortgagePanel.setPreferredSize(new Dimension(290, 1000));
 		mortgageFrame.add(mortgagePanel2);
-		mortgageFrame.setSize(185, 400);
+		mortgageFrame.setSize(310, 350);
 		mortgageFrame.setVisible(true);
 		
-		int y = 15;
+		JLabel mortgageLabel = new JLabel("Mortgage");
+		mortgagePanel.add(mortgageLabel);
+		mortgageLabel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		mortgageLabel.setBounds(30, 15, 100, 30);
+		
+		JLabel unmortgageLabel = new JLabel("Unmortgage");
+		mortgagePanel.add(unmortgageLabel);
+		unmortgageLabel.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		unmortgageLabel.setBounds(160, 15, 100, 30);
+		
+		int y = 60;
 		JButton[] mortgageCardsButtons = new JButton[playerCards.size()];
 		for (int i = 0; i < mortgageCardsButtons.length; i++) {
 			mortgageCardsButtons[i] = new JButton(playerCards.get(i));
 			mortgagePanel.add(mortgageCardsButtons[i]);
 			enableButton(mortgageCardsButtons[i]);
 			mortgageCardsButtons[i].setBounds(5, y, 120, 25);
+			y += 30;
+		}
+		
+		y = 60;
+		JButton[] mortgagedCardsButtons = new JButton[playerMortgageCards.size()];
+		for (int i = 0; i < mortgagedCardsButtons.length; i++) {
+			mortgagedCardsButtons[i] = new JButton(playerMortgageCards.get(i));
+			mortgagePanel.add(mortgagedCardsButtons[i]);
+			int index = playerMortgageCards.indexOf(playerMortgageCards.get(i));
+			if (playerCoins >= mortgagePricesPlaces[index]) {
+				enableButton(mortgagedCardsButtons[i]);
+			} else {
+				disableButton(mortgagedCardsButtons[i]);
+			}
+			mortgagedCardsButtons[i].setBounds(140, y, 120, 25);
 			y += 30;
 		}
 
@@ -4164,9 +4190,9 @@ public class gameFrame {
 							player3Cardsy = playerCardsy2;
 							break;
 					}
-					if (playerCards.size() == 0) {
+					/*if (playerCards.size() == 0) {
 						disableButton(playerMortgage);
-					}
+					}*/
 					if (playerColorPairCardsList.size() == 0) {
 						disableButton(playerHousing);
 					}
@@ -4174,10 +4200,20 @@ public class gameFrame {
 			});
 			i++;
 		}
+		
+		int k = 0;
+		while (k < mortgagedCardsButtons.length) {
+			int j = k;
+			mortgagedCardsButtons[i].addActionListener(new ActionListener () {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+		}
 		JScrollPane mortgageSp = new JScrollPane();
 		mortgageSp.add(mortgagePanel);
 		mortgagePanel2.add(mortgageSp);
-		mortgageSp.setBounds(0, 0, 145, 350);
+		mortgageSp.setBounds(0, 0, 290, 350);
 		mortgageSp.getVerticalScrollBar().setUnitIncrement(25);
 		mortgageSp.getHorizontalScrollBar().setUnitIncrement(30);
 		mortgageSp.setViewportView(mortgagePanel);
