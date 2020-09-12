@@ -14,8 +14,10 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -57,6 +59,7 @@ public class gameFrame {
 	private JButton player1Mortgaging;
 	private JButton player1Deal;
 	private JButton player1JailFreeCard;
+	private JButton player1GiveUp;
 	private JButton player2Buy;
 	private JButton player2Housing;
 	private JButton player2NotBuy;
@@ -64,6 +67,7 @@ public class gameFrame {
 	private JButton player2Mortgaging;
 	private JButton player2Deal;
 	private JButton player2JailFreeCard;
+	private JButton player2GiveUp;
 	private JButton player3Buy;
 	private JButton player3Housing;
 	private JButton player3NotBuy;
@@ -71,6 +75,7 @@ public class gameFrame {
 	private JButton player3Mortgaging;
 	private JButton player3Deal;
 	private JButton player3JailFreeCard;
+	private JButton player3GiveUp;
 	private JScrollPane monopolyBoardSp;
 	private KeyListener monopolyKeys;
 
@@ -195,6 +200,7 @@ public class gameFrame {
 	private int previousRollDice2;
 	private int houseCost;
 	private int cardLocation;
+	private int playersPlaying;
 	
 	private String[] cardColors;
 
@@ -520,130 +526,185 @@ public class gameFrame {
 		monopolyDataPanel.add(playerTurnArrow);
 		playerTurnArrow.setBounds(260, 95, 50, 50);
 		
+		JScrollPane player1Sp = new JScrollPane();
+		JPanel player1ButtonsPanel = new JPanel();
+		player1ButtonsPanel.setLayout(null);
+		player1Sp.add(player1ButtonsPanel);
+		player1ButtonsPanel.setPreferredSize(new Dimension(80, 245));
+		monopolyDataPanel.add(player1Sp);
+		player1Sp.setBounds(160, 160, 100, 100);
+		player1Sp.setViewportView(player1ButtonsPanel);
+		player1Sp.validate();
+		player1Sp.getVerticalScrollBar().setUnitIncrement(10);
+		
 		player1Buy = new JButton("Buy");
-		monopolyDataPanel.add(player1Buy);
-		player1Buy.setBounds(145, 160, 60, 30);
+		player1ButtonsPanel.add(player1Buy);
+		player1Buy.setBounds(12, 5, 60, 25);
 		player1Buy.setFocusable(false);
 		disableButton(player1Buy);
-		
-		player1Housing = new JButton("Housing");
-		monopolyDataPanel.add(player1Housing);
-		//player1Housing.setBounds(143, 160, 65, 30);
-		player1Housing.setBounds(215, 160, 65, 30);
-		player1Housing.setFocusable(false);
-		enableButton(player1Housing);
 
 		player1NotBuy = new JButton("Not Buy");
-		//monopolyDataPanel.add(player1NotBuy);
-		player1NotBuy.setBounds(215, 160, 60, 30);
+		player1ButtonsPanel.add(player1NotBuy);
+		player1NotBuy.setBounds(12, 35, 60, 25);
 		player1NotBuy.setFocusable(false);
 		disableButton(player1NotBuy);
 
 		player1Pay = new JButton("Pay");
-		monopolyDataPanel.add(player1Pay);
-		player1Pay.setBounds(145, 200, 60, 30);
+		player1ButtonsPanel.add(player1Pay);
+		player1Pay.setBounds(12, 65, 60, 25);
 		player1Pay.setFocusable(false);
 		disableButton(player1Pay);
+		
+		player1Housing = new JButton("Housing");
+		player1ButtonsPanel.add(player1Housing);
+		player1Housing.setBounds(10, 95, 65, 25);
+		player1Housing.setFocusable(false);
+		disableButton(player1Housing);
 
 		player1Deal = new JButton("Dealing");
-		monopolyDataPanel.add(player1Deal);
-		player1Deal.setBounds(145, 240, 60, 30);
+		player1ButtonsPanel.add(player1Deal);
+		player1Deal.setBounds(12, 125, 60, 25);
 		player1Deal.setFocusable(false);
 		disableButton(player1Deal);
 		
 		player1JailFreeCard = new JButton("Jail Free");
-		monopolyDataPanel.add(player1JailFreeCard);
-		player1JailFreeCard.setBounds(215, 240, 60, 30);
+		player1ButtonsPanel.add(player1JailFreeCard);
+		player1JailFreeCard.setBounds(12, 155, 60, 25);
 		player1JailFreeCard.setFocusable(false);
 		disableButton(player1JailFreeCard);
 
 		player1Mortgaging = new JButton("Mortgaging");
-		monopolyDataPanel.add(player1Mortgaging);
-		player1Mortgaging.setBounds(213, 200, 70, 30);
+		player1ButtonsPanel.add(player1Mortgaging);
+		player1Mortgaging.setBounds(7, 185, 70, 25);
 		player1Mortgaging.setFocusable(false);
-		enableButton(player1Mortgaging);
+		disableButton(player1Mortgaging);
+		
+		player1GiveUp = new JButton("Give Up");
+		player1ButtonsPanel.add(player1GiveUp);
+		player1GiveUp.setBounds(12, 215, 60, 25);
+		player1GiveUp.setFocusable(false);
+		enableButton(player1GiveUp);
+		player1GiveUp.setBackground(Color.RED);
+		
+		JScrollPane player2Sp = new JScrollPane();
+		JPanel player2ButtonsPanel = new JPanel();
+		player2ButtonsPanel.setLayout(null);
+		player2Sp.add(player2ButtonsPanel);
+		player2ButtonsPanel.setPreferredSize(new Dimension(80, 245));
+		monopolyDataPanel.add(player2Sp);
+		player2Sp.setBounds(160, 360, 100, 100);
+		player2Sp.setViewportView(player2ButtonsPanel);
+		player2Sp.validate();
+		player2Sp.getVerticalScrollBar().setUnitIncrement(10);
 
 		player2Buy = new JButton("Buy");
-		monopolyDataPanel.add(player2Buy);
-		player2Buy.setBounds(145, 360, 60, 30);
+		player2ButtonsPanel.add(player2Buy);
+		player2Buy.setBounds(12, 5, 60, 25);
 		player2Buy.setFocusable(false);
 		disableButton(player2Buy);
-		
-		player2Housing = new JButton("Housing");
-		player2Housing.setBounds(143, 360, 60, 30);
-		player2Housing.setFocusable(false);
-		disableButton(player2Housing);
 
 		player2NotBuy = new JButton("Not Buy");
-		monopolyDataPanel.add(player2NotBuy);
-		player2NotBuy.setBounds(215, 360, 60, 30);
+		player2ButtonsPanel.add(player2NotBuy);
+		player2NotBuy.setBounds(12, 35, 60, 25);
 		player2NotBuy.setFocusable(false);
 		disableButton(player2NotBuy);
 
 		player2Pay = new JButton("Pay");
-		monopolyDataPanel.add(player2Pay);
-		player2Pay.setBounds(145, 400, 60, 30);
+		player2ButtonsPanel.add(player2Pay);
+		player2Pay.setBounds(12, 65, 60, 25);
 		player2Pay.setFocusable(false);
 		disableButton(player2Pay);
+		
+		player2Housing = new JButton("Housing");
+		player2ButtonsPanel.add(player2Housing);
+		player2Housing.setBounds(10, 95, 60, 25);
+		player2Housing.setFocusable(false);
+		disableButton(player2Housing);
 
 		player2Deal = new JButton("Dealing");
-		monopolyDataPanel.add(player2Deal);
-		player2Deal.setBounds(145, 440, 60, 30);
+		player2ButtonsPanel.add(player2Deal);
+		player2Deal.setBounds(12, 125, 60, 25);
 		player2Deal.setFocusable(false);
 		disableButton(player2Deal);
 
 		player2JailFreeCard = new JButton("Jail Free");
-		monopolyDataPanel.add(player2JailFreeCard);
-		player2JailFreeCard.setBounds(215, 440, 60, 30);
+		player2ButtonsPanel.add(player2JailFreeCard);
+		player2JailFreeCard.setBounds(12, 155, 60, 25);
 		player2JailFreeCard.setFocusable(false);
 		disableButton(player2JailFreeCard);
 		
 		player2Mortgaging = new JButton("Mortgaging");
-		monopolyDataPanel.add(player2Mortgaging);
-		player2Mortgaging.setBounds(213, 400, 70, 30);
+		player2ButtonsPanel.add(player2Mortgaging);
+		player2Mortgaging.setBounds(7, 185, 70, 25);
 		player2Mortgaging.setFocusable(false);
 		disableButton(player2Mortgaging);
+		
+		player2GiveUp = new JButton("Give Up");
+		player2ButtonsPanel.add(player2GiveUp);
+		player2GiveUp.setBounds(12, 215, 60, 25);
+		player2GiveUp.setFocusable(false);
+		enableButton(player2GiveUp);
+		player2GiveUp.setBackground(Color.RED);
+		
+		JScrollPane player3Sp = new JScrollPane();
+		JPanel player3ButtonsPanel = new JPanel();
+		player3ButtonsPanel.setLayout(null);
+		player3Sp.add(player3ButtonsPanel);
+		player3ButtonsPanel.setPreferredSize(new Dimension(80, 245));
+		monopolyDataPanel.add(player3Sp);
+		player3Sp.setBounds(160, 560, 100, 100);
+		player3Sp.setViewportView(player3ButtonsPanel);
+		player3Sp.validate();
+		player3Sp.getVerticalScrollBar().setUnitIncrement(10);
 
 		player3Buy = new JButton("Buy");
-		monopolyDataPanel.add(player3Buy);
-		player3Buy.setBounds(145, 560, 60, 30);
+		player3ButtonsPanel.add(player3Buy);
+		player3Buy.setBounds(12, 5, 60, 25);
 		player3Buy.setFocusable(false);
 		disableButton(player3Buy);
-		
-		player3Housing = new JButton("Housing");
-		player3Housing.setBounds(143, 560, 60, 30);
-		player3Housing.setFocusable(false);
-		disableButton(player3Housing);
 
 		player3NotBuy = new JButton("Not Buy");
-		monopolyDataPanel.add(player3NotBuy);
-		player3NotBuy.setBounds(215, 560, 60, 30);
+		player3ButtonsPanel.add(player3NotBuy);
+		player3NotBuy.setBounds(12, 35, 60, 25);
 		player3NotBuy.setFocusable(false);
 		disableButton(player3NotBuy);
 
 		player3Pay = new JButton("Pay");
-		monopolyDataPanel.add(player3Pay);
-		player3Pay.setBounds(145, 600, 60, 30);
+		player3ButtonsPanel.add(player3Pay);
+		player3Pay.setBounds(12, 65, 60, 25);
 		player3Pay.setFocusable(false);
 		disableButton(player3Pay);
+		
+		player3Housing = new JButton("Housing");
+		player3ButtonsPanel.add(player3Housing);
+		player3Housing.setBounds(10, 95, 60, 25);
+		player3Housing.setFocusable(false);
+		disableButton(player3Housing);
 
 		player3Deal = new JButton("Dealing");
-		monopolyDataPanel.add(player3Deal);
-		player3Deal.setBounds(145, 640, 60, 30);
+		player3ButtonsPanel.add(player3Deal);
+		player3Deal.setBounds(12, 125, 60, 25);
 		player3Deal.setFocusable(false);
 		disableButton(player3Deal);
 		
 		player3JailFreeCard = new JButton("Jail Free");
-		monopolyDataPanel.add(player3JailFreeCard);
-		player3JailFreeCard.setBounds(215, 640, 60, 30);
+		player3ButtonsPanel.add(player3JailFreeCard);
+		player3JailFreeCard.setBounds(12, 155, 60, 25);
 		player3JailFreeCard.setFocusable(false);
 		disableButton(player3JailFreeCard);
 
 		player3Mortgaging = new JButton("Mortgaging");
-		monopolyDataPanel.add(player3Mortgaging);
-		player3Mortgaging.setBounds(213, 600, 70, 30);
+		player3ButtonsPanel.add(player3Mortgaging);
+		player3Mortgaging.setBounds(7, 185, 70, 25);
 		player3Mortgaging.setFocusable(false);
 		disableButton(player3Mortgaging);
+		
+		player3GiveUp = new JButton("Give Up");
+		player3ButtonsPanel.add(player3GiveUp);
+		player3GiveUp.setBounds(12, 215, 60, 25);
+		player3GiveUp.setFocusable(false);
+		enableButton(player3GiveUp);
+		player3GiveUp.setBackground(Color.RED);
 
 		monopolyKeys = new KeyListener() {
 
@@ -717,7 +778,11 @@ public class gameFrame {
 						if (isPlayer1AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer1Turn = false;
-								isPlayer2Turn = true;
+								if (isPlayer2Out == false) {
+									isPlayer2Turn = true;
+								} else {
+									isPlayer3Turn = true;
+								}
 								if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
 									enableButton(player2Pay);
 								}
@@ -739,7 +804,11 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer1Turn = false;
-							isPlayer2Turn = true;
+							if (isPlayer2Out == false) {
+								isPlayer2Turn = true;
+							} else {
+								isPlayer3Turn = true;
+							}
 							if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
 								enableButton(player2Pay);
 							}
@@ -1134,7 +1203,11 @@ public class gameFrame {
 									if (isPlayer1AtUtility == false) {
 										isPlayer1AtUtility = true;
 										isPlayer1Turn = true;
-										isPlayer2Turn = false;
+										if (isPlayer2Out == false) {
+											isPlayer2Turn = false;
+										} else {
+											isPlayer3Turn = false;
+										}
 										previousRollDice1 = currentRollDice1;
 										previousRollDice2 = currentRollDice2;
 									}
@@ -1159,7 +1232,11 @@ public class gameFrame {
 									if (isPlayer1AtUtility == false) {
 										isPlayer1AtUtility = true;
 										isPlayer1Turn = true;
-										isPlayer2Turn = false;
+										if (isPlayer2Out == false) {
+											isPlayer2Turn = false;
+										} else {
+											isPlayer3Turn = false;
+										}
 										previousRollDice1 = currentRollDice1;
 										previousRollDice2 = currentRollDice2;
 									}
@@ -1208,7 +1285,11 @@ public class gameFrame {
 						if (isPlayer2AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer2Turn = false;
-								isPlayer3Turn = true;
+								if (isPlayer3Out == false ) {
+									isPlayer3Turn = true;
+								} else {
+									isPlayer1Turn = true;
+								}
 								if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 									enableButton(player3Pay);
 								}
@@ -1230,7 +1311,11 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer2Turn = false;
-							isPlayer3Turn = true;
+							if (isPlayer3Out == false) {
+								isPlayer3Turn = true;
+							} else {
+								isPlayer1Turn = true;
+							}
 							if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 								enableButton(player3Pay);
 							}
@@ -1628,7 +1713,11 @@ public class gameFrame {
 										previousRollDice1 = currentRollDice1;
 										previousRollDice2 = currentRollDice2;
 										isPlayer2Turn = true;
-										isPlayer3Turn = false;
+										if (isPlayer3Out == false ) {
+											isPlayer3Turn = false;
+										} else {
+											isPlayer1Turn = false;
+										}
 									}
 								}
 							}
@@ -1653,7 +1742,11 @@ public class gameFrame {
 										previousRollDice1 = currentRollDice1;
 										previousRollDice2 = currentRollDice2;
 										isPlayer2Turn = true;
-										isPlayer3Turn = false;
+										if (isPlayer3Out == false ) {
+											isPlayer3Turn = false;
+										} else {
+											isPlayer1Turn = false;
+										}
 									}
 								}
 							}
@@ -1693,7 +1786,11 @@ public class gameFrame {
 						if (isPlayer3AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer3Turn = false;
-								isPlayer1Turn = true;
+								if (isPlayer1Out == false) {
+									isPlayer1Turn = true;
+								} else {
+									isPlayer2Turn = true;
+								}
 								if (isJailPlayer1 == true && isPlayer3Pay == false && player1JailCount != 1) {
 									enableButton(player1Pay);
 								}
@@ -1715,7 +1812,11 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer3Turn = false;
-							isPlayer1Turn = true;
+							if (isPlayer1Out == false) {
+								isPlayer1Turn = true;
+							} else {
+								isPlayer2Turn = true;
+							}
 							if (isJailPlayer1 == true && isPlayer3Pay == false && player1JailCount != 1) {
 								enableButton(player1Pay);
 							}
@@ -2111,7 +2212,11 @@ public class gameFrame {
 									if (isPlayer3AtUtility == false) {
 										isPlayer3AtUtility = true;
 										isPlayer3Turn = true;
-										isPlayer1Turn = false;
+										if (isPlayer1Out == false) {
+											isPlayer1Turn = false;
+										} else {
+											isPlayer2Turn = false;
+										}
 										previousRollDice1 = currentRollDice1;
 										previousRollDice2 = currentRollDice2;
 									}
@@ -2136,7 +2241,11 @@ public class gameFrame {
 									if (isPlayer3AtUtility == false) {
 										isPlayer3AtUtility = true;
 										isPlayer3Turn = true;
-										isPlayer1Turn = false;
+										if (isPlayer1Out == false) {
+											isPlayer1Turn = false;
+										} else {
+											isPlayer2Turn = false;
+										}
 										previousRollDice1 = currentRollDice1;
 										previousRollDice2 = currentRollDice2;
 									}
@@ -2156,19 +2265,6 @@ public class gameFrame {
 					}
 					
 					if(propertiesNotBought.size() == 0) {
-						player1Buy.hide();
-						monopolyDataPanel.remove(player1Buy);
-						player2Buy.hide();
-						monopolyDataPanel.remove(player2Buy);
-						player3Buy.hide();
-						monopolyDataPanel.remove(player3Buy);
-						player1NotBuy.hide();
-						monopolyDataPanel.remove(player1NotBuy);
-						player2NotBuy.hide();
-						monopolyDataPanel.remove(player2NotBuy);
-						player3NotBuy.hide();
-						monopolyDataPanel.remove(player3NotBuy);
-						
 						monopolyDataPanel.add(player1Housing);
 						monopolyDataPanel.add(player2Housing);
 						monopolyDataPanel.add(player3Housing);
@@ -2357,6 +2453,40 @@ public class gameFrame {
 			}
 		});
 		
+		player1GiveUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				isPlayer1Out = true;
+				isPlayer1Turn = false;
+				isPlayer1Buy = false;
+				if (isPlayer1Pay == true) {
+					if (isChancePay == true) {
+						
+					} else if (isPlayer2Pay == true && isPlayer2Out == false) {
+						player2Coins += places_PaymentPrices[player1Location];
+					}
+				}
+				if (isPlayer2Out == false) {
+					isPlayer2Turn = true;
+				} else {
+					isPlayer3Turn = true;
+				}
+				playersPlaying--;
+				player1Sp.setVisible(false);
+				monopolyDataPanel.remove(player1Sp);
+				player1CoinsLabel.hide();
+				monopolyDataPanel.remove(player1CoinsLabel);
+				player1Character.hide();
+				monopolyDataPanel.remove(player1Character);
+				
+				while (player1Cards.size() > 0) {
+					propertiesNotBought.add(player1Cards.get(0));
+					int cardPaymentPriceIndex = Arrays.asList(arr_places).indexOf(player1Cards.get(0));
+					places_PaymentPrices[cardPaymentPriceIndex] = places_PaymentPrices2[cardPaymentPriceIndex];
+					player1Cards.remove(0);
+				}
+			}
+		});
+		
 		player2Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				moneyData(prices_places[player2Location], 0, 2);
@@ -2523,6 +2653,12 @@ public class gameFrame {
 			}
 		});
 		
+		player2GiveUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 		player3Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				moneyData(prices_places[player3Location], 0, 3);
@@ -2684,6 +2820,12 @@ public class gameFrame {
 				} else {
 					communityChests.add("Get Out Of Jail Free");
 				}
+			}
+		});
+	
+		player3GiveUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 	}	
@@ -4323,12 +4465,12 @@ public class gameFrame {
 							player3Cardsy = playerCardsy2;
 							break;
 					}
-					/*if (playerCards.size() == 0) {
+					if (playerCards.size() == 0) {
 						disableButton(playerMortgage);
-					}*/
-					/*if (playerColorPairCardsList.size() == 0) {
+					}
+					if (playerColorPairCardsList.size() == 0) {
 						disableButton(playerHousing);
-					}*/
+					}
 				}
 			});
 			i++;
@@ -5095,4 +5237,5 @@ public class gameFrame {
 				break;
 		}
 	}
+	
 }
