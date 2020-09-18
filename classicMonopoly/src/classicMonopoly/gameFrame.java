@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -297,8 +298,6 @@ public class gameFrame {
 			communityChests.add(0, randChest);
 		}
 		
-		chances.add(0, "Pay Each Player $50");
-		
 		dealOptions = new String[] {"Forgive House Payments For Both", "50% Of House Payments For Both", "30% Of House Payments For Both",
 				"75% Of House Payments For Both", "Exchange Cards"};
 
@@ -560,13 +559,6 @@ public class gameFrame {
 		player1PropertiesSp.setViewportView(player1PropertiesPanel);
 		player1PropertiesSp.validate();
 		player1PropertiesSp.getVerticalScrollBar().setUnitIncrement(10);
-		
-		/*for (int i = 0; i < 28; i++) {
-			player1CardsLabel.add(new JLabel("Hello " + i));
-			player1PropertiesPanel.add(player1CardsLabel.get(player1CardsLabel.size()-1));
-			player1CardsLabel.get(player1CardsLabel.size()-1).setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-			player1CardsLabel.get(player1CardsLabel.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-		}*/
 		
 		player1Buy = new JButton("Buy");
 		player1ButtonsPanel.add(player1Buy);
@@ -831,10 +823,13 @@ public class gameFrame {
 						if (isPlayer1AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer1Turn = false;
+								disableButton(player1GiveUp);
 								if (isPlayer2Out == false) {
 									isPlayer2Turn = true;
+									enableButton(player2GiveUp);
 								} else {
 									isPlayer3Turn = true;
+									enableButton(player3GiveUp);
 								}
 								if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
 									enableButton(player2Pay);
@@ -857,10 +852,13 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer1Turn = false;
+							disableButton(player1GiveUp);
 							if (isPlayer2Out == false) {
 								isPlayer2Turn = true;
+								enableButton(player2GiveUp);
 							} else {
 								isPlayer3Turn = true;
+								enableButton(player3GiveUp);
 							}
 							if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
 								enableButton(player2Pay);
@@ -1226,8 +1224,6 @@ public class gameFrame {
 						} else if (player1Location == 4) {
 							isPlayer1Pay = true;
 							enableButton(player1Pay);
-						} else if (player1Location == 20) {
-							moneyData(500, 1, 0);
 						}
 
 						glassLabel.setLocation(player1x, player1y);
@@ -1344,10 +1340,13 @@ public class gameFrame {
 						if (isPlayer2AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer2Turn = false;
+								disableButton(player2GiveUp);
 								if (isPlayer3Out == false ) {
 									isPlayer3Turn = true;
+									enableButton(player3GiveUp);
 								} else {
 									isPlayer1Turn = true;
+									enableButton(player1GiveUp);
 								}
 								if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 									enableButton(player3Pay);
@@ -1370,10 +1369,13 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer2Turn = false;
+							disableButton(player2GiveUp);
 							if (isPlayer3Out == false) {
 								isPlayer3Turn = true;
+								enableButton(player3GiveUp);
 							} else {
 								isPlayer1Turn = true;
+								enableButton(player1GiveUp);
 							}
 							if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 								enableButton(player3Pay);
@@ -1740,8 +1742,6 @@ public class gameFrame {
 						if (player2Location == 4) {
 							isPlayer2Pay = true;
 							enableButton(player2Pay);
-						} else if (player2Location == 20) {
-							moneyData(500, 2, 0);
 						}
 
 						hexagonLabel.setLocation(player2x, player2y);
@@ -1851,10 +1851,13 @@ public class gameFrame {
 						if (isPlayer3AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer3Turn = false;
+								disableButton(player3GiveUp);
 								if (isPlayer1Out == false) {
 									isPlayer1Turn = true;
+									enableButton(player1GiveUp);
 								} else {
 									isPlayer2Turn = true;
+									enableButton(player2GiveUp);
 								}
 								if (isJailPlayer1 == true && isPlayer3Pay == false && player1JailCount != 1) {
 									enableButton(player1Pay);
@@ -1877,10 +1880,13 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer3Turn = false;
+							disableButton(player3GiveUp);
 							if (isPlayer1Out == false) {
 								isPlayer1Turn = true;
+								enableButton(player1GiveUp);
 							} else {
 								isPlayer2Turn = true;
+								enableButton(player2GiveUp);
 							}
 							if (isJailPlayer1 == true && isPlayer3Pay == false && player1JailCount != 1) {
 								enableButton(player1Pay);
@@ -2247,8 +2253,6 @@ public class gameFrame {
 						if (player3Location == 4) {
 							isPlayer3Pay = true;
 							enableButton(player3Pay);
-						} else if (player3Location == 20) {
-							moneyData(500, 3, 0);
 						}
 
 						starLabel.setLocation(player3x, player3y);
@@ -2330,15 +2334,17 @@ public class gameFrame {
 					if (isPlayer1Turn && isPlayer1Out == false) {
 						playerTurnArrow.setLocation(260, 95);
 					} else if (isPlayer2Turn && isPlayer2Out == false) {
-						playerTurnArrow.setLocation(260, 295);
+						if (isPlayer1Out == true) {
+							playerTurnArrow.setLocation(260, 95);
+						} else {
+							playerTurnArrow.setLocation(260, 295);
+						}
 					} else if (isPlayer3Turn && isPlayer3Out == false) {
-						playerTurnArrow.setLocation(260, 495);
-					}
-					
-					if(propertiesNotBought.size() == 0) {
-						monopolyDataPanel.add(player1Housing);
-						monopolyDataPanel.add(player2Housing);
-						monopolyDataPanel.add(player3Housing);
+						if (isPlayer1Out == true || isPlayer2Out == true) {
+							playerTurnArrow.setLocation(260, 295);
+						} else {
+							playerTurnArrow.setLocation(260, 495);
+						}
 					}
 				}
 			}
@@ -2532,48 +2538,80 @@ public class gameFrame {
 		
 		player1GiveUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				playersPlaying--;
-				if (playersPlaying == 1) {
-					gameOver();
-				}
-				isPlayer1Out = true;
-				isPlayer1Turn = false;
-				isPlayer1Buy = false;
-				if (isPlayer1Pay == true) {
-					playerPay(player1Location, 1, 2, 3, player1Coins, player2Coins, player3Coins,
-							isPlayer1AtUtility, isPlayer1Pay, isPlayer2Pay, isPlayer3Pay, player1Pay, player2Pay, player3Pay,
-							player2Utilities, player3Utilities, isJailPlayer1, isJailPlayer2, isJailPlayer3, isPlayer1Out, isPlayer2Out, isPlayer3Out);
-				}
-				isPlayer1Pay = false;
-				isPlayer1AtUtility = false;
-				if (isPlayer2Out == false) {
-					isPlayer2Turn = true;
-				} else {
-					isPlayer3Turn = true;
-				}
-				player1Railroads = 0;
-				player1Utilities = 0;
-				player1ButtonsSp.setVisible(false);
-				player1PropertiesSp.setVisible(false);
-				monopolyDataPanel.remove(player1ButtonsSp);
-				monopolyDataPanel.remove(player1PropertiesSp);
-				player1CoinsLabel.hide();
-				monopolyDataPanel.remove(player1CoinsLabel);
-				player1Character.hide();
-				monopolyDataPanel.remove(player1Character);
-				player1PropertiesLabel.hide();
-				monopolyDataPanel.remove(player1PropertiesLabel);
-				glassLabel.hide();
-				monopolyBoardPanel.remove(glassLabel);
-				
-				while (player1Cards.size() > 0) {
-					propertiesNotBought.add(player1Cards.get(0));
-					int cardPaymentPriceIndex = Arrays.asList(arr_places).indexOf(player1Cards.get(0));
-					places_PaymentPrices[cardPaymentPriceIndex] = places_PaymentPrices2[cardPaymentPriceIndex];
-					player1CardsLabel.get(0).hide();
-					monopolyDataPanel.remove(player1CardsLabel.get(0));
-					player1CardsLabel.remove(0);
-					player1Cards.remove(0);
+				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (response == JOptionPane.YES_OPTION) {
+					playersPlaying--;
+					if (playersPlaying == 1) {
+						gameOver();
+					}
+					isPlayer1Out = true;
+					isPlayer1Turn = false;
+					isPlayer1Buy = false;
+					if (isPlayer1Pay == true) {
+						playerPay(player1Location, 1, 2, 3, player1Coins, player2Coins, player3Coins,
+								isPlayer1AtUtility, isPlayer1Pay, isPlayer2Pay, isPlayer3Pay, player1Pay, player2Pay, player3Pay,
+								player2Utilities, player3Utilities, isJailPlayer1, isJailPlayer2, isJailPlayer3, isPlayer1Out, isPlayer2Out, isPlayer3Out);
+					}
+					isPlayer1Pay = false;
+					isPlayer1AtUtility = false;
+					if (isPlayer2Out == false) {
+						isPlayer2Turn = true;
+					} else {
+						isPlayer3Turn = true;
+					}
+					if (player1JailFree > 0) {
+						boolean isFromChance = true;
+						for (int i = 0; i < chances.size(); i++) {
+							if (chances.get(i).equals("Get Out Of Jail Free")) {
+								isFromChance = false;
+								break;
+							}
+						}
+						if (isFromChance == true) {
+							chances.add("Get Out Of Jail Free");
+						} else {
+							communityChests.add("Get Out Of Jail Free");
+						}
+					}
+					isJailPlayer1 = false;
+					player1JailFree = 0;
+					player1Railroads = 0;
+					player1Utilities = 0;
+					player1ButtonsSp.setVisible(false);
+					player1PropertiesSp.setVisible(false);
+					monopolyDataPanel.remove(player1ButtonsSp);
+					monopolyDataPanel.remove(player1PropertiesSp);
+					player1CoinsLabel.hide();
+					monopolyDataPanel.remove(player1CoinsLabel);
+					player1Character.hide();
+					monopolyDataPanel.remove(player1Character);
+					player1PropertiesLabel.hide();
+					monopolyDataPanel.remove(player1PropertiesLabel);
+					glassLabel.hide();
+					monopolyBoardPanel.remove(glassLabel);
+					
+					while (player1Cards.size() > 0) {
+						propertiesNotBought.add(player1Cards.get(0));
+						int cardPaymentPriceIndex = Arrays.asList(arr_places).indexOf(player1Cards.get(0));
+						places_PaymentPrices[cardPaymentPriceIndex] = places_PaymentPrices2[cardPaymentPriceIndex];
+						player1CardsLabel.get(0).hide();
+						monopolyDataPanel.remove(player1CardsLabel.get(0));
+						player1CardsLabel.remove(0);
+						player1Cards.remove(0);
+					}
+					
+					for (int i = 0; i < 8; i++) {
+						player1ColorPairCards[i] = 0;
+					}
+					
+					for (int i = 0; i < player1ColorPairCardsHousesList.size(); i++) {
+						int cardHouses = player1ColorPairCardsHousesList.get(i);
+						if (cardHouses > 0) {
+							player1ColorPairCardsHousesList.remove(i);
+							player1ColorPairCardsHousesList.add(i, 0);
+							housePositioning(i, 1);
+						}
+					}
 				}
 			}
 		});
@@ -2755,7 +2793,81 @@ public class gameFrame {
 		
 		player2GiveUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (response == JOptionPane.YES_OPTION) {
+					playersPlaying--;
+					if (playersPlaying == 1) {
+						gameOver();
+					}
+					isPlayer2Out = true;
+					isPlayer2Turn = false;
+					isPlayer2Buy = false;
+					if (isPlayer2Pay == true) {
+						playerPay(player2Location, 2, 3, 1, player2Coins, player3Coins, player1Coins,
+								isPlayer2AtUtility, isPlayer2Pay, isPlayer3Pay, isPlayer1Pay, player2Pay, player3Pay, player1Pay,
+								player3Utilities, player1Utilities, isJailPlayer2, isJailPlayer3, isJailPlayer1, isPlayer2Out, isPlayer3Out, isPlayer1Out);
+					}
+					isPlayer2Pay = false;
+					isPlayer2AtUtility = false;
+					if (isPlayer3Out == false) {
+						isPlayer3Turn = true;
+					} else {
+						isPlayer1Turn = true;
+					}
+					if (player2JailFree > 0) {
+						boolean isFromChance = true;
+						for (int i = 0; i < chances.size(); i++) {
+							if (chances.get(i).equals("Get Out Of Jail Free")) {
+								isFromChance = false;
+								break;
+							}
+						}
+						if (isFromChance == true) {
+							chances.add("Get Out Of Jail Free");
+						} else {
+							communityChests.add("Get Out Of Jail Free");
+						}
+					}
+					isJailPlayer2 = false;
+					player2JailFree = 0;
+					player2Railroads = 0;
+					player2Utilities = 0;
+					player2ButtonsSp.setVisible(false);
+					player2PropertiesSp.setVisible(false);
+					monopolyDataPanel.remove(player2ButtonsSp);
+					monopolyDataPanel.remove(player2PropertiesSp);
+					player2CoinsLabel.hide();
+					monopolyDataPanel.remove(player2CoinsLabel);
+					player2Character.hide();
+					monopolyDataPanel.remove(player2Character);
+					player2PropertiesLabel.hide();
+					monopolyDataPanel.remove(player2PropertiesLabel);
+					hexagonLabel.hide();
+					monopolyBoardPanel.remove(hexagonLabel);
+					
+					while (player2Cards.size() > 0) {
+						propertiesNotBought.add(player1Cards.get(0));
+						int cardPaymentPriceIndex = Arrays.asList(arr_places).indexOf(player2Cards.get(0));
+						places_PaymentPrices[cardPaymentPriceIndex] = places_PaymentPrices2[cardPaymentPriceIndex];
+						player2CardsLabel.get(0).hide();
+						monopolyDataPanel.remove(player2CardsLabel.get(0));
+						player2CardsLabel.remove(0);
+						player2Cards.remove(0);
+					}
+					
+					for (int i = 0; i < 8; i++) {
+						player2ColorPairCards[i] = 0;
+					}
+					
+					for (int i = 0; i < player2ColorPairCardsHousesList.size(); i++) {
+						int cardHouses = player2ColorPairCardsHousesList.get(i);
+						if (cardHouses > 0) {
+							player2ColorPairCardsHousesList.remove(i);
+							player2ColorPairCardsHousesList.add(i, 0);
+							housePositioning(i, 2);
+						}
+					}
+				}
 			}
 		});
 		
@@ -2934,7 +3046,81 @@ public class gameFrame {
 	
 		player3GiveUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (response == JOptionPane.YES_OPTION) {
+					playersPlaying--;
+					if (playersPlaying == 1) {
+						gameOver();
+					}
+					isPlayer3Out = true;
+					isPlayer3Turn = false;
+					isPlayer3Buy = false;
+					if (isPlayer3Pay == true) {
+						playerPay(player3Location, 3, 1, 2, player3Coins, player1Coins, player2Coins,
+								isPlayer3AtUtility, isPlayer3Pay, isPlayer1Pay, isPlayer2Pay, player3Pay, player1Pay, player2Pay,
+								player1Utilities, player2Utilities, isJailPlayer3, isJailPlayer1, isJailPlayer2, isPlayer3Out, isPlayer1Out, isPlayer2Out);
+					}
+					isPlayer3Pay = false;
+					isPlayer3AtUtility = false;
+					if (isPlayer1Out == false) {
+						isPlayer1Turn = true;
+					} else {
+						isPlayer2Turn = true;
+					}
+					if (player3JailFree > 0) {
+						boolean isFromChance = true;
+						for (int i = 0; i < chances.size(); i++) {
+							if (chances.get(i).equals("Get Out Of Jail Free")) {
+								isFromChance = false;
+								break;
+							}
+						}
+						if (isFromChance == true) {
+							chances.add("Get Out Of Jail Free");
+						} else {
+							communityChests.add("Get Out Of Jail Free");
+						}
+					}
+					isJailPlayer3 = false;
+					player3JailFree = 0;
+					player3Railroads = 0;
+					player3Utilities = 0;
+					player3ButtonsSp.setVisible(false);
+					player3PropertiesSp.setVisible(false);
+					monopolyDataPanel.remove(player3ButtonsSp);
+					monopolyDataPanel.remove(player3PropertiesSp);
+					player3CoinsLabel.hide();
+					monopolyDataPanel.remove(player3CoinsLabel);
+					player3Character.hide();
+					monopolyDataPanel.remove(player3Character);
+					player3PropertiesLabel.hide();
+					monopolyDataPanel.remove(player3PropertiesLabel);
+					starLabel.hide();
+					monopolyBoardPanel.remove(starLabel);
+					
+					while (player3Cards.size() > 0) {
+						propertiesNotBought.add(player3Cards.get(0));
+						int cardPaymentPriceIndex = Arrays.asList(arr_places).indexOf(player3Cards.get(0));
+						places_PaymentPrices[cardPaymentPriceIndex] = places_PaymentPrices2[cardPaymentPriceIndex];
+						player3CardsLabel.get(0).hide();
+						monopolyDataPanel.remove(player3CardsLabel.get(0));
+						player3CardsLabel.remove(0);
+						player3Cards.remove(0);
+					}
+					
+					for (int i = 0; i < 8; i++) {
+						player3ColorPairCards[i] = 0;
+					}
+					
+					for (int i = 0; i < player3ColorPairCardsHousesList.size(); i++) {
+						int cardHouses = player3ColorPairCardsHousesList.get(i);
+						if (cardHouses > 0) {
+							player3ColorPairCardsHousesList.remove(i);
+							player3ColorPairCardsHousesList.add(i, 0);
+							housePositioning(i, 3);
+						}
+					}
+				}
 			}
 		});
 	}	
@@ -3049,7 +3235,7 @@ public class gameFrame {
 		}
 	}	
 	
-	public void housePositioning(String cardName, int index, int whichPlayer) {
+	public void housePositioning(int index, int whichPlayer) {
 		
 		switch (whichPlayer) {
 			case 1:
@@ -4206,7 +4392,7 @@ public class gameFrame {
 									break;
 							}
 							houseCountLabel.setText("Houses: " + playerColorPairCardsHousesList.get(j));
-							housePositioning(arr_places[cardLocation], j, playerHousing);
+							housePositioning(j, playerHousing);
 							monopolyBoardPanel.add(monopolyBoard);
 							monopolyBoard.show();
 							
@@ -4291,7 +4477,7 @@ public class gameFrame {
 									break;
 							}
 							houseCountLabel.setText("Houses: " + playerColorPairCardsHousesList.get(j));
-							housePositioning(arr_places[cardLocation], j, playerHousing);
+							housePositioning(j, playerHousing);
 							monopolyBoardPanel.add(monopolyBoard);
 							monopolyBoard.show();
 							
@@ -5227,6 +5413,12 @@ public class gameFrame {
 	}
 	
 	public void gameOver() {
-		
+		if (isPlayer1Out == false) {
+			
+		} else if (isPlayer2Out == false) {
+			
+		} else {
+			
+		}
 	}
 }
