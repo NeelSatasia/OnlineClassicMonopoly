@@ -47,8 +47,6 @@ public class gameFrame {
 	private JLabel hexagonLabel;
 	private JLabel starLabel;
 	private JLabel playerTurnArrow;
-	private JLabel xLabel;
-	private JLabel yLabel;
 	private ArrayList<JLabel> player1CardsLabel;
 	private ArrayList<JLabel> player2CardsLabel;
 	private ArrayList<JLabel> player3CardsLabel;
@@ -91,6 +89,7 @@ public class gameFrame {
 	private JButton player3Deal;
 	private JButton player3JailFreeCard;
 	private JButton player3GiveUp;
+	private JButton houseMode;
 	private JScrollPane monopolyBoardSp;
 	private KeyListener monopolyKeys;
 
@@ -194,6 +193,7 @@ public class gameFrame {
 	private boolean isCollectFromPlayers;
 	private boolean isNearestToNonColors;
 	private boolean isDeal;
+	private boolean isHouseMode;
 	private int cardDrawingPay;
 	private ArrayList<String> chances;
 	private ArrayList<String> communityChests;
@@ -390,12 +390,14 @@ public class gameFrame {
 		isCollectFromPlayers = false;
 		isNearestToNonColors = false;
 		isDeal = false;
+		isHouseMode = false;
 		cardDrawingPay = 0;
 		previousRollDice1 = 0;
 		previousRollDice2 = 0;
 		houseCost = 0;
 		cardLocation = 0;
 		cardRegularPrice = 0;
+		playersPlaying = 3;
 
 		monopolyFrame = new JFrame("Classic Monopoly");
 		monopolyFrame.setVisible(true);
@@ -445,27 +447,6 @@ public class gameFrame {
 		monopolyBoardSp.getVerticalScrollBar().setValue(600);
 		monopolyBoardSp.getHorizontalScrollBar().setValue(500);
 
-		xLabel = new JLabel("X: " + x);
-		monopolyDataPanel.add(xLabel);
-		xLabel.setBounds(170, 10, 100, 20);
-		xLabel.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-
-		yLabel = new JLabel("Y: " + y);
-		monopolyDataPanel.add(yLabel);
-		yLabel.setBounds(170, 30, 100, 20);
-		yLabel.setFont(new Font("Times New Roman", Font.PLAIN, 13));
-
-		monopolyBoardPanel.addMouseMotionListener(new MouseMotionAdapter() {
-			public void mouseMoved(MouseEvent e) {
-				x = e.getX();
-				y = e.getY();
-				xLabel.setText("X: " + x);
-				yLabel.setText("Y: " + y);
-				xLabel.repaint();
-				yLabel.repaint();
-			}
-		});
-
 		rollDice1Label = new JLabel("Dice One: " + 0);
 		monopolyDataPanel.add(rollDice1Label);
 		rollDice1Label.setBounds(10, 10, 150, 30);
@@ -490,17 +471,17 @@ public class gameFrame {
 
 		player1Character = new JLabel(player1);
 		monopolyDataPanel.add(player1Character);
-		player1Character.setBounds(178, 100, 100, 30);
+		player1Character.setBounds(120, 100, 100, 30);
 		player1Character.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
 		player2Character = new JLabel(player2);
 		monopolyDataPanel.add(player2Character);
-		player2Character.setBounds(178, 300, 100, 30);
+		player2Character.setBounds(120, 300, 100, 30);
 		player2Character.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
 		player3Character = new JLabel(player3);
 		monopolyDataPanel.add(player3Character);
-		player3Character.setBounds(178, 500, 100, 30);
+		player3Character.setBounds(120, 500, 100, 30);
 		player3Character.setFont(new Font("Times New Roman", Font.BOLD, 18));
 
 		player1CoinsLabel = new JLabel("$" + player1Coins);
@@ -537,6 +518,12 @@ public class gameFrame {
 		playerTurnArrow = new JLabel(arrowImage);
 		monopolyDataPanel.add(playerTurnArrow);
 		playerTurnArrow.setBounds(260, 95, 50, 50);
+		
+		houseMode = new JButton("House Mode");
+		monopolyDataPanel.add(houseMode);
+		houseMode.setBounds(130, 15, 75, 25);
+		enableButton(houseMode);
+		houseMode.setBackground(new Color(0, 102, 0));
 		
 		player1ButtonsSp = new JScrollPane();
 		player1ButtonsPanel = new JPanel();
@@ -793,14 +780,7 @@ public class gameFrame {
 						int player1PreviousLocation = player1Location;
 
 						if (isJailPlayer1 == false && isPlayer1AtUtility == false) {
-							//player1Location += currentRollDice1 + currentRollDice2;
-							if (player1Location == 0) {
-								player1Location += 6;
-							} else if (player1Location == 6) {
-								player1Location += 2;
-							} else {
-								player1Location += 1;
-							}
+							player1Location += currentRollDice1 + currentRollDice2;
 						} else if (isJailPlayer1 == true) {
 							if (currentRollDice1 != currentRollDice2) {
 								disableButton(player1Pay);
@@ -1310,14 +1290,7 @@ public class gameFrame {
 						int player2PreviousLocation = player2Location;
 
 						if (isJailPlayer2 == false && isPlayer2AtUtility == false) {
-							//player2Location += currentRollDice1 + currentRollDice2;
-							if (player2Location == 0) {
-								player2Location += 6;
-							} else if (player2Location == 6) {
-								player2Location += 2;
-							} else {
-								player2Location += 1;
-							}
+							player2Location += currentRollDice1 + currentRollDice2;
 						} else if (isJailPlayer2 == true) {
 							if (currentRollDice1 != currentRollDice2) {
 								disableButton(player2Pay);
@@ -2357,6 +2330,16 @@ public class gameFrame {
 		};
 		monopolyFrame.addKeyListener(monopolyKeys);
 
+		houseMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Turn On House Mode?", "House Mode Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (response == JOptionPane.YES_OPTION) {
+					isHouseMode = true;
+					disableButton(houseMode);
+				}
+			}
+		});
+		
 		player1Buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				moneyData(prices_places[player1Location], 0, 1);
@@ -2612,6 +2595,18 @@ public class gameFrame {
 							housePositioning(i, 1);
 						}
 					}
+					
+					player2Character.setLocation(120, 100);
+					player2PropertiesLabel.setLocation(45,  135);
+					player2CoinsLabel.setLocation(188, 130);
+					player2ButtonsSp.setLocation(160, 160);
+					player2PropertiesSp.setLocation(20, 160);
+					
+					player3Character.setLocation(120, 300);
+					player3PropertiesLabel.setLocation(45,  335);
+					player3CoinsLabel.setLocation(188, 330);
+					player3ButtonsSp.setLocation(160, 360);
+					player3PropertiesSp.setLocation(20, 360);
 				}
 			}
 		});
@@ -2867,6 +2862,12 @@ public class gameFrame {
 							housePositioning(i, 2);
 						}
 					}
+					
+					player3Character.setLocation(120, 300);
+					player3PropertiesLabel.setLocation(45,  335);
+					player3CoinsLabel.setLocation(188, 330);
+					player3ButtonsSp.setLocation(160, 360);
+					player3PropertiesSp.setLocation(20, 360);
 				}
 			}
 		});
@@ -5413,6 +5414,13 @@ public class gameFrame {
 	}
 	
 	public void gameOver() {
+		monopolyDataPanel.hide();
+		monopolyFrame.remove(monopolyDataPanel);
+		
+		JPanel finalScorePanel = new JPanel();
+		monopolyFrame.add(finalScorePanel);
+		finalScorePanel.setLayout(null);
+		
 		if (isPlayer1Out == false) {
 			
 		} else if (isPlayer2Out == false) {
