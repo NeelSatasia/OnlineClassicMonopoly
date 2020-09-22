@@ -10,14 +10,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,8 +33,11 @@ public class gameFrame {
 	private JLabel chanceLabel;
 	private JLabel communityChestLabel;
 	private JLabel player1Character;
+	private JLabel player1Icon;
 	private JLabel player2Character;
+	private JLabel player2Icon;
 	private JLabel player3Character;
+	private JLabel player3Icon;
 	private JLabel player1CoinsLabel;
 	private JLabel player2CoinsLabel;
 	private JLabel player3CoinsLabel;
@@ -46,7 +47,6 @@ public class gameFrame {
 	private JLabel glassLabel;
 	private JLabel hexagonLabel;
 	private JLabel starLabel;
-	private JLabel playerTurnArrow;
 	private ArrayList<JLabel> player1CardsLabel;
 	private ArrayList<JLabel> player2CardsLabel;
 	private ArrayList<JLabel> player3CardsLabel;
@@ -208,19 +208,34 @@ public class gameFrame {
 	private Dimension screenSize;
 	private int screenMaxWidth;
 	private int screenMaxHeight;
-	private int x;
-	private int y;
 	private int bidPrice;
 	private int previousRollDice1;
 	private int previousRollDice2;
 	private int houseCost;
 	private int cardLocation;
 	private int playersPlaying;
-	
-	
+	private int totalPlayers;
 
 	public gameFrame() {
 		
+		monopolyFrame = new JFrame("Classic Monopoly");
+		monopolyFrame.setVisible(true);
+		monopolyFrame.setExtendedState(monopolyFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		monopolyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		monopolyBoardPanel = new JPanel();
+		monopolyBoardPanel.setLayout(null);
+		monopolyBoardPanel.setPreferredSize(new Dimension(1232, 1232));
+
+		monopolyDataPanel = new JPanel();
+		monopolyDataPanel.setLayout(null);
+		monopolyFrame.add(monopolyDataPanel);
+		monopolyDataPanel.setBounds(0, 0, 200, screenMaxHeight);
+
+		
+	}	
+	
+	public void startGame() {
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		screenMaxWidth = (int) (screenSize.getWidth());
 		screenMaxHeight = (int) (screenSize.getHeight());
@@ -398,35 +413,25 @@ public class gameFrame {
 		cardLocation = 0;
 		cardRegularPrice = 0;
 		playersPlaying = 3;
-
-		monopolyFrame = new JFrame("Classic Monopoly");
-		monopolyFrame.setVisible(true);
-		monopolyFrame.setExtendedState(monopolyFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-		monopolyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		monopolyBoardPanel = new JPanel();
-		monopolyBoardPanel.setLayout(null);
-		monopolyBoardPanel.setPreferredSize(new Dimension(1232, 1232));
-
-		monopolyDataPanel = new JPanel();
-		monopolyDataPanel.setLayout(null);
-		monopolyFrame.add(monopolyDataPanel);
-		monopolyDataPanel.setBounds(0, 0, 200, screenMaxHeight);
+		totalPlayers = 3;
 
 		ImageIcon glassImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\glass_MonopolyCharacter.png");
 		glassLabel = new JLabel(glassImage);
 		monopolyBoardPanel.add(glassLabel);
 		glassLabel.setBounds(player1x, player1y, 24, 22);
+		player1Icon = glassLabel;
 
 		ImageIcon hexagonImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\hexagon_MonopolyCharacter.png");
 		hexagonLabel = new JLabel(hexagonImage);
 		monopolyBoardPanel.add(hexagonLabel);
 		hexagonLabel.setBounds(player2x, player2y, 24, 22);
+		player2Icon = hexagonLabel;
 		
 		ImageIcon starImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\star_MonopolyCharacter.png");
 		starLabel = new JLabel(starImage);
 		monopolyBoardPanel.add(starLabel);
 		starLabel.setBounds(player3x, player3y, 24, 22);
+		player3Icon = starLabel;
 
 		ImageIcon monopolyBoardImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\Monopoly_GameBoard.png");
 		monopolyBoard = new JLabel(monopolyBoardImage);
@@ -473,6 +478,7 @@ public class gameFrame {
 		monopolyDataPanel.add(player1Character);
 		player1Character.setBounds(120, 100, 100, 30);
 		player1Character.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		player1Character.setForeground(new Color(0, 153, 0));
 
 		player2Character = new JLabel(player2);
 		monopolyDataPanel.add(player2Character);
@@ -513,11 +519,6 @@ public class gameFrame {
 		monopolyDataPanel.add(player3PropertiesLabel);
 		player3PropertiesLabel.setBounds(45, 535, 100, 20);
 		player3PropertiesLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		
-		ImageIcon arrowImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\leftArrow.png");
-		playerTurnArrow = new JLabel(arrowImage);
-		monopolyDataPanel.add(playerTurnArrow);
-		playerTurnArrow.setBounds(260, 95, 50, 50);
 		
 		houseMode = new JButton("House Mode");
 		monopolyDataPanel.add(houseMode);
@@ -737,7 +738,7 @@ public class gameFrame {
 		player3GiveUp.setFocusable(false);
 		enableButton(player3GiveUp);
 		player3GiveUp.setBackground(Color.RED);
-
+		
 		monopolyKeys = new KeyListener() {
 
 			@Override
@@ -1206,7 +1207,7 @@ public class gameFrame {
 							enableButton(player1Pay);
 						}
 
-						glassLabel.setLocation(player1x, player1y);
+						player1Icon.setLocation(player1x, player1y);
 
 						for (int i = 0; i < propertiesNotBought.size(); i++) {
 							if (arr_places[player1Location].equals(propertiesNotBought.get(i))) {
@@ -1717,7 +1718,7 @@ public class gameFrame {
 							enableButton(player2Pay);
 						}
 
-						hexagonLabel.setLocation(player2x, player2y);
+						player2Icon.setLocation(player2x, player2y);
 
 						for (int i = 0; i < propertiesNotBought.size(); i++) {
 							if (arr_places[player2Location].equals(propertiesNotBought.get(i))) {
@@ -2228,7 +2229,7 @@ public class gameFrame {
 							enableButton(player3Pay);
 						}
 
-						starLabel.setLocation(player3x, player3y);
+						player3Icon.setLocation(player3x, player3y);
 
 						for (int i = 0; i < propertiesNotBought.size(); i++) {
 							if (arr_places[player3Location].equals(propertiesNotBought.get(i))) {
@@ -2304,20 +2305,20 @@ public class gameFrame {
 						player3CoinsLabel.setText("$" + player3Coins);
 					}
 					
-					if (isPlayer1Turn && isPlayer1Out == false) {
-						playerTurnArrow.setLocation(260, 95);
-					} else if (isPlayer2Turn && isPlayer2Out == false) {
-						if (isPlayer1Out == true) {
-							playerTurnArrow.setLocation(260, 95);
-						} else {
-							playerTurnArrow.setLocation(260, 295);
-						}
-					} else if (isPlayer3Turn && isPlayer3Out == false) {
-						if (isPlayer1Out == true || isPlayer2Out == true) {
-							playerTurnArrow.setLocation(260, 295);
-						} else {
-							playerTurnArrow.setLocation(260, 495);
-						}
+					if (isPlayer1Turn == true && isPlayer1Out == false) {
+						player1Character.setForeground(new Color(0, 102, 0));
+					} else {
+						player1Character.setForeground(Color.BLACK);
+					}
+					if (isPlayer2Turn == true && isPlayer2Out == false) {
+						player2Character.setForeground(new Color(0, 102, 0));
+					} else {
+						player2Character.setForeground(Color.BLACK);
+					}
+					if (isPlayer3Turn == true && isPlayer3Out == false) {
+						player3Character.setForeground(new Color(0, 102, 0));
+					} else {
+						player3Character.setForeground(Color.BLACK);
 					}
 				}
 			}
@@ -2524,10 +2525,16 @@ public class gameFrame {
 				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (response == JOptionPane.YES_OPTION) {
 					playersPlaying--;
-					if (playersPlaying == 1) {
-						gameOver();
-					}
 					isPlayer1Out = true;
+					if (isPlayer1Turn == true) {
+						if (isPlayer2Out == false) {
+							isPlayer2Turn = true;
+							player2Character.setForeground(new Color(0, 102, 0));
+						} else {
+							isPlayer3Turn = true;
+							player3Character.setForeground(new Color(0, 102, 0));
+						}
+					}
 					isPlayer1Turn = false;
 					isPlayer1Buy = false;
 					if (isPlayer1Pay == true) {
@@ -2537,11 +2544,6 @@ public class gameFrame {
 					}
 					isPlayer1Pay = false;
 					isPlayer1AtUtility = false;
-					if (isPlayer2Out == false) {
-						isPlayer2Turn = true;
-					} else {
-						isPlayer3Turn = true;
-					}
 					if (player1JailFree > 0) {
 						boolean isFromChance = true;
 						for (int i = 0; i < chances.size(); i++) {
@@ -2607,6 +2609,10 @@ public class gameFrame {
 					player3CoinsLabel.setLocation(188, 330);
 					player3ButtonsSp.setLocation(160, 360);
 					player3PropertiesSp.setLocation(20, 360);
+					
+					if (playersPlaying == 1) {
+						gameOver();
+					}
 				}
 			}
 		});
@@ -2791,10 +2797,16 @@ public class gameFrame {
 				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (response == JOptionPane.YES_OPTION) {
 					playersPlaying--;
-					if (playersPlaying == 1) {
-						gameOver();
-					}
 					isPlayer2Out = true;
+					if (isPlayer2Turn == true) {
+						if (isPlayer3Out == false) {
+							isPlayer3Turn = true;
+							player3Character.setForeground(new Color(0, 102, 0));
+						} else {
+							isPlayer1Turn = true;
+							player1Character.setForeground(new Color(0, 102, 0));
+						}
+					}
 					isPlayer2Turn = false;
 					isPlayer2Buy = false;
 					if (isPlayer2Pay == true) {
@@ -2804,11 +2816,6 @@ public class gameFrame {
 					}
 					isPlayer2Pay = false;
 					isPlayer2AtUtility = false;
-					if (isPlayer3Out == false) {
-						isPlayer3Turn = true;
-					} else {
-						isPlayer1Turn = true;
-					}
 					if (player2JailFree > 0) {
 						boolean isFromChance = true;
 						for (int i = 0; i < chances.size(); i++) {
@@ -2868,6 +2875,10 @@ public class gameFrame {
 					player3CoinsLabel.setLocation(188, 330);
 					player3ButtonsSp.setLocation(160, 360);
 					player3PropertiesSp.setLocation(20, 360);
+					
+					if (playersPlaying == 1) {
+						gameOver();
+					}
 				}
 			}
 		});
@@ -3050,10 +3061,16 @@ public class gameFrame {
 				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (response == JOptionPane.YES_OPTION) {
 					playersPlaying--;
-					if (playersPlaying == 1) {
-						gameOver();
-					}
 					isPlayer3Out = true;
+					if (isPlayer3Turn == true) {
+						if (isPlayer1Out == false) {
+							isPlayer1Turn = true;
+							player1Character.setForeground(new Color(0, 102, 0));
+						} else {
+							isPlayer2Turn = true;
+							player2Character.setForeground(new Color(0, 102, 0));
+						}
+					}
 					isPlayer3Turn = false;
 					isPlayer3Buy = false;
 					if (isPlayer3Pay == true) {
@@ -3063,11 +3080,6 @@ public class gameFrame {
 					}
 					isPlayer3Pay = false;
 					isPlayer3AtUtility = false;
-					if (isPlayer1Out == false) {
-						isPlayer1Turn = true;
-					} else {
-						isPlayer2Turn = true;
-					}
 					if (player3JailFree > 0) {
 						boolean isFromChance = true;
 						for (int i = 0; i < chances.size(); i++) {
@@ -3121,13 +3133,13 @@ public class gameFrame {
 							housePositioning(i, 3);
 						}
 					}
+					
+					if (playersPlaying == 1) {
+						gameOver();
+					}
 				}
 			}
 		});
-	}	
-	
-	public void startGame() {
-
 	}
 
 	public void enableButton(JButton enableThis) {
@@ -5414,19 +5426,38 @@ public class gameFrame {
 	}
 	
 	public void gameOver() {
+		
 		monopolyDataPanel.hide();
 		monopolyFrame.remove(monopolyDataPanel);
 		
 		JPanel finalScorePanel = new JPanel();
 		monopolyFrame.add(finalScorePanel);
 		finalScorePanel.setLayout(null);
+		finalScorePanel.setBackground(new Color(153, 255, 204));
+		JLabel winnerLabel = new JLabel("");
 		
 		if (isPlayer1Out == false) {
-			
+			winnerLabel.setText(player1 + " Is The Winner!");
 		} else if (isPlayer2Out == false) {
-			
-		} else {
-			
+			winnerLabel.setText(player2 + " Is The Winner!");
+		} else if (isPlayer3Out == false) {
+			winnerLabel.setText(player3 + " Is The Winner!");
 		}
+		
+		finalScorePanel.add(winnerLabel);
+		winnerLabel.setBounds((screenMaxWidth/2) - (screenMaxWidth/8), (screenMaxHeight/2) - (screenMaxHeight/8), 300, 150);
+		winnerLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		
+		JButton restart = new JButton("Restart");
+		finalScorePanel.add(restart);
+		restart.setBounds((screenMaxWidth/2) - 65, (screenMaxHeight/2) + 25, 60, 30);
+		enableButton(restart);
+		restart.setBackground(new Color(0, 0, 230));
+		
+		restart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startGame();
+			}
+		});
 	}
 }
