@@ -214,7 +214,6 @@ public class gameFrame {
 	private int houseCost;
 	private int cardLocation;
 	private int playersPlaying;
-	private int totalPlayers;
 
 	public gameFrame() {
 		
@@ -222,7 +221,15 @@ public class gameFrame {
 		monopolyFrame.setVisible(true);
 		monopolyFrame.setExtendedState(monopolyFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		monopolyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
+		//startGame();
+	}	
+	
+	public void startGame() {
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenMaxWidth = (int) (screenSize.getWidth());
+		screenMaxHeight = (int) (screenSize.getHeight());
+		
 		monopolyBoardPanel = new JPanel();
 		monopolyBoardPanel.setLayout(null);
 		monopolyBoardPanel.setPreferredSize(new Dimension(1232, 1232));
@@ -231,14 +238,6 @@ public class gameFrame {
 		monopolyDataPanel.setLayout(null);
 		monopolyFrame.add(monopolyDataPanel);
 		monopolyDataPanel.setBounds(0, 0, 200, screenMaxHeight);
-
-		
-	}	
-	
-	public void startGame() {
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		screenMaxWidth = (int) (screenSize.getWidth());
-		screenMaxHeight = (int) (screenSize.getHeight());
 
 		arr_places = new String[] { "Go", "Mediterranean Ave.", "Community Chest", "Baltic Ave.", "Income Tax",
 				"Reading Railroad", "Oriental Ave.", "Chance", "Vermont Ave.", "Connecticut Ave.", "Just Visiting",
@@ -413,7 +412,6 @@ public class gameFrame {
 		cardLocation = 0;
 		cardRegularPrice = 0;
 		playersPlaying = 3;
-		totalPlayers = 3;
 
 		ImageIcon glassImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\glass_MonopolyCharacter.png");
 		glassLabel = new JLabel(glassImage);
@@ -804,13 +802,16 @@ public class gameFrame {
 						if (isPlayer1AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer1Turn = false;
-								disableButton(player1GiveUp);
 								if (isPlayer2Out == false) {
 									isPlayer2Turn = true;
-									enableButton(player2GiveUp);
+									if (isHouseMode == true) {
+										enableButton(player2Housing);
+									}
 								} else {
 									isPlayer3Turn = true;
-									enableButton(player3GiveUp);
+									if (isHouseMode == true) {
+										enableButton(player3Housing);
+									}
 								}
 								if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
 									enableButton(player2Pay);
@@ -833,13 +834,16 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer1Turn = false;
-							disableButton(player1GiveUp);
 							if (isPlayer2Out == false) {
 								isPlayer2Turn = true;
-								enableButton(player2GiveUp);
+								if (isHouseMode == true) {
+									enableButton(player2Housing);
+								}
 							} else {
 								isPlayer3Turn = true;
-								enableButton(player3GiveUp);
+								if (isHouseMode == true) {
+									enableButton(player3Housing);
+								}
 							}
 							if (isJailPlayer2 == true && isPlayer1Pay == false && player2JailCount != 1) {
 								enableButton(player2Pay);
@@ -848,6 +852,8 @@ public class gameFrame {
 								enableButton(player2JailFreeCard);
 							}
 						}
+						
+						disableButton(player1Housing);
 
 						for (int i = player1PreviousLocation; i < player1Location; i++) {
 							if (i >= 0 && i < 10) {
@@ -1314,13 +1320,16 @@ public class gameFrame {
 						if (isPlayer2AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer2Turn = false;
-								disableButton(player2GiveUp);
 								if (isPlayer3Out == false ) {
 									isPlayer3Turn = true;
-									enableButton(player3GiveUp);
+									if (isHouseMode == true) {
+										enableButton(player3Housing);
+									}
 								} else {
 									isPlayer1Turn = true;
-									enableButton(player1GiveUp);
+									if (isHouseMode == true) {
+										enableButton(player1Housing);
+									}
 								}
 								if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 									enableButton(player3Pay);
@@ -1343,13 +1352,16 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer2Turn = false;
-							disableButton(player2GiveUp);
 							if (isPlayer3Out == false) {
 								isPlayer3Turn = true;
-								enableButton(player3GiveUp);
+								if (isHouseMode == true) {
+									enableButton(player3Housing);
+								}
 							} else {
 								isPlayer1Turn = true;
-								enableButton(player1GiveUp);
+								if (isHouseMode == true) {
+									enableButton(player1Housing);
+								}
 							}
 							if (isJailPlayer3 == true && isPlayer2Pay == false && player3JailCount != 1) {
 								enableButton(player3Pay);
@@ -1358,6 +1370,8 @@ public class gameFrame {
 								enableButton(player3JailFreeCard);
 							}
 						}
+						
+						disableButton(player2Housing);
 
 						for (int i = player2PreviousLocation; i < player2Location; i++) {
 							if (i >= 0 && i < 10) {
@@ -1825,13 +1839,16 @@ public class gameFrame {
 						if (isPlayer3AtUtility == true) {
 							if (previousRollDice1 != previousRollDice2) {
 								isPlayer3Turn = false;
-								disableButton(player3GiveUp);
 								if (isPlayer1Out == false) {
 									isPlayer1Turn = true;
-									enableButton(player1GiveUp);
+									if (isHouseMode == true) {
+										enableButton(player1Housing);
+									}
 								} else {
 									isPlayer2Turn = true;
-									enableButton(player2GiveUp);
+									if (isHouseMode == true) {
+										enableButton(player2Housing);
+									}
 								}
 								if (isJailPlayer1 == true && isPlayer3Pay == false && player1JailCount != 1) {
 									enableButton(player1Pay);
@@ -1854,13 +1871,16 @@ public class gameFrame {
 							}
 						} else if (currentRollDice1 != currentRollDice2) {
 							isPlayer3Turn = false;
-							disableButton(player3GiveUp);
 							if (isPlayer1Out == false) {
 								isPlayer1Turn = true;
-								enableButton(player1GiveUp);
+								if (isHouseMode == true) {
+									enableButton(player1Housing);
+								}
 							} else {
 								isPlayer2Turn = true;
-								enableButton(player2GiveUp);
+								if (isHouseMode == true) {
+									enableButton(player2Housing);
+								}
 							}
 							if (isJailPlayer1 == true && isPlayer3Pay == false && player1JailCount != 1) {
 								enableButton(player1Pay);
@@ -1869,6 +1889,8 @@ public class gameFrame {
 								enableButton(player1JailFreeCard);
 							}
 						}
+						
+						disableButton(player3Housing);
 
 						for (int i = player3PreviousLocation; i < player3Location; i++) {
 							if (i >= 0 && i < 10) {
@@ -5456,8 +5478,14 @@ public class gameFrame {
 		
 		restart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				finalScorePanel.hide();
+				monopolyFrame.remove(finalScorePanel);
 				startGame();
 			}
 		});
+	}
+	
+	public void menu() {
+		
 	}
 }
