@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -16,11 +17,13 @@ import java.util.Arrays;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 public class gameFrame {
 
@@ -221,15 +224,14 @@ public class gameFrame {
 		monopolyFrame.setVisible(true);
 		monopolyFrame.setExtendedState(monopolyFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		monopolyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//startGame();
-	}	
-	
-	public void startGame() {
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		screenMaxWidth = (int) (screenSize.getWidth());
 		screenMaxHeight = (int) (screenSize.getHeight());
 		
+		menu();
+	}	
+	
+	public void startGame() {
 		monopolyBoardPanel = new JPanel();
 		monopolyBoardPanel.setLayout(null);
 		monopolyBoardPanel.setPreferredSize(new Dimension(1232, 1232));
@@ -237,7 +239,7 @@ public class gameFrame {
 		monopolyDataPanel = new JPanel();
 		monopolyDataPanel.setLayout(null);
 		monopolyFrame.add(monopolyDataPanel);
-		monopolyDataPanel.setBounds(0, 0, 200, screenMaxHeight);
+		//monopolyDataPanel.setBounds(0, 0, 200, screenMaxHeight);
 
 		arr_places = new String[] { "Go", "Mediterranean Ave.", "Community Chest", "Baltic Ave.", "Income Tax",
 				"Reading Railroad", "Oriental Ave.", "Chance", "Vermont Ave.", "Connecticut Ave.", "Just Visiting",
@@ -411,7 +413,6 @@ public class gameFrame {
 		houseCost = 0;
 		cardLocation = 0;
 		cardRegularPrice = 0;
-		playersPlaying = 3;
 
 		ImageIcon glassImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\glass_MonopolyCharacter.png");
 		glassLabel = new JLabel(glassImage);
@@ -530,7 +531,8 @@ public class gameFrame {
 		player1ButtonsSp.add(player1ButtonsPanel);
 		player1ButtonsPanel.setPreferredSize(new Dimension(80, 245));
 		monopolyDataPanel.add(player1ButtonsSp);
-		player1ButtonsSp.setBounds(160, 160, 100, 100);
+		//player1ButtonsSp.setBounds(160, 160, 100, 100);
+		player1ButtonsSp.setBounds((screenMaxWidth/4 - 50)/2, (screenMaxHeight-100)/4, 100, 100);
 		player1ButtonsSp.setViewportView(player1ButtonsPanel);
 		player1ButtonsSp.validate();
 		player1ButtonsSp.getVerticalScrollBar().setUnitIncrement(10);
@@ -541,7 +543,8 @@ public class gameFrame {
 		player1PropertiesSp.add(player1PropertiesPanel);
 		player1PropertiesPanel.setPreferredSize(new Dimension(110, 420));
 		monopolyDataPanel.add(player1PropertiesSp);
-		player1PropertiesSp.setBounds(20, 160, 120, 100);
+		//player1PropertiesSp.setBounds(20, 160, 120, 100);
+		player1PropertiesSp.setBounds((screenMaxWidth/4 - 50)/2 - 130, (screenMaxHeight-100)/4, 120, 100);
 		player1PropertiesSp.setViewportView(player1PropertiesPanel);
 		player1PropertiesSp.validate();
 		player1PropertiesSp.getVerticalScrollBar().setUnitIncrement(10);
@@ -601,7 +604,8 @@ public class gameFrame {
 		player2ButtonsSp.add(player2ButtonsPanel);
 		player2ButtonsPanel.setPreferredSize(new Dimension(80, 245));
 		monopolyDataPanel.add(player2ButtonsSp);
-		player2ButtonsSp.setBounds(160, 360, 100, 100);
+		//player2ButtonsSp.setBounds(160, 360, 100, 100);
+		player2ButtonsSp.setBounds((screenMaxWidth/4 - 50)/2, (screenMaxHeight-100)/2 + 25, 100, 100);
 		player2ButtonsSp.setViewportView(player2ButtonsPanel);
 		player2ButtonsSp.validate();
 		player2ButtonsSp.getVerticalScrollBar().setUnitIncrement(10);
@@ -612,7 +616,8 @@ public class gameFrame {
 		player2PropertiesSp.add(player2PropertiesPanel);
 		player2PropertiesPanel.setPreferredSize(new Dimension(110, 420));
 		monopolyDataPanel.add(player2PropertiesSp);
-		player2PropertiesSp.setBounds(20, 360, 120, 100);
+		//player2PropertiesSp.setBounds(20, 360, 120, 100);
+		player2PropertiesSp.setBounds((screenMaxWidth/4 - 50)/2 - 130, (screenMaxHeight-100)/2 + 25, 120, 100);
 		player2PropertiesSp.setViewportView(player2PropertiesPanel);
 		player2PropertiesSp.validate();
 		player2PropertiesSp.getVerticalScrollBar().setUnitIncrement(10);
@@ -666,77 +671,80 @@ public class gameFrame {
 		enableButton(player2GiveUp);
 		player2GiveUp.setBackground(Color.RED);
 		
-		player3ButtonsSp = new JScrollPane();
-		player3ButtonsPanel = new JPanel();
-		player3ButtonsPanel.setLayout(null);
-		player3ButtonsSp.add(player3ButtonsPanel);
-		player3ButtonsPanel.setPreferredSize(new Dimension(80, 245));
-		monopolyDataPanel.add(player3ButtonsSp);
-		player3ButtonsSp.setBounds(160, 560, 100, 100);
-		player3ButtonsSp.setViewportView(player3ButtonsPanel);
-		player3ButtonsSp.validate();
-		player3ButtonsSp.getVerticalScrollBar().setUnitIncrement(10);
-		
-		player3PropertiesSp = new JScrollPane();
-		player3PropertiesPanel = new JPanel();
-		player3PropertiesPanel.setLayout(new BoxLayout(player3PropertiesPanel, BoxLayout.Y_AXIS));
-		player3PropertiesSp.add(player3PropertiesPanel);
-		player3PropertiesPanel.setPreferredSize(new Dimension(110, 420));
-		monopolyDataPanel.add(player3PropertiesSp);
-		player3PropertiesSp.setBounds(20, 560, 120, 100);
-		player3PropertiesSp.setViewportView(player3PropertiesPanel);
-		player3PropertiesSp.validate();
-		player3PropertiesSp.getVerticalScrollBar().setUnitIncrement(10);
-
-		player3Buy = new JButton("Buy");
-		player3ButtonsPanel.add(player3Buy);
-		player3Buy.setBounds(12, 5, 60, 25);
-		player3Buy.setFocusable(false);
-		disableButton(player3Buy);
-
-		player3NotBuy = new JButton("Not Buy");
-		player3ButtonsPanel.add(player3NotBuy);
-		player3NotBuy.setBounds(12, 35, 60, 25);
-		player3NotBuy.setFocusable(false);
-		disableButton(player3NotBuy);
-
-		player3Pay = new JButton("Pay");
-		player3ButtonsPanel.add(player3Pay);
-		player3Pay.setBounds(12, 65, 60, 25);
-		player3Pay.setFocusable(false);
-		disableButton(player3Pay);
-		
-		player3Housing = new JButton("Housing");
-		player3ButtonsPanel.add(player3Housing);
-		player3Housing.setBounds(12, 95, 60, 25);
-		player3Housing.setFocusable(false);
-		disableButton(player3Housing);
-
-		player3Deal = new JButton("Dealing");
-		player3ButtonsPanel.add(player3Deal);
-		player3Deal.setBounds(12, 125, 60, 25);
-		player3Deal.setFocusable(false);
-		disableButton(player3Deal);
-		
-		player3JailFreeCard = new JButton("Jail Free");
-		player3ButtonsPanel.add(player3JailFreeCard);
-		player3JailFreeCard.setBounds(12, 155, 60, 25);
-		player3JailFreeCard.setFocusable(false);
-		disableButton(player3JailFreeCard);
-
-		player3Mortgaging = new JButton("Mortgaging");
-		player3ButtonsPanel.add(player3Mortgaging);
-		player3Mortgaging.setBounds(7, 185, 70, 25);
-		player3Mortgaging.setFocusable(false);
-		disableButton(player3Mortgaging);
-		
-		player3GiveUp = new JButton("Give Up");
-		player3ButtonsPanel.add(player3GiveUp);
-		player3GiveUp.setBounds(12, 215, 60, 25);
-		player3GiveUp.setFocusable(false);
-		enableButton(player3GiveUp);
-		player3GiveUp.setBackground(Color.RED);
-		
+		if (playersPlaying == 3) {
+			player3ButtonsSp = new JScrollPane();
+			player3ButtonsPanel = new JPanel();
+			player3ButtonsPanel.setLayout(null);
+			player3ButtonsSp.add(player3ButtonsPanel);
+			player3ButtonsPanel.setPreferredSize(new Dimension(80, 245));
+			monopolyDataPanel.add(player3ButtonsSp);
+			//player3ButtonsSp.setBounds(160, 560, 100, 100);
+			player3ButtonsSp.setBounds((screenMaxWidth/4 - 50)/2, screenMaxHeight-210, 100, 100);
+			player3ButtonsSp.setViewportView(player3ButtonsPanel);
+			player3ButtonsSp.validate();
+			player3ButtonsSp.getVerticalScrollBar().setUnitIncrement(10);
+			
+			player3PropertiesSp = new JScrollPane();
+			player3PropertiesPanel = new JPanel();
+			player3PropertiesPanel.setLayout(new BoxLayout(player3PropertiesPanel, BoxLayout.Y_AXIS));
+			player3PropertiesSp.add(player3PropertiesPanel);
+			player3PropertiesPanel.setPreferredSize(new Dimension(110, 420));
+			monopolyDataPanel.add(player3PropertiesSp);
+			//player3PropertiesSp.setBounds(20, 560, 120, 100);
+			player3PropertiesSp.setBounds((screenMaxWidth/4 - 50)/2 - 130, screenMaxHeight-210, 120, 100);
+			player3PropertiesSp.setViewportView(player3PropertiesPanel);
+			player3PropertiesSp.validate();
+			player3PropertiesSp.getVerticalScrollBar().setUnitIncrement(10);
+	
+			player3Buy = new JButton("Buy");
+			player3ButtonsPanel.add(player3Buy);
+			player3Buy.setBounds(12, 5, 60, 25);
+			player3Buy.setFocusable(false);
+			disableButton(player3Buy);
+	
+			player3NotBuy = new JButton("Not Buy");
+			player3ButtonsPanel.add(player3NotBuy);
+			player3NotBuy.setBounds(12, 35, 60, 25);
+			player3NotBuy.setFocusable(false);
+			disableButton(player3NotBuy);
+	
+			player3Pay = new JButton("Pay");
+			player3ButtonsPanel.add(player3Pay);
+			player3Pay.setBounds(12, 65, 60, 25);
+			player3Pay.setFocusable(false);
+			disableButton(player3Pay);
+			
+			player3Housing = new JButton("Housing");
+			player3ButtonsPanel.add(player3Housing);
+			player3Housing.setBounds(12, 95, 60, 25);
+			player3Housing.setFocusable(false);
+			disableButton(player3Housing);
+	
+			player3Deal = new JButton("Dealing");
+			player3ButtonsPanel.add(player3Deal);
+			player3Deal.setBounds(12, 125, 60, 25);
+			player3Deal.setFocusable(false);
+			disableButton(player3Deal);
+			
+			player3JailFreeCard = new JButton("Jail Free");
+			player3ButtonsPanel.add(player3JailFreeCard);
+			player3JailFreeCard.setBounds(12, 155, 60, 25);
+			player3JailFreeCard.setFocusable(false);
+			disableButton(player3JailFreeCard);
+	
+			player3Mortgaging = new JButton("Mortgaging");
+			player3ButtonsPanel.add(player3Mortgaging);
+			player3Mortgaging.setBounds(7, 185, 70, 25);
+			player3Mortgaging.setFocusable(false);
+			disableButton(player3Mortgaging);
+			
+			player3GiveUp = new JButton("Give Up");
+			player3ButtonsPanel.add(player3GiveUp);
+			player3GiveUp.setBounds(12, 215, 60, 25);
+			player3GiveUp.setFocusable(false);
+			enableButton(player3GiveUp);
+			player3GiveUp.setBackground(Color.RED);
+		}
 		monopolyKeys = new KeyListener() {
 
 			@Override
@@ -5454,25 +5462,27 @@ public class gameFrame {
 		
 		JPanel finalScorePanel = new JPanel();
 		monopolyFrame.add(finalScorePanel);
-		finalScorePanel.setLayout(null);
 		finalScorePanel.setBackground(new Color(153, 255, 204));
+		finalScorePanel.setLayout(null);
 		JLabel winnerLabel = new JLabel("");
 		
 		if (isPlayer1Out == false) {
-			winnerLabel.setText(player1 + " Is The Winner!");
+			winnerLabel.setText(player1 + " is the winner!");
 		} else if (isPlayer2Out == false) {
-			winnerLabel.setText(player2 + " Is The Winner!");
+			winnerLabel.setText(player2 + " is the winner!");
 		} else if (isPlayer3Out == false) {
-			winnerLabel.setText(player3 + " Is The Winner!");
+			winnerLabel.setText(player3 + " is the winner!");
+		} else {
+			winnerLabel.setText("No one wins/loses!");
 		}
 		
 		finalScorePanel.add(winnerLabel);
-		winnerLabel.setBounds((screenMaxWidth/2) - (screenMaxWidth/8), (screenMaxHeight/2) - (screenMaxHeight/8), 300, 150);
+		winnerLabel.setBounds((screenMaxWidth-300)/2, (screenMaxHeight-150)/2, 300, 150);
 		winnerLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		
 		JButton restart = new JButton("Restart");
 		finalScorePanel.add(restart);
-		restart.setBounds((screenMaxWidth/2) - 65, (screenMaxHeight/2) + 25, 60, 30);
+		restart.setBounds((screenMaxWidth-60)/2, (screenMaxHeight)/2 + 40, 60, 30);
 		enableButton(restart);
 		restart.setBackground(new Color(0, 0, 230));
 		
@@ -5480,12 +5490,65 @@ public class gameFrame {
 			public void actionPerformed(ActionEvent e) {
 				finalScorePanel.hide();
 				monopolyFrame.remove(finalScorePanel);
-				startGame();
+				menu();
 			}
 		});
 	}
 	
 	public void menu() {
+		JPanel menuPanel = new JPanel();
+		monopolyFrame.add(menuPanel);
+		menuPanel.setLayout(null);
 		
+		JLabel monopolyLabel = new JLabel("Classic Monopoly");
+		menuPanel.add(monopolyLabel);
+		monopolyLabel.setBounds((screenMaxWidth-450)/2, (screenMaxHeight-600)/4, 800, 200);
+		monopolyLabel.setFont(new Font("Times New Roman", Font.PLAIN, 60));
+		
+		playersPlaying = 0;
+		String[] howManyPlayers = {"How Many Players?", "2 Players", "3 Players"};
+		JComboBox<String> playersPlayingDropDown = new JComboBox<String>(howManyPlayers);
+		playersPlayingDropDown.setSelectedItem(0);
+		menuPanel.add(playersPlayingDropDown);
+		playersPlayingDropDown.setBounds((screenMaxWidth-200)/2, (screenMaxHeight)/4, 200, 25);
+		
+		JTextField player1InputName = new JTextField();
+		menuPanel.add(player1InputName);
+		player1InputName.setBounds((screenMaxWidth-200)/2, (screenMaxHeight)/3, 100, 30);
+		
+		player1InputName.addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyTyped(KeyEvent e) {
+	            if (player1InputName.getText().length() >= 8) 
+	                e.consume();
+	        }
+	    });
+		
+		JTextField player2InputName = new JTextField();
+		menuPanel.add(player2InputName);
+		player2InputName.setBounds((screenMaxWidth-200)/2, (screenMaxHeight + 200)/3, 100, 30);
+		
+		player2InputName.addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyTyped(KeyEvent e) {
+	            if (player2InputName.getText().length() >= 8) 
+	                e.consume();
+	        }
+	    });
+		
+		playersPlayingDropDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String currentPlayersPlaying = (String) playersPlayingDropDown.getSelectedItem();
+				if (currentPlayersPlaying.equals("2 Players")) {
+					playersPlaying = 2;
+				} else if(currentPlayersPlaying.equals("3 Players")) {
+					playersPlaying = 3;
+				} else {
+					playersPlaying = 0;
+				}
+				
+				
+			}
+		});
 	}
 }
