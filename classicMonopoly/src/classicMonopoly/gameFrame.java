@@ -5512,42 +5512,73 @@ public class gameFrame {
 		menuPanel.add(playersPlayingDropDown);
 		playersPlayingDropDown.setBounds((screenMaxWidth-200)/2, (screenMaxHeight)/4, 200, 25);
 		
-		JTextField player1InputName = new JTextField();
+		JTextField player1InputName = new JTextField("Player 1");
 		menuPanel.add(player1InputName);
-		player1InputName.setBounds((screenMaxWidth-200)/2, (screenMaxHeight)/3, 100, 30);
+		player1InputName.setBounds((screenMaxWidth-200)/2 + 45, (screenMaxHeight)/3, 100, 30);
+		player1InputName.setEnabled(false);
 		
 		player1InputName.addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyTyped(KeyEvent e) {
-	            if (player1InputName.getText().length() >= 8) 
+	        	player1 = player1InputName.getText();
+	            if (player1InputName.getText().length() >= 8)  {
 	                e.consume();
+	            }
 	        }
 	    });
 		
-		JTextField player2InputName = new JTextField();
+		JTextField player2InputName = new JTextField("Player 2");
 		menuPanel.add(player2InputName);
-		player2InputName.setBounds((screenMaxWidth-200)/2, (screenMaxHeight + 200)/3, 100, 30);
+		player2InputName.setBounds((screenMaxWidth-200)/2 + 45, (screenMaxHeight + 200)/3, 100, 30);
+		player2InputName.setEnabled(false);
 		
 		player2InputName.addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyTyped(KeyEvent e) {
-	            if (player2InputName.getText().length() >= 8) 
+	        	player2 = player2InputName.getText();
+	            if (player2InputName.getText().length() >= 8) {
 	                e.consume();
+	            }
 	        }
 	    });
+		
+		JTextField player3InputName = new JTextField("Player 3");
+		menuPanel.add(player3InputName);
+		player3InputName.setBounds((screenMaxWidth-200)/2 + 45, (screenMaxHeight + 400)/3, 100, 30);
+		player3InputName.setEnabled(false);
+		
+		player3InputName.addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyTyped(KeyEvent e) {
+	        	player3 = player3InputName.getText();
+	            if (player3InputName.getText().length() >= 8) {
+	                e.consume();
+	            }
+	        }
+	    });
+		
+		JButton start = new JButton("Start");
+		menuPanel.add(start);
+		disableButton(start);
+		start.setBounds((screenMaxWidth-200)/2 + 65, (screenMaxHeight + 600)/3, 60, 30);
 		
 		playersPlayingDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String currentPlayersPlaying = (String) playersPlayingDropDown.getSelectedItem();
 				if (currentPlayersPlaying.equals("2 Players")) {
 					playersPlaying = 2;
+					player1InputName.setEnabled(true);
+					player2InputName.setEnabled(true);
+					player3InputName.setEnabled(false);
 				} else if(currentPlayersPlaying.equals("3 Players")) {
 					playersPlaying = 3;
+					player3InputName.setEnabled(true);
 				} else {
 					playersPlaying = 0;
+					player1InputName.setEnabled(false);
+					player2InputName.setEnabled(false);
+					player3InputName.setEnabled(false);
 				}
-				
-				
 			}
 		});
 	}
