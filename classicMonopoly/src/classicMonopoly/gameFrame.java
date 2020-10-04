@@ -239,7 +239,6 @@ public class gameFrame {
 		monopolyDataPanel = new JPanel();
 		monopolyDataPanel.setLayout(null);
 		monopolyFrame.add(monopolyDataPanel);
-		//monopolyDataPanel.setBounds(0, 0, 200, screenMaxHeight);
 
 		arr_places = new String[] { "Go", "Mediterranean Ave.", "Community Chest", "Baltic Ave.", "Income Tax",
 				"Reading Railroad", "Oriental Ave.", "Chance", "Vermont Ave.", "Connecticut Ave.", "Just Visiting",
@@ -352,9 +351,6 @@ public class gameFrame {
 			player3ColorPairCards[i] = 0;
 		}
 		
-		player1 = "Player 1";
-		player2 = "Player 2";
-		player3 = "Player 3";
 		player1Coins = 2000;
 		player2Coins = 2000;
 		player3Coins = 2000;
@@ -425,12 +421,6 @@ public class gameFrame {
 		monopolyBoardPanel.add(hexagonLabel);
 		hexagonLabel.setBounds(player2x, player2y, 24, 22);
 		player2Icon = hexagonLabel;
-		
-		ImageIcon starImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\star_MonopolyCharacter.png");
-		starLabel = new JLabel(starImage);
-		monopolyBoardPanel.add(starLabel);
-		starLabel.setBounds(player3x, player3y, 24, 22);
-		player3Icon = starLabel;
 
 		ImageIcon monopolyBoardImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\Monopoly_GameBoard.png");
 		monopolyBoard = new JLabel(monopolyBoardImage);
@@ -483,12 +473,7 @@ public class gameFrame {
 		monopolyDataPanel.add(player2Character);
 		player2Character.setBounds(120, 300, 100, 30);
 		player2Character.setFont(new Font("Times New Roman", Font.BOLD, 18));
-
-		player3Character = new JLabel(player3);
-		monopolyDataPanel.add(player3Character);
-		player3Character.setBounds(120, 500, 100, 30);
-		player3Character.setFont(new Font("Times New Roman", Font.BOLD, 18));
-
+		
 		player1CoinsLabel = new JLabel("$" + player1Coins);
 		monopolyDataPanel.add(player1CoinsLabel);
 		player1CoinsLabel.setBounds(188, 130, 100, 30);
@@ -499,11 +484,6 @@ public class gameFrame {
 		player2CoinsLabel.setBounds(188, 330, 100, 30);
 		player2CoinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 
-		player3CoinsLabel = new JLabel("$" + player3Coins);
-		monopolyDataPanel.add(player3CoinsLabel);
-		player3CoinsLabel.setBounds(188, 530, 100, 30);
-		player3CoinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-
 		player1PropertiesLabel = new JLabel("Properties");
 		monopolyDataPanel.add(player1PropertiesLabel);
 		player1PropertiesLabel.setBounds(45, 135, 100, 20);
@@ -513,11 +493,6 @@ public class gameFrame {
 		monopolyDataPanel.add(player2PropertiesLabel);
 		player2PropertiesLabel.setBounds(45, 335, 100, 20);
 		player2PropertiesLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
-
-		player3PropertiesLabel = new JLabel("Properties");
-		monopolyDataPanel.add(player3PropertiesLabel);
-		player3PropertiesLabel.setBounds(45, 535, 100, 20);
-		player3PropertiesLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		
 		houseMode = new JButton("House Mode");
 		monopolyDataPanel.add(houseMode);
@@ -672,6 +647,27 @@ public class gameFrame {
 		player2GiveUp.setBackground(Color.RED);
 		
 		if (playersPlaying == 3) {
+			player3CoinsLabel = new JLabel("$" + player3Coins);
+			monopolyDataPanel.add(player3CoinsLabel);
+			player3CoinsLabel.setBounds(188, 530, 100, 30);
+			player3CoinsLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+			
+			player3Character = new JLabel(player3);
+			monopolyDataPanel.add(player3Character);
+			player3Character.setBounds(120, 500, 100, 30);
+			player3Character.setFont(new Font("Times New Roman", Font.BOLD, 18));
+			
+			player3PropertiesLabel = new JLabel("Properties");
+			monopolyDataPanel.add(player3PropertiesLabel);
+			player3PropertiesLabel.setBounds(45, 535, 100, 20);
+			player3PropertiesLabel.setFont(new Font("Times New Roman", Font.BOLD, 15));
+			
+			ImageIcon starImage = new ImageIcon("C:\\Users\\Vipul\\Documents\\star_MonopolyCharacter.png");
+			starLabel = new JLabel(starImage);
+			monopolyBoardPanel.add(starLabel);
+			starLabel.setBounds(player3x, player3y, 24, 22);
+			player3Icon = starLabel;
+			
 			player3ButtonsSp = new JScrollPane();
 			player3ButtonsPanel = new JPanel();
 			player3ButtonsPanel.setLayout(null);
@@ -744,7 +740,282 @@ public class gameFrame {
 			player3GiveUp.setFocusable(false);
 			enableButton(player3GiveUp);
 			player3GiveUp.setBackground(Color.RED);
+			
+			player3Buy.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					moneyData(prices_places[player3Location], 0, 3);
+					player3CoinsLabel.setText("$" + player3Coins);
+					player3Cards.add(arr_places[player3Location]);
+					player3CardsLabel.add(new JLabel(arr_places[player3Location]));
+					player3CardsLabel.get(player3Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
+					player3PropertiesPanel.add(player3CardsLabel.get(player3Cards.size() - 1));
+					player3CardsLabel.get(player3Cards.size() - 1).show();
+					player3CardsLabel.get(player3Cards.size() - 1).setSize(140, 15);
+					player3CardsLabel.get(player3CardsLabel.size()-1).setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+					propertiesNotBought.remove(arr_places[player3Location]);
+					disableButton(player3Buy);
+					disableButton(player3NotBuy);
+					if (arr_places[player3Location].indexOf("Railroad") > 0) {
+						player3Railroads += 1;
+					} else if (arr_places[player3Location].equals("Electric Company") || arr_places[player3Location].equals("Water Works")) {
+						player3Utilities += 1;
+					}
+					pairCards(3, cardColors[player3Location]);
+					isPlayer3Buy = false;
+				}
+			});
+
+			player3Housing.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					housing(player3ColorPairCardsList, player3ColorPairCardsHousesList, player3CardColors, 3, player3Coins);
+				}
+			});
+
+			player3NotBuy.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (playersPlaying == 3) {
+						bidding(player3Location, 3, 1, 2, player1, player2, player1Coins, player2Coins, player1Cards, player2Cards, player1CardsLabel,
+								player2CardsLabel, player3Buy, player3NotBuy, player1CoinsLabel, player2CoinsLabel, player1PropertiesPanel, player2PropertiesPanel);
+					} else {
+						isPlayer3Buy = false;
+						disableButton(player3Buy);
+						disableButton(player3NotBuy);
+					}
+				}
+			});
+
+			player3Pay.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					playerPay(player3Location, 3, 1, 2, player3Coins, player1Coins, player2Coins,
+							isPlayer3AtUtility, isPlayer3Pay, isPlayer1Pay, isPlayer2Pay, player3Pay, player1Pay, player2Pay,
+							player1Utilities, player2Utilities, isJailPlayer3, isJailPlayer1, isJailPlayer2, isPlayer3Out, isPlayer1Out, isPlayer2Out);
+				}
+			});
+
+			player3Mortgaging.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mortgaging(player3MortgageCards, player3Cards, player3ColorPairCardsList, player3ColorPairCardsHousesList, player3CardColors, player3HousesLabel, 3,
+							player3CardsLabel, player3Mortgaging, player3Housing, player3Coins, isPlayer3Pay, player3ColorPairCards, player3PropertiesPanel);
+				}
+			});
+		
+			player3Deal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFrame dealFrame = new JFrame("Dealing");
+					JPanel dealPanel = new JPanel();
+					dealPanel.setLayout(null);
+					dealFrame.add(dealPanel);
+					dealFrame.setSize(250, 300);
+					dealFrame.setVisible(true);
+					
+					JLabel setDealWithLabel = new JLabel("Set Deal With:");
+					dealPanel.add(setDealWithLabel);
+					setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+					setDealWithLabel.setBounds(60, 50, 200, 30);
+					
+					JLabel useDealLabel = new JLabel("Use Deal Of:");
+					dealPanel.add(useDealLabel);
+					useDealLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+					useDealLabel.setBounds(65, 150, 200, 30);
+					
+					JButton dealWithPlayer1 = new JButton(player1);
+					dealPanel.add(dealWithPlayer1);
+					if (isPlayer1Pay == false && isPlayer1Out == false) {
+						enableButton(dealWithPlayer1);
+					} else {
+						disableButton(dealWithPlayer1);
+					}
+					dealWithPlayer1.setBounds(30, 100, 80, 30);
+					
+					JButton dealWithPlayer2 = new JButton(player2);
+					dealPanel.add(dealWithPlayer2);
+					if (isPlayer2Pay == false && isPlayer2Out == false) {
+						enableButton(dealWithPlayer2);
+					} else {
+						disableButton(dealWithPlayer2);
+					}
+					dealWithPlayer2.setBounds(120, 100, 80, 30);
+					
+					JButton useDealOfPlayer1 = new JButton(player1);
+					dealPanel.add(useDealOfPlayer1);
+					if (player3TotalDeals > 0 && isPlayer1Pay == true && isPlayer1Out == false) {
+						enableButton(useDealOfPlayer1);
+					} else {
+						disableButton(useDealOfPlayer1);
+					}
+					useDealOfPlayer1.setBounds(30, 200, 80, 30);
+					
+					JButton useDealOfPlayer2 = new JButton(player2);
+					dealPanel.add(useDealOfPlayer2);
+					if (player3TotalDeals > 0 && isPlayer2Pay == true && isPlayer2Out == false) {
+						enableButton(useDealOfPlayer2);
+					} else {
+						disableButton(useDealOfPlayer2);
+					}
+					useDealOfPlayer2.setBounds(120, 200, 80, 30);
+					
+					dealWithPlayer1.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
+									useDealOfPlayer1, useDealOfPlayer2);
+							
+							settingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player1CardsLabel, dealWithPlayer1, dealWithPlayer2, useDealOfPlayer1,
+									useDealOfPlayer2, player3Cards, player1Cards, player3, player1, 3, 1, player3DealList, player1DealList, player3Deal, player3Pay, player3Location,
+									player3PropertiesPanel, player1PropertiesPanel);
+											
+						}
+					});
+					
+					dealWithPlayer2.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
+									useDealOfPlayer1, useDealOfPlayer2);
+							
+							settingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer1, useDealOfPlayer2,
+									useDealOfPlayer1, player3Cards, player2Cards, player3, player2, 3, 2, player3DealList, player2DealList, player3Deal, player3Pay, player3Location,
+									player3PropertiesPanel, player2PropertiesPanel);
+						}
+					});
+					
+					useDealOfPlayer1.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
+									useDealOfPlayer1, useDealOfPlayer2, player3Location, 3, 1, player3DealList, player1, player3Pay, player3Deal);
+						}
+					});
+					
+					useDealOfPlayer2.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer1,
+									useDealOfPlayer2, useDealOfPlayer1, player3Location, 3, 2, player3DealList, player2, player3Pay, player3Deal);
+						}
+					});
+				}
+			});
+			
+			player3JailFreeCard.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					disableButton(player3JailFreeCard);
+					player3JailFree -= 1;
+					isJailPlayer3 = false;
+					isPlayer3Pay = false;
+					boolean isFromChance = true;
+					for (int i = 0; i < chances.size(); i++) {
+						if (chances.get(i).equals("Get Out Of Jail Free")) {
+							isFromChance = false;
+							break;
+						}
+					}
+					if (isFromChance == true) {
+						chances.add("Get Out Of Jail Free");
+					} else {
+						communityChests.add("Get Out Of Jail Free");
+					}
+				}
+			});
+		
+			player3GiveUp.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (response == JOptionPane.YES_OPTION) {
+						playersPlaying--;
+						isPlayer3Out = true;
+						if (isPlayer3Turn == true) {
+							if (isPlayer1Out == false) {
+								isPlayer1Turn = true;
+								player1Character.setForeground(new Color(0, 102, 0));
+							} else {
+								isPlayer2Turn = true;
+								player2Character.setForeground(new Color(0, 102, 0));
+							}
+						}
+						isPlayer3Turn = false;
+						isPlayer3Buy = false;
+						if (isPlayer3Pay == true) {
+							playerPay(player3Location, 3, 1, 2, player3Coins, player1Coins, player2Coins,
+									isPlayer3AtUtility, isPlayer3Pay, isPlayer1Pay, isPlayer2Pay, player3Pay, player1Pay, player2Pay,
+									player1Utilities, player2Utilities, isJailPlayer3, isJailPlayer1, isJailPlayer2, isPlayer3Out, isPlayer1Out, isPlayer2Out);
+						}
+						isPlayer3Pay = false;
+						isPlayer3AtUtility = false;
+						if (player3JailFree > 0) {
+							boolean isFromChance = true;
+							for (int i = 0; i < chances.size(); i++) {
+								if (chances.get(i).equals("Get Out Of Jail Free")) {
+									isFromChance = false;
+									break;
+								}
+							}
+							if (isFromChance == true) {
+								chances.add("Get Out Of Jail Free");
+							} else {
+								communityChests.add("Get Out Of Jail Free");
+							}
+						}
+						isJailPlayer3 = false;
+						player3JailFree = 0;
+						player3Railroads = 0;
+						player3Utilities = 0;
+						player3ButtonsSp.setVisible(false);
+						player3PropertiesSp.setVisible(false);
+						monopolyDataPanel.remove(player3ButtonsSp);
+						monopolyDataPanel.remove(player3PropertiesSp);
+						player3CoinsLabel.hide();
+						monopolyDataPanel.remove(player3CoinsLabel);
+						player3Character.hide();
+						monopolyDataPanel.remove(player3Character);
+						player3PropertiesLabel.hide();
+						monopolyDataPanel.remove(player3PropertiesLabel);
+						starLabel.hide();
+						monopolyBoardPanel.remove(starLabel);
+						
+						while (player3Cards.size() > 0) {
+							propertiesNotBought.add(player3Cards.get(0));
+							int cardPaymentPriceIndex = Arrays.asList(arr_places).indexOf(player3Cards.get(0));
+							places_PaymentPrices[cardPaymentPriceIndex] = places_PaymentPrices2[cardPaymentPriceIndex];
+							player3CardsLabel.get(0).hide();
+							monopolyDataPanel.remove(player3CardsLabel.get(0));
+							player3CardsLabel.remove(0);
+							player3Cards.remove(0);
+						}
+						
+						for (int i = 0; i < 8; i++) {
+							player3ColorPairCards[i] = 0;
+						}
+						
+						for (int i = 0; i < player3ColorPairCardsHousesList.size(); i++) {
+							int cardHouses = player3ColorPairCardsHousesList.get(i);
+							if (cardHouses > 0) {
+								player3ColorPairCardsHousesList.remove(i);
+								player3ColorPairCardsHousesList.add(i, 0);
+								housePositioning(i, 3);
+							}
+						}
+						
+						if (playersPlaying == 1) {
+							gameOver();
+						}
+					}
+				}
+			});
 		}
+		
+		JButton quitGame = new JButton("End Game");
+		monopolyDataPanel.add(quitGame);
+		enableButton(quitGame);
+		quitGame.setBackground(new Color(179, 0, 0));
+		quitGame.setBounds(210, 15, 75, 25);
+		quitGame.setFocusable(false);
+		
+		quitGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int response = JOptionPane.showConfirmDialog(monopolyFrame, "End Game?", "End Game Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (response == JOptionPane.YES_OPTION) {
+					gameOver();
+				}
+			}
+		});
+		
 		monopolyKeys = new KeyListener() {
 
 			@Override
@@ -2345,10 +2616,12 @@ public class gameFrame {
 					} else {
 						player2Character.setForeground(Color.BLACK);
 					}
-					if (isPlayer3Turn == true && isPlayer3Out == false) {
-						player3Character.setForeground(new Color(0, 102, 0));
-					} else {
-						player3Character.setForeground(Color.BLACK);
+					if (isPlayer3Out == false) {
+						if (isPlayer3Turn == true) {
+							player3Character.setForeground(new Color(0, 102, 0));
+						} else {
+							player3Character.setForeground(Color.BLACK);
+						}
 					}
 				}
 			}
@@ -2450,7 +2723,7 @@ public class gameFrame {
 				
 				JButton dealWithPlayer2 = new JButton(player2);
 				dealPanel.add(dealWithPlayer2);
-				if (isPlayer2Pay == false) {
+				if (isPlayer2Pay == false && isPlayer2Out == false) {
 					enableButton(dealWithPlayer2);
 				} else {
 					disableButton(dealWithPlayer2);
@@ -2459,7 +2732,7 @@ public class gameFrame {
 				
 				JButton dealWithPlayer3 = new JButton(player3);
 				dealPanel.add(dealWithPlayer3);
-				if (isPlayer3Pay == false) {
+				if (isPlayer3Pay == false && isPlayer3Out == false) {
 					enableButton(dealWithPlayer3);
 				} else {
 					disableButton(dealWithPlayer3);
@@ -2468,7 +2741,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer2 = new JButton(player2);
 				dealPanel.add(useDealOfPlayer2);
-				if (player1TotalDeals > 0 && isPlayer2Pay == false) {
+				if (player1TotalDeals > 0 && isPlayer2Pay == false && isPlayer2Out == false) {
 					enableButton(useDealOfPlayer2);
 				} else {
 					disableButton(useDealOfPlayer2);
@@ -2477,7 +2750,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer3 = new JButton(player3);
 				dealPanel.add(useDealOfPlayer3);
-				if (player1TotalDeals > 0 && isPlayer3Pay == false) {
+				if (player1TotalDeals > 0 && isPlayer3Pay == false && isPlayer3Out == false) {
 					enableButton(useDealOfPlayer3);
 				} else {
 					disableButton(useDealOfPlayer3);
@@ -2728,7 +3001,7 @@ public class gameFrame {
 				
 				JButton dealWithPlayer1 = new JButton(player1);
 				dealPanel.add(dealWithPlayer1);
-				if (isPlayer1Pay == false) {
+				if (isPlayer1Pay == false && isPlayer1Out == false) {
 					enableButton(dealWithPlayer1);
 				} else {
 					disableButton(dealWithPlayer1);
@@ -2737,7 +3010,7 @@ public class gameFrame {
 				
 				JButton dealWithPlayer3 = new JButton(player3);
 				dealPanel.add(dealWithPlayer3);
-				if (isPlayer3Pay == false) {
+				if (isPlayer3Pay == false && isPlayer3Out == false) {
 					enableButton(dealWithPlayer3);
 				} else {
 					disableButton(dealWithPlayer3);
@@ -2746,7 +3019,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer1 = new JButton(player1);
 				dealPanel.add(useDealOfPlayer1);
-				if (player2TotalDeals > 0 && isPlayer1Pay == true) {
+				if (player2TotalDeals > 0 && isPlayer1Pay == true && isPlayer1Out == false) {
 					enableButton(useDealOfPlayer1);
 				} else {
 					disableButton(useDealOfPlayer1);
@@ -2755,7 +3028,7 @@ public class gameFrame {
 				
 				JButton useDealOfPlayer3 = new JButton(player3);
 				dealPanel.add(useDealOfPlayer3);
-				if (player2TotalDeals > 0 && isPlayer3Pay == true) {
+				if (player2TotalDeals > 0 && isPlayer3Pay == true && isPlayer3Out == false) {
 					enableButton(useDealOfPlayer3);
 				} else {
 					disableButton(useDealOfPlayer3);
@@ -2913,263 +3186,7 @@ public class gameFrame {
 			}
 		});
 		
-		player3Buy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				moneyData(prices_places[player3Location], 0, 3);
-				player3CoinsLabel.setText("$" + player3Coins);
-				player3Cards.add(arr_places[player3Location]);
-				player3CardsLabel.add(new JLabel(arr_places[player3Location]));
-				player3CardsLabel.get(player3Cards.size() - 1).setFont(new Font("Arial", Font.PLAIN, 12));
-				player3PropertiesPanel.add(player3CardsLabel.get(player3Cards.size() - 1));
-				player3CardsLabel.get(player3Cards.size() - 1).show();
-				player3CardsLabel.get(player3Cards.size() - 1).setSize(140, 15);
-				player3CardsLabel.get(player3CardsLabel.size()-1).setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-				propertiesNotBought.remove(arr_places[player3Location]);
-				disableButton(player3Buy);
-				disableButton(player3NotBuy);
-				if (arr_places[player3Location].indexOf("Railroad") > 0) {
-					player3Railroads += 1;
-				} else if (arr_places[player3Location].equals("Electric Company") || arr_places[player3Location].equals("Water Works")) {
-					player3Utilities += 1;
-				}
-				pairCards(3, cardColors[player3Location]);
-				isPlayer3Buy = false;
-			}
-		});
-
-		player3Housing.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				housing(player3ColorPairCardsList, player3ColorPairCardsHousesList, player3CardColors, 3, player3Coins);
-			}
-		});
-
-		player3NotBuy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (playersPlaying == 3) {
-					bidding(player3Location, 3, 1, 2, player1, player2, player1Coins, player2Coins, player1Cards, player2Cards, player1CardsLabel,
-							player2CardsLabel, player3Buy, player3NotBuy, player1CoinsLabel, player2CoinsLabel, player1PropertiesPanel, player2PropertiesPanel);
-				} else {
-					isPlayer3Buy = false;
-					disableButton(player3Buy);
-					disableButton(player3NotBuy);
-				}
-			}
-		});
-
-		player3Pay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				playerPay(player3Location, 3, 1, 2, player3Coins, player1Coins, player2Coins,
-						isPlayer3AtUtility, isPlayer3Pay, isPlayer1Pay, isPlayer2Pay, player3Pay, player1Pay, player2Pay,
-						player1Utilities, player2Utilities, isJailPlayer3, isJailPlayer1, isJailPlayer2, isPlayer3Out, isPlayer1Out, isPlayer2Out);
-			}
-		});
-
-		player3Mortgaging.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mortgaging(player3MortgageCards, player3Cards, player3ColorPairCardsList, player3ColorPairCardsHousesList, player3CardColors, player3HousesLabel, 3,
-						player3CardsLabel, player3Mortgaging, player3Housing, player3Coins, isPlayer3Pay, player3ColorPairCards, player3PropertiesPanel);
-			}
-		});
-	
-		player3Deal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFrame dealFrame = new JFrame("Dealing");
-				JPanel dealPanel = new JPanel();
-				dealPanel.setLayout(null);
-				dealFrame.add(dealPanel);
-				dealFrame.setSize(250, 300);
-				dealFrame.setVisible(true);
-				
-				JLabel setDealWithLabel = new JLabel("Set Deal With:");
-				dealPanel.add(setDealWithLabel);
-				setDealWithLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-				setDealWithLabel.setBounds(60, 50, 200, 30);
-				
-				JLabel useDealLabel = new JLabel("Use Deal Of:");
-				dealPanel.add(useDealLabel);
-				useDealLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-				useDealLabel.setBounds(65, 150, 200, 30);
-				
-				JButton dealWithPlayer1 = new JButton(player1);
-				dealPanel.add(dealWithPlayer1);
-				if (isPlayer1Pay == false) {
-					enableButton(dealWithPlayer1);
-				} else {
-					disableButton(dealWithPlayer1);
-				}
-				dealWithPlayer1.setBounds(30, 100, 80, 30);
-				
-				JButton dealWithPlayer2 = new JButton(player2);
-				dealPanel.add(dealWithPlayer2);
-				if (isPlayer2Pay == false) {
-					enableButton(dealWithPlayer2);
-				} else {
-					disableButton(dealWithPlayer2);
-				}
-				dealWithPlayer2.setBounds(120, 100, 80, 30);
-				
-				JButton useDealOfPlayer1 = new JButton(player1);
-				dealPanel.add(useDealOfPlayer1);
-				if (player3TotalDeals > 0 && isPlayer1Pay == true) {
-					enableButton(useDealOfPlayer1);
-				} else {
-					disableButton(useDealOfPlayer1);
-				}
-				useDealOfPlayer1.setBounds(30, 200, 80, 30);
-				
-				JButton useDealOfPlayer2 = new JButton(player2);
-				dealPanel.add(useDealOfPlayer2);
-				if (player3TotalDeals > 0 && isPlayer2Pay == true) {
-					enableButton(useDealOfPlayer2);
-				} else {
-					disableButton(useDealOfPlayer2);
-				}
-				useDealOfPlayer2.setBounds(120, 200, 80, 30);
-				
-				dealWithPlayer1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
-								useDealOfPlayer1, useDealOfPlayer2);
-						
-						settingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player1CardsLabel, dealWithPlayer1, dealWithPlayer2, useDealOfPlayer1,
-								useDealOfPlayer2, player3Cards, player1Cards, player3, player1, 3, 1, player3DealList, player1DealList, player3Deal, player3Pay, player3Location,
-								player3PropertiesPanel, player1PropertiesPanel);
-										
-					}
-				});
-				
-				dealWithPlayer2.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						showOrHideDealButtons(false, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
-								useDealOfPlayer1, useDealOfPlayer2);
-						
-						settingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, player3CardsLabel, player2CardsLabel, dealWithPlayer2, dealWithPlayer1, useDealOfPlayer2,
-								useDealOfPlayer1, player3Cards, player2Cards, player3, player2, 3, 2, player3DealList, player2DealList, player3Deal, player3Pay, player3Location,
-								player3PropertiesPanel, player2PropertiesPanel);
-					}
-				});
-				
-				useDealOfPlayer1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer1, dealWithPlayer2,
-								useDealOfPlayer1, useDealOfPlayer2, player3Location, 3, 1, player3DealList, player1, player3Pay, player3Deal);
-					}
-				});
-				
-				useDealOfPlayer2.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						usingDeal(dealFrame, dealPanel, setDealWithLabel, useDealLabel, dealWithPlayer2, dealWithPlayer1,
-								useDealOfPlayer2, useDealOfPlayer1, player3Location, 3, 2, player3DealList, player2, player3Pay, player3Deal);
-					}
-				});
-			}
-		});
 		
-		player3JailFreeCard.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				disableButton(player3JailFreeCard);
-				player3JailFree -= 1;
-				isJailPlayer3 = false;
-				isPlayer3Pay = false;
-				boolean isFromChance = true;
-				for (int i = 0; i < chances.size(); i++) {
-					if (chances.get(i).equals("Get Out Of Jail Free")) {
-						isFromChance = false;
-						break;
-					}
-				}
-				if (isFromChance == true) {
-					chances.add("Get Out Of Jail Free");
-				} else {
-					communityChests.add("Get Out Of Jail Free");
-				}
-			}
-		});
-	
-		player3GiveUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int response = JOptionPane.showConfirmDialog(monopolyFrame, "Are you sure you want to give up?", "Give Up Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (response == JOptionPane.YES_OPTION) {
-					playersPlaying--;
-					isPlayer3Out = true;
-					if (isPlayer3Turn == true) {
-						if (isPlayer1Out == false) {
-							isPlayer1Turn = true;
-							player1Character.setForeground(new Color(0, 102, 0));
-						} else {
-							isPlayer2Turn = true;
-							player2Character.setForeground(new Color(0, 102, 0));
-						}
-					}
-					isPlayer3Turn = false;
-					isPlayer3Buy = false;
-					if (isPlayer3Pay == true) {
-						playerPay(player3Location, 3, 1, 2, player3Coins, player1Coins, player2Coins,
-								isPlayer3AtUtility, isPlayer3Pay, isPlayer1Pay, isPlayer2Pay, player3Pay, player1Pay, player2Pay,
-								player1Utilities, player2Utilities, isJailPlayer3, isJailPlayer1, isJailPlayer2, isPlayer3Out, isPlayer1Out, isPlayer2Out);
-					}
-					isPlayer3Pay = false;
-					isPlayer3AtUtility = false;
-					if (player3JailFree > 0) {
-						boolean isFromChance = true;
-						for (int i = 0; i < chances.size(); i++) {
-							if (chances.get(i).equals("Get Out Of Jail Free")) {
-								isFromChance = false;
-								break;
-							}
-						}
-						if (isFromChance == true) {
-							chances.add("Get Out Of Jail Free");
-						} else {
-							communityChests.add("Get Out Of Jail Free");
-						}
-					}
-					isJailPlayer3 = false;
-					player3JailFree = 0;
-					player3Railroads = 0;
-					player3Utilities = 0;
-					player3ButtonsSp.setVisible(false);
-					player3PropertiesSp.setVisible(false);
-					monopolyDataPanel.remove(player3ButtonsSp);
-					monopolyDataPanel.remove(player3PropertiesSp);
-					player3CoinsLabel.hide();
-					monopolyDataPanel.remove(player3CoinsLabel);
-					player3Character.hide();
-					monopolyDataPanel.remove(player3Character);
-					player3PropertiesLabel.hide();
-					monopolyDataPanel.remove(player3PropertiesLabel);
-					starLabel.hide();
-					monopolyBoardPanel.remove(starLabel);
-					
-					while (player3Cards.size() > 0) {
-						propertiesNotBought.add(player3Cards.get(0));
-						int cardPaymentPriceIndex = Arrays.asList(arr_places).indexOf(player3Cards.get(0));
-						places_PaymentPrices[cardPaymentPriceIndex] = places_PaymentPrices2[cardPaymentPriceIndex];
-						player3CardsLabel.get(0).hide();
-						monopolyDataPanel.remove(player3CardsLabel.get(0));
-						player3CardsLabel.remove(0);
-						player3Cards.remove(0);
-					}
-					
-					for (int i = 0; i < 8; i++) {
-						player3ColorPairCards[i] = 0;
-					}
-					
-					for (int i = 0; i < player3ColorPairCardsHousesList.size(); i++) {
-						int cardHouses = player3ColorPairCardsHousesList.get(i);
-						if (cardHouses > 0) {
-							player3ColorPairCardsHousesList.remove(i);
-							player3ColorPairCardsHousesList.add(i, 0);
-							housePositioning(i, 3);
-						}
-					}
-					
-					if (playersPlaying == 1) {
-						gameOver();
-					}
-				}
-			}
-		});
 	}
 
 	public void enableButton(JButton enableThis) {
@@ -5511,16 +5528,17 @@ public class gameFrame {
 		playersPlayingDropDown.setSelectedItem(0);
 		menuPanel.add(playersPlayingDropDown);
 		playersPlayingDropDown.setBounds((screenMaxWidth-200)/2, (screenMaxHeight)/4, 200, 25);
+		playersPlayingDropDown.setFocusable(false);
 		
 		JTextField player1InputName = new JTextField("Player 1");
 		menuPanel.add(player1InputName);
 		player1InputName.setBounds((screenMaxWidth-200)/2 + 45, (screenMaxHeight)/3, 100, 30);
 		player1InputName.setEnabled(false);
+		player1 = player1InputName.getText();
 		
 		player1InputName.addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyTyped(KeyEvent e) {
-	        	player1 = player1InputName.getText();
 	            if (player1InputName.getText().length() >= 8)  {
 	                e.consume();
 	            }
@@ -5531,11 +5549,11 @@ public class gameFrame {
 		menuPanel.add(player2InputName);
 		player2InputName.setBounds((screenMaxWidth-200)/2 + 45, (screenMaxHeight + 200)/3, 100, 30);
 		player2InputName.setEnabled(false);
+		player2 = player2InputName.getText();
 		
 		player2InputName.addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyTyped(KeyEvent e) {
-	        	player2 = player2InputName.getText();
 	            if (player2InputName.getText().length() >= 8) {
 	                e.consume();
 	            }
@@ -5546,11 +5564,11 @@ public class gameFrame {
 		menuPanel.add(player3InputName);
 		player3InputName.setBounds((screenMaxWidth-200)/2 + 45, (screenMaxHeight + 400)/3, 100, 30);
 		player3InputName.setEnabled(false);
+		player3 = player3InputName.getText();
 		
 		player3InputName.addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyTyped(KeyEvent e) {
-	        	player3 = player3InputName.getText();
 	            if (player3InputName.getText().length() >= 8) {
 	                e.consume();
 	            }
@@ -5561,6 +5579,7 @@ public class gameFrame {
 		menuPanel.add(start);
 		disableButton(start);
 		start.setBounds((screenMaxWidth-200)/2 + 65, (screenMaxHeight + 600)/3, 60, 30);
+		start.setFocusable(false);
 		
 		playersPlayingDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -5570,15 +5589,42 @@ public class gameFrame {
 					player1InputName.setEnabled(true);
 					player2InputName.setEnabled(true);
 					player3InputName.setEnabled(false);
+					isPlayer1Out = false;
+					isPlayer2Out = false;
+					isPlayer3Out = true;
+					enableButton(start);
 				} else if(currentPlayersPlaying.equals("3 Players")) {
 					playersPlaying = 3;
+					player1InputName.setEnabled(true);
+					player2InputName.setEnabled(true);
 					player3InputName.setEnabled(true);
+					isPlayer1Out = false;
+					isPlayer2Out = false;
+					isPlayer3Out = false;
+					enableButton(start);
 				} else {
 					playersPlaying = 0;
 					player1InputName.setEnabled(false);
 					player2InputName.setEnabled(false);
 					player3InputName.setEnabled(false);
+					isPlayer1Out = true;
+					isPlayer2Out = true;
+					isPlayer3Out = true;
+					disableButton(start);
 				}
+			}
+		});
+		
+		start.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				player1 = player1InputName.getText();
+				player2 = player2InputName.getText();
+				if (isPlayer3Out == true) {
+					player3 = player3InputName.getText();
+				}
+				menuPanel.hide();
+				monopolyFrame.remove(menuPanel);
+				startGame();
 			}
 		});
 	}
